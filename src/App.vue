@@ -1,28 +1,34 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <template v-if="ready">
+      <vx-login v-if="!logined"></vx-login>
+      <vx-app v-else></vx-app>
+    </template>
+    <template v-else> loading... </template>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import VxLogin from "./components/vx-login";
+import VxApp from "./components/vx-app";
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    "vx-login": VxLogin,
+    "vx-app": VxApp,
+  },
+  data() {
+    return {
+      ready: false,
+      logined: false,
+    };
+  },
+  async created() {
+    let resp = await fetch("config.json");
+    await this.$app.init(await resp.json());
+    
+    this.ready = true;
+    this.logined = this.$app.logined;
+  },
+  mounted() {},
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
