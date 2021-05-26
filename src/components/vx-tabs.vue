@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     async loadContent(url) {
-      let resp = await this.$app.get("/" + url);
+      let resp = await this.$vx.get("/" + url);
       window.$(this.$refs.content).html(resp.data);
     },
   },

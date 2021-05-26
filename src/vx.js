@@ -1,10 +1,12 @@
 import axios from 'axios';
-class App {
+class VX {
 
 
     async init(config) {
+
         this.config = config;
         this.axios = axios.create({
+            withCredentials: true,
             baseURL: config.endpoint
         });
 
@@ -16,21 +18,27 @@ class App {
         this.logined = resp.logined;
 
         this.menus = resp.menus;
+
+        this.language = resp.language;
     }
 
     get(url, data) {
-        return window.Vue.http.get(this.config.endpoint + url, data);
+
+        return this.axios.get(url, data);
     }
 
     post(url, data) {
-        return window.Vue.http.post(this.config.endpoint +  url, data);
+        return this.axios.post(url, data);
     }
 }
 
 export default {
     install(Vue) {
-        Vue.prototype.$app = new App();
-        window.app = Vue.prototype.$app;
+
+        Vue.prototype.$http = axios.create();
+
+        Vue.prototype.$vx = new VX();
+        window.vx = Vue.prototype.$vx;
     }
 
 }

@@ -29,7 +29,7 @@ export default {
     onSubmit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
-          await this.$app.post(this.action, this.form);
+          await this.$vx.post(this.action, this.form);
         }
       });
     },

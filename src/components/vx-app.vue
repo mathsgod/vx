@@ -93,25 +93,12 @@
               aria-labelledby="dropdown-flag"
             >
               <a
+                v-for="(l, v) in language"
+                :key="v"
+                @click="changeLanguage(v)"
                 class="dropdown-item"
                 href="javascript:void(0);"
-                data-language="en"
-                ><i class="flag-icon flag-icon-us"></i> English</a
-              ><a
-                class="dropdown-item"
-                href="javascript:void(0);"
-                data-language="fr"
-                ><i class="flag-icon flag-icon-fr"></i> French</a
-              ><a
-                class="dropdown-item"
-                href="javascript:void(0);"
-                data-language="de"
-                ><i class="flag-icon flag-icon-de"></i> German</a
-              ><a
-                class="dropdown-item"
-                href="javascript:void(0);"
-                data-language="pt"
-                ><i class="flag-icon flag-icon-pt"></i> Portuguese</a
+                >{{ l }}</a
               >
             </div>
           </li>
@@ -492,8 +479,8 @@
               class="dropdown-menu dropdown-menu-right"
               aria-labelledby="dropdown-user"
             >
-              <a class="dropdown-item" href="page-profile.html"
-                ><i class="mr-50" data-feather="user"></i> Profile</a
+              <router-link class="dropdown-item" to="/User/profile"
+                ><i class="mr-50" data-feather="user"></i> Profile</router-link
               ><a class="dropdown-item" href="app-email.html"
                 ><i class="mr-50" data-feather="mail"></i> Inbox</a
               ><a class="dropdown-item" href="app-todo.html"
@@ -508,8 +495,8 @@
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
                 ><i class="mr-50" data-feather="help-circle"></i> FAQ</a
-              ><a class="dropdown-item" href="page-auth-login-v2.html"
-                ><i class="mr-50" data-feather="power"></i> Logout</a
+              ><router-link class="dropdown-item" to="/logout"
+                ><i class="mr-50" data-feather="power"></i> Logout</router-link
               >
             </div>
           </li>
@@ -727,14 +714,12 @@
           id="main-menu-navigation"
           data-menu="menu-navigation"
         >
-
           <nav-item
             class="nav-item"
             v-for="(m, index) in menus"
             :value="m"
             :key="index"
           ></nav-item>
-
 
           <li class="navigation-header">
             <span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span
@@ -827,15 +812,23 @@
             <div class="row breadcrumbs-top">
               <div class="col-12">
                 <h2 class="content-header-title float-left mb-0">
-                  Layout Empty
+                  {{ title }}
                 </h2>
                 <div class="breadcrumb-wrapper">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                      <a href="index.html">Home</a>
+                      <router-link to="/">Home</router-link>
                     </li>
-                    <li class="breadcrumb-item"><a href="#">Layouts</a></li>
-                    <li class="breadcrumb-item active">Layout Empty</li>
+
+                    <li
+                      class="breadcrumb-item"
+                      v-for="(b, i) in breadcrumb"
+                      :key="i"
+                    >
+                      <router-link :to="b.to">{{ b.label }}</router-link>
+                    </li>
+
+                    <li class="breadcrumb-item active">{{ title }}</li>
                   </ol>
                 </div>
               </div>
@@ -1154,6 +1147,10 @@ export default {
   data() {
     return {
       menus: [],
+      language: [],
+      title: "",
+      module_name: "",
+      breadcrumb: [],
     };
   },
   components: {
@@ -1161,11 +1158,9 @@ export default {
   },
   async created() {
     let resp = await fetch("config.json");
-    await this.$app.init(await resp.json());
-
-    this.menus = this.$app.menus;
-
-    console.log(this.menus);
+    await this.$vx.init(await resp.json());
+    this.menus = this.$vx.menus;
+    this.language = this.$vx.language;
   },
   async mounted() {
     if (window.feather) {
@@ -1190,24 +1185,56 @@ export default {
   },
   methods: {
     async renderContent(path) {
-        let resp;
+      console.log("render content", path);
+      this.breadcrumb = [];
+      this.title = "";
+      let resp;
       try {
-        resp = await this.$app.get(path);
+        resp = await this.$vx.get(path);
       } catch (e) {
         window.$(this.$refs.content).html(e);
         return;
       }
 
-      if (resp.headers.map["content-type"][0] == "text/html; charset=UTF-8") {
-        window.$(this.$refs.content).html(resp.body);
-      } else {
-        
-        resp = resp.data;
-        console.log(resp);
-        window.$(this.$refs.content).html(resp.data.content);
+      let content = "";
+
+      let paths = this.$route.path.split("/");
+
+      this.title = paths[paths.length - 1];
+
+      if (paths.length > 2) {
+        this.breadcrumb.push({
+          to: paths[1],
+          label: paths[1],
+        });
       }
 
-      console.log("router change");
+      if (resp.headers["content-type"] == "text/html; charset=UTF-8") {
+        content = resp.data;
+      } else {
+        resp = resp.data;
+        if (resp.status == 301) {
+          //redirect
+          this.$router.push(resp.location);
+          return;
+        }
+
+        if (resp.status == 401) {
+          //
+          this.$emit("logout");
+          this.$router.push("/");
+        }
+        if (resp.data.header) {
+          this.title = resp.data.header.title;
+        }
+
+        content = resp.data.body;
+      }
+
+      window.$(this.$refs.content).html(content);
+    },
+    changeLanguage(language) {
+      console.log("change to ", language);
     },
   },
 };

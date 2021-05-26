@@ -2,7 +2,7 @@
   <div>
     <template v-if="ready">
       <vx-login v-if="!logined"></vx-login>
-      <vx-app v-else></vx-app>
+      <vx-app v-else v-on:logout="logout"></vx-app>
     </template>
     <template v-else> loading... </template>
   </div>
@@ -24,11 +24,16 @@ export default {
   },
   async created() {
     let resp = await fetch("config.json");
-    await this.$app.init(await resp.json());
-    
+    await this.$vx.init(await resp.json());
+
     this.ready = true;
-    this.logined = this.$app.logined;
+    this.logined = this.$vx.logined;
   },
   mounted() {},
+  methods: {
+    logout() {
+      this.logined = false;
+    },
+  },
 };
 </script>

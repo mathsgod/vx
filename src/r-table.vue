@@ -484,8 +484,9 @@ export default {
       };
 
       params.search = Object.values(this.searchData);
+      console.log(params);
 
-      let resp = await this.$app.get("/"+this.remote, {
+      let resp = await this.$vx.get("/" + this.remote, {
         params,
       });
       resp = resp.data;

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueResource from 'vue-resource';
-Vue.use(VueResource);
 
 import ElementUI from 'element-ui';
 //import 'element-ui/lib/theme-chalk/index.css';
@@ -11,8 +9,8 @@ import './assets/element-ui/theme/index.css';
 Vue.use(ElementUI);
 
 
-import A from './app';
-Vue.use(A);
+import VX from './vx';
+Vue.use(VX);
 
 
 Vue.component("vue", () => import("./components/vue"))
