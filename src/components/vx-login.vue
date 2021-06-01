@@ -158,6 +158,10 @@ export default {
     if (window.feather) {
       window.feather.replace({ width: 14, height: 14 });
     }
+    if (localStorage.getItem("vx_remember_me")) {
+      this.form.username = localStorage.getItem("vx_username");
+      this.form.remember_me=true;
+    }
   },
   methods: {
     submit() {
@@ -170,8 +174,13 @@ export default {
           resp = resp.data;
           if (resp.data) {
             this.$router.go();
-          }else{
-            alert('error');
+
+            if (this.form.remember_me) {
+              localStorage.setItem("vx_remember_me", true);
+              localStorage.setItem("vx_username", this.form.username);
+            }
+          } else {
+            this.$alert("login error", { type: "error" });
           }
         }
       });

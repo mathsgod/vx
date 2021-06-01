@@ -463,7 +463,8 @@
               aria-expanded="false"
             >
               <div class="user-nav d-sm-flex d-none">
-                <span class="user-name font-weight-bolder">John Doe</span
+                <span class="user-name font-weight-bolder"
+                  >{{ me.first_name }} {{ me.last_name }}</span
                 ><span class="user-status">Admin</span>
               </div>
               <span class="avatar"
@@ -689,7 +690,7 @@
               class="navbar-brand"
               href="../../../html/ltr/vertical-menu-template/index.html"
             >
-              <h2 class="brand-text">Vuexy</h2>
+              <h2 class="brand-text">VX</h2>
             </a>
           </li>
           <li class="nav-item nav-toggle">
@@ -872,246 +873,7 @@
     </div>
     <!-- END: Content-->
 
-    <!-- BEGIN: Customizer-->
-    <div class="customizer d-none d-md-block">
-      <a
-        class="customizer-toggle d-flex align-items-center justify-content-center"
-        href="javascript:void(0);"
-        ><i class="spinner" data-feather="settings"></i
-      ></a>
-      <div class="customizer-content">
-        <!-- Customizer header -->
-        <div class="customizer-header px-2 pt-1 pb-0 position-relative">
-          <h4 class="mb-0">Theme Customizer</h4>
-          <p class="m-0">Customize & Preview in Real Time</p>
-
-          <a class="customizer-close" href="javascript:void(0);"
-            ><i data-feather="x"></i
-          ></a>
-        </div>
-
-        <hr />
-
-        <!-- Styling & Text Direction -->
-        <div class="customizer-styling-direction px-2">
-          <p class="font-weight-bold">Skin</p>
-          <div class="d-flex">
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="skinlight"
-                name="skinradio"
-                class="custom-control-input layout-name"
-                checked
-                data-layout=""
-              />
-              <label class="custom-control-label" for="skinlight">Light</label>
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="skinbordered"
-                name="skinradio"
-                class="custom-control-input layout-name"
-                data-layout="bordered-layout"
-              />
-              <label class="custom-control-label" for="skinbordered"
-                >Bordered</label
-              >
-            </div>
-            <div class="custom-control custom-radio">
-              <input
-                type="radio"
-                id="skindark"
-                name="skinradio"
-                class="custom-control-input layout-name"
-                data-layout="dark-layout"
-              />
-              <label class="custom-control-label" for="skindark">Dark</label>
-            </div>
-          </div>
-        </div>
-
-        <hr />
-
-        <!-- Menu -->
-        <div class="customizer-menu px-2">
-          <div id="customizer-menu-collapsible" class="d-flex">
-            <p class="font-weight-bold mr-auto m-0">Collapsible</p>
-            <div class="custom-control custom-control-primary custom-switch">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="collapse-sidebar-switch"
-              />
-              <label
-                class="custom-control-label"
-                for="collapse-sidebar-switch"
-              ></label>
-            </div>
-          </div>
-        </div>
-        <hr />
-
-        <!-- Layout Width -->
-        <div class="customizer-footer px-2">
-          <p class="font-weight-bold">Layout Width</p>
-          <div class="d-flex">
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="layout-width-full"
-                name="layoutWidth"
-                class="custom-control-input"
-                checked
-              />
-              <label class="custom-control-label" for="layout-width-full"
-                >Full Width</label
-              >
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="layout-width-boxed"
-                name="layoutWidth"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="layout-width-boxed"
-                >Boxed</label
-              >
-            </div>
-          </div>
-        </div>
-        <hr />
-
-        <!-- Navbar -->
-        <div class="customizer-navbar px-2">
-          <div id="customizer-navbar-colors">
-            <p class="font-weight-bold">Navbar Color</p>
-            <ul class="list-inline unstyled-list">
-              <li
-                class="color-box bg-white border selected"
-                data-navbar-default=""
-              ></li>
-              <li
-                class="color-box bg-primary"
-                data-navbar-color="bg-primary"
-              ></li>
-              <li
-                class="color-box bg-secondary"
-                data-navbar-color="bg-secondary"
-              ></li>
-              <li
-                class="color-box bg-success"
-                data-navbar-color="bg-success"
-              ></li>
-              <li
-                class="color-box bg-danger"
-                data-navbar-color="bg-danger"
-              ></li>
-              <li class="color-box bg-info" data-navbar-color="bg-info"></li>
-              <li
-                class="color-box bg-warning"
-                data-navbar-color="bg-warning"
-              ></li>
-              <li class="color-box bg-dark" data-navbar-color="bg-dark"></li>
-            </ul>
-          </div>
-
-          <p class="navbar-type-text font-weight-bold">Navbar Type</p>
-          <div class="d-flex">
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="nav-type-floating"
-                name="navType"
-                class="custom-control-input"
-                checked
-              />
-              <label class="custom-control-label" for="nav-type-floating"
-                >Floating</label
-              >
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="nav-type-sticky"
-                name="navType"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="nav-type-sticky"
-                >Sticky</label
-              >
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="nav-type-static"
-                name="navType"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="nav-type-static"
-                >Static</label
-              >
-            </div>
-            <div class="custom-control custom-radio">
-              <input
-                type="radio"
-                id="nav-type-hidden"
-                name="navType"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="nav-type-hidden"
-                >Hidden</label
-              >
-            </div>
-          </div>
-        </div>
-        <hr />
-
-        <!-- Footer -->
-        <div class="customizer-footer px-2">
-          <p class="font-weight-bold">Footer Type</p>
-          <div class="d-flex">
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="footer-type-sticky"
-                name="footerType"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="footer-type-sticky"
-                >Sticky</label
-              >
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="footer-type-static"
-                name="footerType"
-                class="custom-control-input"
-                checked
-              />
-              <label class="custom-control-label" for="footer-type-static"
-                >Static</label
-              >
-            </div>
-            <div class="custom-control custom-radio mr-1">
-              <input
-                type="radio"
-                id="footer-type-hidden"
-                name="footerType"
-                class="custom-control-input"
-              />
-              <label class="custom-control-label" for="footer-type-hidden"
-                >Hidden</label
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End: Customizer-->
+    <vx-customizer></vx-customizer>
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
@@ -1120,17 +882,14 @@
     <footer class="footer footer-static footer-light">
       <p class="clearfix mb-0">
         <span class="float-md-left d-block d-md-inline-block mt-25"
-          >COPYRIGHT &copy; 2020<a
-            class="ml-25"
-            href="https://1.envato.market/pixinvent_portfolio"
-            target="_blank"
-            >Pixinvent</a
+          >COPYRIGHT &copy; {{ config["copyright-year"]
+          }}<a class="ml-25" :href="config['copyright-url']" target="_blank">{{
+            config["copyright-name"]
+          }}</a
           ><span class="d-none d-sm-inline-block"
             >, All rights Reserved</span
           ></span
-        ><span class="float-md-right d-none d-md-block"
-          >Hand-crafted & Made with<i data-feather="heart"></i
-        ></span>
+        >
       </p>
     </footer>
     <button class="btn btn-primary btn-icon scroll-top" type="button">
@@ -1142,6 +901,7 @@
 
 <script>
 import NavItem from "./nav-item";
+import VxCustomizer from "./vx-customizer";
 export default {
   name: "App",
   data() {
@@ -1151,16 +911,21 @@ export default {
       title: "",
       module_name: "",
       breadcrumb: [],
+      me: {},
+      config: {},
     };
   },
   components: {
     NavItem,
+    VxCustomizer,
   },
   async created() {
     let resp = await fetch("config.json");
     await this.$vx.init(await resp.json());
     this.menus = this.$vx.menus;
     this.language = this.$vx.language;
+    this.me = this.$vx.me;
+    this.config = this.$vx.config;
   },
   async mounted() {
     if (window.feather) {
@@ -1204,7 +969,7 @@ export default {
 
       if (paths.length > 2) {
         this.breadcrumb.push({
-          to: paths[1],
+          to: "/" + paths[1],
           label: paths[1],
         });
       }
@@ -1213,8 +978,11 @@ export default {
         content = resp.data;
       } else {
         resp = resp.data;
-        if (resp.status == 301) {
+        console.log(resp);
+
+        if (resp.status == 301 || resp.status == 302 || resp.status == 303) {
           //redirect
+
           this.$router.push(resp.location);
           return;
         }
@@ -1224,6 +992,9 @@ export default {
           this.$emit("logout");
           this.$router.push("/");
         }
+
+        resp = resp.data;
+
         if (resp.data.header) {
           this.title = resp.data.header.title;
         }

@@ -1,5 +1,5 @@
 <template>
-  <td v-show="column.isVisible">
+  <td v-show="column.isVisible" class="p-25">
     <template v-if="column.searchable && column.searchType == 'equal'">
       <el-input
         @keyup.enter.native="doSearch"
@@ -22,7 +22,7 @@
           search = '';
           doSearch();
         "
-        size="mini"
+
       ></el-input>
     </template>
 

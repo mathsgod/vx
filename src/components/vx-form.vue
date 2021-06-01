@@ -1,13 +1,17 @@
 <template>
-  <el-form :model="form" label-width="auto" ref="form1">
-    <slot v-bind:form="form"></slot>
+  <vx-card>
+    <vx-card-body>
+      <el-form :model="form" label-width="auto" ref="form1">
+        <slot v-bind:form="form"></slot>
+      </el-form>
+    </vx-card-body>
 
-    <el-form-item>
+    <vx-card-footer>
       <el-button @click="onSubmit()" icon="el-icon-check" type="success"
         >Submit</el-button
       >
-    </el-form-item>
-  </el-form>
+    </vx-card-footer>
+  </vx-card>
 </template>
 <script>
 export default {
@@ -29,7 +33,14 @@ export default {
     onSubmit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
-          await this.$vx.post(this.action, this.form);
+          let action = this.$route.path;
+          if (this.action) {
+            action = this.action;
+          }
+          let resp = await this.$vx.post(action, this.form);
+          
+          console.log(resp);
+          
         }
       });
     },

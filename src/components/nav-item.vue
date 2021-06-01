@@ -14,7 +14,10 @@
       </ul>
     </template>
     <template v-else>
-      <a class="d-flex align-items-center" :href="value.link" @click.prevent="clickLink"
+      <a
+        class="d-flex align-items-center"
+        :href="value.link"
+        @click.prevent="clickLink"
         ><i :class="icon"></i
         ><span class="menu-item">{{ value.label }}</span></a
       >
@@ -28,11 +31,16 @@ export default {
     value: Object,
   },
   created() {
-    console.log(this.value);
+    //console.log(this.value);
   },
   computed: {
     icon() {
       return this.value.icon ?? "fa fa-link";
+    },
+  },
+  watch: {
+    $route(to) {
+      console.log(to)
     },
   },
   methods: {

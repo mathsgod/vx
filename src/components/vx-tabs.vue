@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav" :class="getClass()" role="tablist">
       <slot></slot>
     </ul>
     <div class="tab-content">
@@ -11,9 +11,16 @@
 
 <script>
 export default {
+  props: {
+    type: {
+      type: String,
+      default: "tabs",
+    },
+  },
   data() {
     return {};
   },
+
   async mounted() {
     let tabs = [];
     this.$slots.default.forEach((vnode) => {
@@ -27,8 +34,6 @@ export default {
         this.loadContent(e);
       });
 
-      console.log(tab.active);
-
       if (tab.active) {
         link = tab.link;
       }
@@ -39,8 +44,17 @@ export default {
   },
   methods: {
     async loadContent(url) {
-      let resp = await this.$vx.get("/" + url);
+      let link;
+      if (url[0] != "/") {
+        link = this.$route.path + "/" + url;
+      } else {
+        link = url;
+      }
+      let resp = await this.$vx.get(link);
       window.$(this.$refs.content).html(resp.data);
+    },
+    getClass() {
+      return ["nav-" + this.type];
     },
   },
 };

@@ -1,167 +1,182 @@
 <template>
-  <el-card v-loading="loading" :body-style="{ padding: '0px' }" shadow="never">
-    <div>
-      <el-button @click="clearSearch">Clear search</el-button>
-      <slot name="header"></slot>
+  <vx-card v-loading="loading" :body-style="{ padding: '0px' }" shadow="never">
+    <vx-card-body class="px-0">
+      <div class="d-flex justify-content-between align-items-center mx-0 row">
+        <div class="d-flex col-sm-12 col-md-6 align-items-center p-50">
+          <div>
+            Show
+            <el-tooltip content="每頁顯示" placement="top">
+              <el-select v-model="localPageLength" style="width: 70px">
+                <el-option
+                  v-for="(p, index) in pageLengthOption"
+                  :value="p"
+                  v-text="p"
+                  :key="index"
+                ></el-option>
+              </el-select>
+            </el-tooltip>
+            entries
+          </div>
+        </div>
 
-      <el-dropdown v-if="$slots.dropdown">
-        <el-button>
-          Export
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <slot name="dropdown"> </slot>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-sm table-bordered m-0">
-        <thead>
-          <tr>
-            <th v-if="selectable"></th>
-            <slot></slot>
-          </tr>
-          <tr v-if="isSearchable">
-            <td v-if="selectable"></td>
-            <r-table-column-search
-              v-for="(c, i) in columns"
-              :key="`column-search-${i}`"
-              :column="c"
-              @search="search(...$event)"
-              ref="searchColumn"
-            ></r-table-column-search>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="(d, k) in localData">
-            <tr :key="`${draw}-${k}`">
-              <td v-if="selectable">
-                <el-checkbox-group
-                  v-model="selectedValue"
-                  class="r-table-checkbox-group"
-                >
-                  <el-checkbox
-                    :label="d[key]"
-                    @change="$emit('select-change', selectedValue)"
-                  ></el-checkbox>
-                </el-checkbox-group>
-              </td>
+        <div class="d-flex col-sm-12 col-md-6 justify-content-end">
+          <div class="p-50">
+            <el-tooltip content="Reload" placement="top">
+              <el-button
+                @click="reload"
+                icon="el-icon-refresh-right"
+              ></el-button>
+            </el-tooltip>
+            <el-button @click="clearSearch">Clear search</el-button>
 
-              <r-table-cell
-                ref="cell"
-                @click.native="onCellClicked()"
+            <el-tooltip content="Columns selector" placement="top">
+              <el-button @click="showColumnSelector = true">
+                <i class="fas fa-fw fa-list"></i>
+              </el-button>
+            </el-tooltip>
+
+            <el-tooltip content="Save search filter" placement="top">
+              <el-button @click="onSaveSearchFilter()">
+                <i class="fas fa-fw fa-save"></i>
+              </el-button>
+            </el-tooltip>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <slot name="header"></slot>
+
+        <el-dropdown v-if="$slots.dropdown">
+          <el-button>
+            Export
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <slot name="dropdown"> </slot>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover m-0">
+          <thead>
+            <tr>
+              <th v-if="selectable"></th>
+              <slot></slot>
+            </tr>
+            <tr v-if="isSearchable">
+              <td v-if="selectable"></td>
+              <r-table-column-search
                 v-for="(c, i) in columns"
-                :key="i"
+                :key="`column-search-${i}`"
                 :column="c"
-                :data="d"
-                @update-data="updateData(d, c.prop, $event)"
-                @edit-started="onEditStarted()"
-                @toggle-sub-row="toggleSubRow(k, $event)"
-                @data-deleted="reload"
-                v-show="c.isVisible"
-              ></r-table-cell>
+                @search="search(...$event)"
+                ref="searchColumn"
+              ></r-table-column-search>
             </tr>
+          </thead>
+          <tbody>
+            <template v-for="(d, k) in localData">
+              <tr :key="`${draw}-${k}`">
+                <td v-if="selectable">
+                  <el-checkbox-group
+                    v-model="selectedValue"
+                    class="r-table-checkbox-group"
+                  >
+                    <el-checkbox
+                      :label="d[key]"
+                      @change="$emit('select-change', selectedValue)"
+                    ></el-checkbox>
+                  </el-checkbox-group>
+                </td>
 
-            <tr v-show="subRow[k]" :key="`subrow-${k}`">
-              <td v-html="subRowContent[k]" :colspan="columnsLength"></td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div>
+                <r-table-cell
+                  ref="cell"
+                  @click.native="onCellClicked()"
+                  v-for="(c, i) in columns"
+                  :key="i"
+                  :column="c"
+                  :data="d"
+                  @update-data="updateData(d, c.prop, $event)"
+                  @edit-started="onEditStarted()"
+                  @toggle-sub-row="toggleSubRow(k, $event)"
+                  @data-deleted="reload"
+                  v-show="c.isVisible"
+                ></r-table-cell>
+              </tr>
 
-    <div class="float-left d-flex">
-      <r-table-pagination
-        v-model="page"
-        :page-count="pageCount"
-      ></r-table-pagination>
+              <tr v-show="subRow[k]" :key="`subrow-${k}`">
+                <td v-html="subRowContent[k]" :colspan="columnsLength"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
 
-      <el-tooltip content="Reload" placement="top">
-        <el-button
-          @click="reload"
-          icon="el-icon-refresh-right"
-          size="mini"
-        ></el-button>
-      </el-tooltip>
+      <div class="d-flex justify-content-between mx-0 row">
+        <div class="col-sm-12 col-md-6">
+          <div role="status">
+            Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <vs-pagination :total="pageCount" v-model="page"></vs-pagination>
+        </div>
+      </div>
 
-      <!-- 
-
-      <el-tooltip content="Clear cache" placement="top-start">
-        <el-button @click="resetLocalStorage">
-          <i class="fa fa-times-circle"></i>
-        </el-button>
-      </el-tooltip>
- -->
-    </div>
-
-    <div class="float-left d-flex">
-      <el-tooltip content="每頁顯示" placement="top">
-        <el-select v-model="localPageLength" style="width: 70px">
-          <el-option
-            v-for="(p, index) in pageLengthOption"
-            :value="p"
-            v-text="p"
-            :key="index"
-          ></el-option>
-        </el-select>
-      </el-tooltip>
-
-      <el-dialog
-        :visible.sync="showColumnSelector"
-        title="Display columns selector"
-        @close="onColumnSelectorClose"
-      >
-        <el-checkbox
-          v-for="(column, key) in columnsHasLabel"
-          :label="column.prop"
-          :key="key"
-          v-model="column.isVisible"
-          >{{ column.label }}</el-checkbox
+      <div class="float-left d-flex">
+        <el-dialog
+          :visible.sync="showColumnSelector"
+          title="Display columns selector"
+          @close="onColumnSelectorClose"
         >
-      </el-dialog>
+          <el-checkbox
+            v-for="(column, key) in columnsHasLabel"
+            :label="column.prop"
+            :key="key"
+            v-model="column.isVisible"
+            >{{ column.label }}</el-checkbox
+          >
+        </el-dialog>
 
-      <el-tooltip content="Columns selector" placement="top">
-        <el-button @click="showColumnSelector = true" size="mini">
-          <i class="fas fa-fw fa-list"></i>
-        </el-button>
-      </el-tooltip>
+        <el-dropdown
+          @command="searchFilterCommand"
+          v-if="savedFilter.length > 0"
+        >
+          <el-button>
+            <template v-if="selected_filter"
+              >{{ selected_filter.name }}
+            </template>
+            <template v-else> search filter </template>
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              v-for="(filter, index) in savedFilter"
+              v-text="filter.name"
+              :key="index"
+              @click.native="onSelectFilter(filter)"
+            ></el-dropdown-item>
 
-      <el-tooltip content="Save search filter" placement="top">
-        <el-button @click="onSaveSearchFilter()">
-          <i class="fas fa-fw fa-save"></i>
-        </el-button>
-      </el-tooltip>
-
-      <el-dropdown @command="searchFilterCommand" v-if="savedFilter.length > 0">
-        <el-button>
-          <template v-if="selected_filter"
-            >{{ selected_filter.name }}
-          </template>
-          <template v-else> search filter </template>
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(filter, index) in savedFilter"
-            v-text="filter.name"
-            :key="index"
-            @click.native="onSelectFilter(filter)"
-          ></el-dropdown-item>
-
-          <template v-if="selected_filter">
-            <el-dropdown-item command="remove" divided icon="el-icon-delete"
-              >Remove</el-dropdown-item
-            >
-          </template>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-    <div class="float-right m-50">
-      {{ info.from }} - {{ info.to }} of {{ info.total }}
-    </div>
-  </el-card>
+            <template v-if="selected_filter">
+              <el-dropdown-item command="remove" divided icon="el-icon-delete"
+                >Remove</el-dropdown-item
+              >
+            </template>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </vx-card-body>
+  </vx-card>
 </template>
 
+<style>
+.vs-pagination--ul {
+  margin-top: 1rem !important;
+}
+
+
+</style>
 
 <script>
 export default {
@@ -195,7 +210,6 @@ export default {
   },
   components: {
     "r-table-column-search": () => import("./r-table-column-search"),
-    "r-table-pagination": () => import("./r-table-pagination"),
     "r-table-cell": () => import("./r-table-cell"),
   },
   data() {
@@ -486,7 +500,7 @@ export default {
       params.search = Object.values(this.searchData);
       console.log(params);
 
-      let resp = await this.$vx.get("/" + this.remote, {
+      let resp = await this.$vx.get(this.remote, {
         params,
       });
       resp = resp.data;

@@ -36,7 +36,7 @@
         <div v-html="value"></div>
       </template>
       <template v-else-if="type == 'delete'">
-        <button class="btn btn-xs btn-danger" @click="deleteRow()">
+        <button class="btn btn-sm btn-danger" @click="deleteRow()">
           <i class="fa fa-fw fa-times"></i>
         </button>
       </template>
@@ -48,7 +48,8 @@
 </template>
 <style scoped>
 td {
-  padding: 0.15rem;
+  padding: 0.72rem 1.5rem;
+  vertical-align: middle;
 }
 </style>
 <script>
@@ -107,7 +108,7 @@ export default {
       try {
         await this.$confirm("Are you sure?");
         let content = this.data[this.column.prop].content;
-        await this.$http.delete(content);
+        await this.$vx.delete(content);
         this.$emit("data-deleted");
       } catch (e) {
         console.log(e);
