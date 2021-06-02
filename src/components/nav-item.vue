@@ -1,5 +1,5 @@
 <template>
-  <li :class="{ 'has-sub': value.submenu }">
+  <li :class="{ 'has-sub': value.submenu, active: active }">
     <template v-if="value.submenu">
       <a class="d-flex align-items-center" href="javascript:void(0)"
         ><i :class="icon"></i
@@ -30,8 +30,13 @@ export default {
   props: {
     value: Object,
   },
+  data() {
+    return {
+      active: false,
+    };
+  },
   created() {
-    //console.log(this.value);
+    this.active = this.$route.path == this.value.link;
   },
   computed: {
     icon() {
@@ -40,12 +45,12 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log(to)
+      this.active = to.path == this.value.link;
     },
   },
   methods: {
     clickLink() {
-      this.$router.push("/" + this.value.link);
+      this.$router.push(this.value.link);
     },
   },
 };

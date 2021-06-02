@@ -702,7 +702,7 @@
           // $(this).removeClass('hover');
         })
         .on('active.app.menu', 'li', function (e) {
-          $(this).addClass('active');
+          //$(this).addClass('active'); 
           e.stopPropagation();
         })
         .on('deactive.app.menu', 'li.active', function (e) {
