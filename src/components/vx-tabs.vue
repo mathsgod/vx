@@ -50,8 +50,13 @@ export default {
       } else {
         link = url;
       }
-      let resp = await this.$vx.get(link);
-      window.$(this.$refs.content).html(resp.data);
+      let resp = (await this.$vx.get(link)).data;
+
+      for (let a of resp) {
+        if (a.type == "page") {
+          window.$(this.$refs.content).html(a.body.content);
+        }
+      }
     },
     getClass() {
       return ["nav-" + this.type];

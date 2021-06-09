@@ -114,7 +114,7 @@
       </div>
 
       <div class="d-flex justify-content-between mx-0 row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-6 align-self-center">
           <div role="status">
             Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
           </div>

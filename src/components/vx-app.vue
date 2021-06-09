@@ -10,7 +10,7 @@
         floating-nav
         navbar-light navbar-shadow
       "
-      :class="color"
+      :class="navbarColor"
     >
       <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
@@ -697,9 +697,9 @@ export default {
       breadcrumb: [],
       me: {},
       config: {},
-      color: "",
+      navbarColor: "",
       width: "full",
-      navType: "floating",
+      navbarType: "floating",
       footerType: "static",
       layoutName: "light-layout",
       menuCollapsed: false,
@@ -718,13 +718,15 @@ export default {
     this.me = this.$vx.me;
     this.config = this.$vx.config;
 
-    this.color = this.me.style.color;
+    this.navbarColor = this.me.style.navbar_color;
+    this.navbarType = this.me.style.navbar_type || "floating";
 
     this.selectedLanguage = this.$vx.getSelectedLanguage();
 
     if (this.$route.path == "/" && this.me.default_page) {
       this.$router.push(this.me.default_page);
     }
+
     console.log("route path", this.$route.path);
   },
   async mounted() {
@@ -746,8 +748,8 @@ export default {
     async $route(to) {
       this.renderContent(to.path);
     },
-    color() {
-      this.$vx.setColor(this.color);
+    navbarColor() {
+      this.$vx.setNavbarColor(this.navbarColor);
     },
     menuCollapsed() {
       window.$(".modern-nav-toggle").trigger("click");
@@ -776,52 +778,6 @@ export default {
       }
 
       this.$vx.setLayout(this.layoutName);
-    },
-    navType() {
-      console.log(this.navType);
-
-      let navBarShadow = window.$(this.$refs.navBarShadow);
-      let navbar = window.$(this.$refs.navbar);
-      let body = window.$(document.body);
-      if (this.navType == "floating") {
-        navBarShadow.removeClass("d-none");
-        navbar
-          .removeClass("d-none navbar-static-top fixed-top")
-          .addClass("floating-nav");
-        body
-          .removeClass("navbar-static navbar-hidden navbar-sticky")
-          .addClass("navbar-floating");
-      }
-
-      if (this.navType == "static") {
-        navBarShadow.addClass("d-none");
-        navbar
-          .removeClass("d-none floating-nav fixed-top")
-          .addClass("navbar-static-top");
-        body
-          .removeClass("navbar-hidden navbar-floating navbar-sticky")
-          .addClass("navbar-static");
-      }
-
-      if (this.navType == "sticky") {
-        navBarShadow.addClass("d-none");
-
-        navbar
-          .removeClass("d-none floating-nav navbar-static-top")
-          .addClass("fixed-top");
-
-        body
-          .removeClass("navbar-static navbar-floating navbar-hidden")
-          .addClass("navbar-sticky");
-      }
-
-      if (this.navType == "hidden") {
-        navbar.addClass("d-none");
-        navBarShadow.addClass("d-none");
-        body
-          .removeClass("navbar-static navbar-floating navbar-sticky")
-          .addClass("navbar-hidden");
-      }
     },
     footerType() {
       let footer = window.$(this.$refs.footer);
@@ -905,7 +861,6 @@ export default {
           this.$router.push("/");
         }
 
-        
         console.log(resp);
         for (let action of resp) {
           switch (action.type) {
@@ -946,6 +901,55 @@ export default {
         c.push("p-0");
       }
       return c;
+    },
+    setNavbarType(type) {
+      this.$vx.setNavbarType(this.navbarType);
+      this.navbarType = type;
+      this.loadNavbarType();
+    },
+    loadNavbarType() {
+      let navBarShadow = window.$(this.$refs.navBarShadow);
+      let navbar = window.$(this.$refs.navbar);
+      let body = window.$(document.body);
+      if (this.navbarType == "floating") {
+        navBarShadow.removeClass("d-none");
+        navbar
+          .removeClass("d-none navbar-static-top fixed-top")
+          .addClass("floating-nav");
+        body
+          .removeClass("navbar-static navbar-hidden navbar-sticky")
+          .addClass("navbar-floating");
+      }
+
+      if (this.navbarType == "static") {
+        navBarShadow.addClass("d-none");
+        navbar
+          .removeClass("d-none floating-nav fixed-top")
+          .addClass("navbar-static-top");
+        body
+          .removeClass("navbar-hidden navbar-floating navbar-sticky")
+          .addClass("navbar-static");
+      }
+
+      if (this.navbarType == "sticky") {
+        navBarShadow.addClass("d-none");
+
+        navbar
+          .removeClass("d-none floating-nav navbar-static-top")
+          .addClass("fixed-top");
+
+        body
+          .removeClass("navbar-static navbar-floating navbar-hidden")
+          .addClass("navbar-sticky");
+      }
+
+      if (this.navbarType == "hidden") {
+        navbar.addClass("d-none");
+        navBarShadow.addClass("d-none");
+        body
+          .removeClass("navbar-static navbar-floating navbar-sticky")
+          .addClass("navbar-hidden");
+      }
     },
   },
 };

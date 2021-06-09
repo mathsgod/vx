@@ -1,6 +1,10 @@
 <template>
   <!-- BEGIN: Customizer-->
-  <div class="customizer d-none d-md-block">
+  <div
+    class="customizer d-none d-md-block"
+    :class="{ open: isOpen }"
+    @click="isOpen = !isOpen"
+  >
     <a
       class="customizer-toggle d-flex align-items-center justify-content-center"
       href="javascript:void(0);"
@@ -29,8 +33,9 @@
               id="skinlight"
               name="skinradio"
               class="custom-control-input layout-name"
-              checked
               data-layout=""
+              :checked="layout.layoutName == 'light-layout'"
+              @input="layout.layoutName = 'light-layout'"
             />
             <label class="custom-control-label" for="skinlight">Light</label>
           </div>
@@ -41,6 +46,8 @@
               name="skinradio"
               class="custom-control-input layout-name"
               data-layout="bordered-layout"
+              :checked="layout.layoutName == 'bordered-layout'"
+              @input="layout.layoutName = 'bordered-layout'"
             />
             <label class="custom-control-label" for="skinbordered"
               >Bordered</label
@@ -53,6 +60,8 @@
               name="skinradio"
               class="custom-control-input layout-name"
               data-layout="dark-layout"
+              :checked="layout.layoutName == 'dark-layout'"
+              @input="layout.layoutName = 'dark-layout'"
             />
             <label class="custom-control-label" for="skindark">Dark</label>
           </div>
@@ -70,6 +79,8 @@
               type="checkbox"
               class="custom-control-input"
               id="collapse-sidebar-switch"
+              :checked="layout.menuCollapsed"
+              @input="layout.menuCollapsed = !layout.menuCollapsed"
             />
             <label
               class="custom-control-label"
@@ -90,7 +101,8 @@
               id="layout-width-full"
               name="layoutWidth"
               class="custom-control-input"
-              checked
+              :checked="layout.width == 'full'"
+              @input="layout.width = 'full'"
             />
             <label class="custom-control-label" for="layout-width-full"
               >Full Width</label
@@ -102,6 +114,8 @@
               id="layout-width-boxed"
               name="layoutWidth"
               class="custom-control-input"
+              :checked="layout.width == 'boxed'"
+              @input="layout.width = 'boxed'"
             />
             <label class="custom-control-label" for="layout-width-boxed"
               >Boxed</label
@@ -117,28 +131,17 @@
           <p class="font-weight-bold">Navbar Color</p>
           <ul class="list-inline unstyled-list">
             <li
-              class="color-box bg-white border selected"
+              class="color-box bg-white border"
+              :class="{ selected: layout.navbarColor == '' }"
               data-navbar-default=""
             ></li>
             <li
-              class="color-box bg-primary"
-              data-navbar-color="bg-primary"
+              v-for="c in COLORS"
+              :key="c"
+              class="color-box"
+              :class="[c, layout.navbarColor == c ? 'selected' : '']"
+              @click.prevent="layout.navbarColor = c"
             ></li>
-            <li
-              class="color-box bg-secondary"
-              data-navbar-color="bg-secondary"
-            ></li>
-            <li
-              class="color-box bg-success"
-              data-navbar-color="bg-success"
-            ></li>
-            <li class="color-box bg-danger" data-navbar-color="bg-danger"></li>
-            <li class="color-box bg-info" data-navbar-color="bg-info"></li>
-            <li
-              class="color-box bg-warning"
-              data-navbar-color="bg-warning"
-            ></li>
-            <li class="color-box bg-dark" data-navbar-color="bg-dark"></li>
           </ul>
         </div>
 
@@ -150,7 +153,8 @@
               id="nav-type-floating"
               name="navType"
               class="custom-control-input"
-              checked
+              :checked="layout.navbarType == 'floating'"
+              @input="layout.setNavbarType('floating')"
             />
             <label class="custom-control-label" for="nav-type-floating"
               >Floating</label
@@ -162,6 +166,8 @@
               id="nav-type-sticky"
               name="navType"
               class="custom-control-input"
+              :checked="layout.navbarType == 'sticky'"
+              @input="layout.setNavbarType('sticky')"
             />
             <label class="custom-control-label" for="nav-type-sticky"
               >Sticky</label
@@ -173,6 +179,8 @@
               id="nav-type-static"
               name="navType"
               class="custom-control-input"
+              :checked="layout.navbarType == 'static'"
+              @input="layout.setNavbarType('static')"
             />
             <label class="custom-control-label" for="nav-type-static"
               >Static</label
@@ -184,6 +192,8 @@
               id="nav-type-hidden"
               name="navType"
               class="custom-control-input"
+              :checked="layout.navbarType == 'hidden'"
+              @input="layout.setNavbarType('hidden')"
             />
             <label class="custom-control-label" for="nav-type-hidden"
               >Hidden</label
@@ -203,6 +213,8 @@
               id="footer-type-sticky"
               name="footerType"
               class="custom-control-input"
+              :checked="layout.footerType == 'sticky'"
+              @input="layout.footerType = 'sticky'"
             />
             <label class="custom-control-label" for="footer-type-sticky"
               >Sticky</label
@@ -214,7 +226,8 @@
               id="footer-type-static"
               name="footerType"
               class="custom-control-input"
-              checked
+              :checked="layout.footerType == 'static'"
+              @input="layout.footerType = 'static'"
             />
             <label class="custom-control-label" for="footer-type-static"
               >Static</label
@@ -226,6 +239,8 @@
               id="footer-type-hidden"
               name="footerType"
               class="custom-control-input"
+              :checked="layout.footerType == 'hidden'"
+              @input="layout.footerType = 'hidden'"
             />
             <label class="custom-control-label" for="footer-type-hidden"
               >Hidden</label
@@ -237,3 +252,23 @@
   </div>
   <!-- End: Customizer-->
 </template>
+
+<script>
+export default {
+  inject: ["layout"],
+  data() {
+    return {
+      isOpen: false,
+      COLORS: [
+        "bg-primary",
+        "bg-secondary",
+        "bg-success",
+        "bg-danger",
+        "bg-info",
+        "bg-warning",
+        "bg-dark",
+      ],
+    };
+  }
+};
+</script>

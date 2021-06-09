@@ -94,7 +94,13 @@
             <!-- Left Text-->
             <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
               <div
-                class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+                class="
+                  w-100
+                  d-lg-flex
+                  align-items-center
+                  justify-content-center
+                  px-5
+                "
               >
                 <img
                   class="img-fluid"
@@ -153,14 +159,16 @@ export default {
   },
   created() {
     document.body.classList.add("blank-page");
+
+    console.log("vx-login created");
   },
   mounted() {
     if (window.feather) {
       window.feather.replace({ width: 14, height: 14 });
     }
     if (localStorage.getItem("vx_remember_me")) {
-      this.form.username = localStorage.getItem("vx_username");
-      this.form.remember_me=true;
+      //  this.form.username = localStorage.getItem("vx_username");
+      //this.form.remember_me=true;
     }
   },
   methods: {
@@ -172,13 +180,16 @@ export default {
             password: this.form.password,
           });
           resp = resp.data;
-          if (resp.data) {
-            this.$router.go();
 
+          if (resp.data) {
             if (this.form.remember_me) {
               localStorage.setItem("vx_remember_me", true);
               localStorage.setItem("vx_username", this.form.username);
             }
+
+            localStorage.setItem("access_token", resp.data.access_token);
+
+            this.$router.go();
           } else {
             this.$alert("login error", { type: "error" });
           }

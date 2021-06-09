@@ -79,6 +79,7 @@
 
   /***** Navbar Color Options *****/
   $('#customizer-navbar-colors .color-box').on('click', function () {
+    console.log("color box click");
     var $this = $(this);
     $this.siblings().removeClass('selected');
     $this.addClass('selected');

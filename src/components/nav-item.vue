@@ -1,5 +1,5 @@
 <template>
-  <li :class="{ 'has-sub': value.submenu, active: active }">
+  <li :class="{ 'has-sub': value.submenu, active: isActive(), open: isOpen() }">
     <template v-if="value.submenu">
       <a class="d-flex align-items-center" href="javascript:void(0)"
         ><i :class="icon"></i
@@ -10,6 +10,7 @@
           v-for="(m, index) in value.submenu"
           :key="index"
           :value="m"
+          ref="nav_item"
         ></nav-item>
       </ul>
     </template>
@@ -32,11 +33,16 @@ export default {
   },
   data() {
     return {
+      open: false,
       active: false,
     };
   },
   created() {
     this.active = this.$route.path == this.value.link;
+  },
+  mounted() {
+    this.open = this.isOpen();
+    this.$forceUpdate();
   },
   computed: {
     icon() {
@@ -46,9 +52,36 @@ export default {
   watch: {
     $route(to) {
       this.active = to.path == this.value.link;
+      this.open = this.isOpen();
     },
   },
   methods: {
+    isActive() {
+      if (!this.value.submenu) {
+        return this.$route.path == this.value.link;
+      }
+      return false;
+    },
+    isOpen() {
+      if (this.$refs.nav_item) {
+        if (
+          this.$route.path.substr(0, this.value.link.length) == this.value.link
+        ) {
+          return true;
+        }
+
+        for (let n of this.$refs.nav_item) {
+          if (n.isOpen()) {
+            return true;
+          }
+          if (n.isActive()) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    },
     clickLink() {
       this.$router.push(this.value.link);
     },

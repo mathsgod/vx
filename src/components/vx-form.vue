@@ -38,9 +38,27 @@ export default {
             action = this.action;
           }
           let resp = await this.$vx.post(action, this.form);
-          
-          console.log(resp);
-          
+
+          if (resp.error) {
+            this.$alert(resp.error.message, { type: "error" });
+            return;
+          }
+
+          for (let action of resp.data) {
+            switch (action.header.type) {
+              case "message":
+                this.$message(action.body);
+                break;
+
+              case "notify":
+                this.$notify(action.body);
+                break;
+
+              case "redirect":
+                this.$router.push(action.body);
+                break;
+            }
+          }
         }
       });
     },
