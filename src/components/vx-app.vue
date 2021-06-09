@@ -2,7 +2,15 @@
   <div>
     <!-- BEGIN: Header-->
     <nav
-      class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow"
+      ref="navbar"
+      class="
+        header-navbar
+        navbar navbar-expand-lg
+        align-items-center
+        floating-nav
+        navbar-light navbar-shadow
+      "
+      :class="color"
     >
       <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
@@ -86,7 +94,7 @@
               aria-haspopup="true"
               aria-expanded="false"
               ><i class="flag-icon flag-icon-us"></i
-              ><span class="selected-language">English</span></a
+              ><span class="selected-language">{{ selectedLanguage }}</span></a
             >
             <div
               class="dropdown-menu dropdown-menu-right"
@@ -107,7 +115,7 @@
               ><i class="ficon" data-feather="moon"></i
             ></a>
           </li>
-          <li class="nav-item nav-search">
+          <!-- li class="nav-item nav-search">
             <a class="nav-link nav-link-search"
               ><i class="ficon" data-feather="search"></i
             ></a>
@@ -123,178 +131,17 @@
               <div class="search-input-close"><i data-feather="x"></i></div>
               <ul class="search-list search-list-main"></ul>
             </div>
-          </li>
-          <li class="nav-item dropdown dropdown-cart mr-25">
-            <a
-              class="nav-link"
-              href="javascript:void(0);"
-              data-toggle="dropdown"
-              ><i class="ficon" data-feather="shopping-cart"></i
-              ><span
-                class="badge badge-pill badge-primary badge-up cart-item-count"
-                >6</span
-              ></a
-            >
-            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-              <li class="dropdown-menu-header">
-                <div class="dropdown-header d-flex">
-                  <h4 class="notification-title mb-0 mr-auto">My Cart</h4>
-                  <div class="badge badge-pill badge-light-primary">
-                    4 Items
-                  </div>
-                </div>
-              </li>
-              <li class="scrollable-container media-list">
-                <div class="media align-items-center">
-                  <img
-                    class="d-block rounded mr-1"
-                    src="images/pages/eCommerce/1.png"
-                    alt="donuts"
-                    width="62"
-                  />
-                  <div class="media-body">
-                    <i class="ficon cart-item-remove" data-feather="x"></i>
-                    <div class="media-heading">
-                      <h6 class="cart-item-title">
-                        <a class="text-body" href="app-ecommerce-details.html">
-                          Apple watch 5</a
-                        >
-                      </h6>
-                      <small class="cart-item-by">By Apple</small>
-                    </div>
-                    <div class="cart-item-qty">
-                      <div class="input-group">
-                        <input class="touchspin-cart" type="number" value="1" />
-                      </div>
-                    </div>
-                    <h5 class="cart-item-price">$374.90</h5>
-                  </div>
-                </div>
-                <div class="media align-items-center">
-                  <img
-                    class="d-block rounded mr-1"
-                    src="images/pages/eCommerce/7.png"
-                    alt="donuts"
-                    width="62"
-                  />
-                  <div class="media-body">
-                    <i class="ficon cart-item-remove" data-feather="x"></i>
-                    <div class="media-heading">
-                      <h6 class="cart-item-title">
-                        <a class="text-body" href="app-ecommerce-details.html">
-                          Google Home Mini</a
-                        >
-                      </h6>
-                      <small class="cart-item-by">By Google</small>
-                    </div>
-                    <div class="cart-item-qty">
-                      <div class="input-group">
-                        <input class="touchspin-cart" type="number" value="3" />
-                      </div>
-                    </div>
-                    <h5 class="cart-item-price">$129.40</h5>
-                  </div>
-                </div>
-                <div class="media align-items-center">
-                  <img
-                    class="d-block rounded mr-1"
-                    src="images/pages/eCommerce/2.png"
-                    alt="donuts"
-                    width="62"
-                  />
-                  <div class="media-body">
-                    <i class="ficon cart-item-remove" data-feather="x"></i>
-                    <div class="media-heading">
-                      <h6 class="cart-item-title">
-                        <a class="text-body" href="app-ecommerce-details.html">
-                          iPhone 11 Pro</a
-                        >
-                      </h6>
-                      <small class="cart-item-by">By Apple</small>
-                    </div>
-                    <div class="cart-item-qty">
-                      <div class="input-group">
-                        <input class="touchspin-cart" type="number" value="2" />
-                      </div>
-                    </div>
-                    <h5 class="cart-item-price">$699.00</h5>
-                  </div>
-                </div>
-                <div class="media align-items-center">
-                  <img
-                    class="d-block rounded mr-1"
-                    src="images/pages/eCommerce/3.png"
-                    alt="donuts"
-                    width="62"
-                  />
-                  <div class="media-body">
-                    <i class="ficon cart-item-remove" data-feather="x"></i>
-                    <div class="media-heading">
-                      <h6 class="cart-item-title">
-                        <a class="text-body" href="app-ecommerce-details.html">
-                          iMac Pro</a
-                        >
-                      </h6>
-                      <small class="cart-item-by">By Apple</small>
-                    </div>
-                    <div class="cart-item-qty">
-                      <div class="input-group">
-                        <input class="touchspin-cart" type="number" value="1" />
-                      </div>
-                    </div>
-                    <h5 class="cart-item-price">$4,999.00</h5>
-                  </div>
-                </div>
-                <div class="media align-items-center">
-                  <img
-                    class="d-block rounded mr-1"
-                    src="images/pages/eCommerce/5.png"
-                    alt="donuts"
-                    width="62"
-                  />
-                  <div class="media-body">
-                    <i class="ficon cart-item-remove" data-feather="x"></i>
-                    <div class="media-heading">
-                      <h6 class="cart-item-title">
-                        <a class="text-body" href="app-ecommerce-details.html">
-                          MacBook Pro</a
-                        >
-                      </h6>
-                      <small class="cart-item-by">By Apple</small>
-                    </div>
-                    <div class="cart-item-qty">
-                      <div class="input-group">
-                        <input class="touchspin-cart" type="number" value="1" />
-                      </div>
-                    </div>
-                    <h5 class="cart-item-price">$2,999.00</h5>
-                  </div>
-                </div>
-              </li>
-              <li class="dropdown-menu-footer">
-                <div class="d-flex justify-content-between mb-1">
-                  <h6 class="font-weight-bolder mb-0">Total:</h6>
-                  <h6 class="text-primary font-weight-bolder mb-0">
-                    $10,999.00
-                  </h6>
-                </div>
-                <a
-                  class="btn btn-primary btn-block"
-                  href="app-ecommerce-checkout.html"
-                  >Checkout</a
-                >
-              </li>
-            </ul>
-          </li>
+          </li -->
+
           <li class="nav-item dropdown dropdown-notification mr-25">
             <a
               class="nav-link"
               href="javascript:void(0);"
               data-toggle="dropdown"
               ><i class="ficon" data-feather="bell"></i
-              ><span class="badge badge-pill badge-danger badge-up">5</span></a
+              ><!-- span class="badge badge-pill badge-danger badge-up">5</span --></a
             >
-            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+            <!-- ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
               <li class="dropdown-menu-header">
                 <div class="dropdown-header d-flex">
                   <h4 class="notification-title mb-0 mr-auto">Notifications</h4>
@@ -451,7 +298,7 @@
                   >Read all notifications</a
                 >
               </li>
-            </ul>
+            </ul -->
           </li>
           <li class="nav-item dropdown dropdown-user">
             <a
@@ -482,22 +329,17 @@
             >
               <router-link class="dropdown-item" to="/User/profile"
                 ><i class="mr-50" data-feather="user"></i> Profile</router-link
-              ><a class="dropdown-item" href="app-email.html"
-                ><i class="mr-50" data-feather="mail"></i> Inbox</a
-              ><a class="dropdown-item" href="app-todo.html"
-                ><i class="mr-50" data-feather="check-square"></i> Task</a
-              ><a class="dropdown-item" href="app-chat.html"
-                ><i class="mr-50" data-feather="message-square"></i> Chats</a
               >
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="page-account-settings.html"
+              <!-- a class="dropdown-item" href="page-account-settings.html"
                 ><i class="mr-50" data-feather="settings"></i> Settings</a
               ><a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
                 ><i class="mr-50" data-feather="help-circle"></i> FAQ</a
-              ><router-link class="dropdown-item" to="/logout"
-                ><i class="mr-50" data-feather="power"></i> Logout</router-link
+              -->
+              <a class="dropdown-item" href="/logout" @click.prevent="logout"
+                ><i class="mr-50" data-feather="power"></i> Logout</a
               >
             </div>
           </li>
@@ -682,6 +524,7 @@
     <div
       class="main-menu menu-fixed menu-light menu-accordion menu-shadow"
       data-scroll-to-active="true"
+      ref="mainMenu"
     >
       <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -700,7 +543,12 @@
                 data-feather="x"
               ></i
               ><i
-                class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary"
+                class="
+                  d-none d-xl-block
+                  collapse-toggle-icon
+                  font-medium-4
+                  text-primary
+                "
                 data-feather="disc"
                 data-ticon="disc"
               ></i
@@ -721,83 +569,6 @@
             :value="m"
             :key="index"
           ></nav-item>
-
-          <li class="navigation-header">
-            <span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span
-            ><i data-feather="more-horizontal"></i>
-          </li>
-
-          <li class="nav-item">
-            <router-link class="d-flex align-items-center" to="/User"
-              ><i class="fa fa-user"></i
-              ><span class="menu-title text-truncate" data-i18n="Email"
-                >User1</span
-              ></router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="d-flex align-items-center" to="/UserGroup"
-              ><i data-feather="mail"></i
-              ><span class="menu-title text-truncate" data-i18n="Email"
-                >User Group</span
-              ></router-link
-            >
-          </li>
-
-          <li class="navigation-header">
-            <span data-i18n="Misc">Misc</span
-            ><i data-feather="more-horizontal"></i>
-          </li>
-          <li class="nav-item">
-            <a class="d-flex align-items-center" href="#"
-              ><i data-feather="menu"></i
-              ><span class="menu-title text-truncate" data-i18n="Menu Levels"
-                >Menu Levels</span
-              ></a
-            >
-            <ul class="menu-content">
-              <li>
-                <a class="d-flex align-items-center" href="#"
-                  ><i data-feather="circle"></i
-                  ><span class="menu-item" data-i18n="Second Level"
-                    >Second Level 2.1</span
-                  ></a
-                >
-              </li>
-              <li>
-                <a class="d-flex align-items-center" href="#"
-                  ><i data-feather="circle"></i
-                  ><span class="menu-item" data-i18n="Second Level"
-                    >Second Level 2.2</span
-                  ></a
-                >
-                <ul class="menu-content">
-                  <li>
-                    <a class="d-flex align-items-center" href="#"
-                      ><span class="menu-item" data-i18n="Third Level"
-                        >Third Level 3.1</span
-                      ></a
-                    >
-                  </li>
-                  <li>
-                    <a class="d-flex align-items-center" href="#"
-                      ><span class="menu-item" data-i18n="Third Level"
-                        >Third Level 3.2</span
-                      ></a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li class="disabled nav-item">
-            <a class="d-flex align-items-center" href="#"
-              ><i data-feather="eye-off"></i
-              ><span class="menu-title text-truncate" data-i18n="Disabled Menu"
-                >Disabled Menu</span
-              ></a
-            >
-          </li>
         </ul>
       </div>
     </div>
@@ -806,8 +577,8 @@
     <!-- BEGIN: Content-->
     <div class="app-content content">
       <div class="content-overlay"></div>
-      <div class="header-navbar-shadow"></div>
-      <div class="content-wrapper">
+      <div class="header-navbar-shadow" ref="navBarShadow"></div>
+      <div class="content-wrapper" :class="contentWrapperClass()">
         <div class="content-header row">
           <div class="content-header-left col-md-9 col-12 mb-2">
             <div class="row breadcrumbs-top">
@@ -835,13 +606,21 @@
               </div>
             </div>
           </div>
-          <div
-            class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none"
+          <!--div
+            class="
+              content-header-right
+              text-md-right
+              col-md-3 col-12
+              d-md-block d-none
+            "
           >
             <div class="form-group breadcrumb-right">
               <div class="dropdown">
                 <button
-                  class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle"
+                  class="
+                    btn-icon btn btn-primary btn-round btn-sm
+                    dropdown-toggle
+                  "
                   type="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
@@ -866,7 +645,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div -->
         </div>
         <div class="content-body" ref="content"></div>
       </div>
@@ -879,7 +658,7 @@
     <div class="drag-target"></div>
 
     <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light">
+    <footer class="footer footer-static footer-light" ref="footer">
       <p class="clearfix mb-0">
         <span class="float-md-left d-block d-md-inline-block mt-25"
           >COPYRIGHT &copy; {{ config["copyright-year"]
@@ -904,6 +683,11 @@ import NavItem from "./nav-item";
 import VxCustomizer from "./vx-customizer";
 export default {
   name: "App",
+  provide() {
+    return {
+      layout: this,
+    };
+  },
   data() {
     return {
       menus: [],
@@ -913,6 +697,13 @@ export default {
       breadcrumb: [],
       me: {},
       config: {},
+      color: "",
+      width: "full",
+      navType: "floating",
+      footerType: "static",
+      layoutName: "light-layout",
+      menuCollapsed: false,
+      selectedLanguage: null,
     };
   },
   components: {
@@ -926,6 +717,15 @@ export default {
     this.language = this.$vx.language;
     this.me = this.$vx.me;
     this.config = this.$vx.config;
+
+    this.color = this.me.style.color;
+
+    this.selectedLanguage = this.$vx.getSelectedLanguage();
+
+    if (this.$route.path == "/" && this.me.default_page) {
+      this.$router.push(this.me.default_page);
+    }
+    console.log("route path", this.$route.path);
   },
   async mounted() {
     if (window.feather) {
@@ -942,13 +742,124 @@ export default {
 
     await this.renderContent(this.$route.path);
   },
-
   watch: {
     async $route(to) {
       this.renderContent(to.path);
     },
+    color() {
+      this.$vx.setColor(this.color);
+    },
+    menuCollapsed() {
+      window.$(".modern-nav-toggle").trigger("click");
+      window.$(".main-menu").trigger("mouseleave");
+    },
+    layoutName() {
+      let mainMenu = window.$(this.$refs.mainMenu);
+      let navbar = window.$(this.$refs.navbar);
+      let body = window.$(document.body);
+      body.removeClass("dark-layout bordered-layout");
+      if (this.layoutName == "light-layout") {
+        mainMenu.removeClass("menu-dark").addClass("menu-light");
+        navbar.removeClass("navbar-dark").addClass("navbar-light");
+      }
+
+      if (this.layoutName == "bordered-layout") {
+        body.addClass("bordered-layout");
+        mainMenu.removeClass("menu-dark").addClass("menu-light");
+        navbar.removeClass("navbar-dark").addClass("navbar-light");
+      }
+
+      if (this.layoutName == "dark-layout") {
+        body.addClass("dark-layout");
+        mainMenu.removeClass("menu-dark").addClass("menu-light");
+        navbar.removeClass("navbar-dark").addClass("navbar-light");
+      }
+
+      this.$vx.setLayout(this.layoutName);
+    },
+    navType() {
+      console.log(this.navType);
+
+      let navBarShadow = window.$(this.$refs.navBarShadow);
+      let navbar = window.$(this.$refs.navbar);
+      let body = window.$(document.body);
+      if (this.navType == "floating") {
+        navBarShadow.removeClass("d-none");
+        navbar
+          .removeClass("d-none navbar-static-top fixed-top")
+          .addClass("floating-nav");
+        body
+          .removeClass("navbar-static navbar-hidden navbar-sticky")
+          .addClass("navbar-floating");
+      }
+
+      if (this.navType == "static") {
+        navBarShadow.addClass("d-none");
+        navbar
+          .removeClass("d-none floating-nav fixed-top")
+          .addClass("navbar-static-top");
+        body
+          .removeClass("navbar-hidden navbar-floating navbar-sticky")
+          .addClass("navbar-static");
+      }
+
+      if (this.navType == "sticky") {
+        navBarShadow.addClass("d-none");
+
+        navbar
+          .removeClass("d-none floating-nav navbar-static-top")
+          .addClass("fixed-top");
+
+        body
+          .removeClass("navbar-static navbar-floating navbar-hidden")
+          .addClass("navbar-sticky");
+      }
+
+      if (this.navType == "hidden") {
+        navbar.addClass("d-none");
+        navBarShadow.addClass("d-none");
+        body
+          .removeClass("navbar-static navbar-floating navbar-sticky")
+          .addClass("navbar-hidden");
+      }
+    },
+    footerType() {
+      let footer = window.$(this.$refs.footer);
+      let body = window.$(document.body);
+
+      // Hides footer
+      if (this.footerType == "hidden") {
+        footer.addClass("d-none");
+        body
+          .removeClass("footer-static footer-fixed")
+          .addClass("footer-hidden");
+      }
+
+      // changes to Static footer
+      if (this.footerType == "static") {
+        body.removeClass("footer-fixed");
+        footer.removeClass("d-none").addClass("footer-static");
+        body
+          .removeClass("footer-hidden footer-fixed")
+          .addClass("footer-static");
+      }
+
+      // changes to Sticky footer
+      if (this.footerType == "sticky") {
+        body
+          .removeClass("footer-static footer-hidden")
+          .addClass("footer-fixed");
+        footer.removeClass("d-none footer-static");
+      }
+    },
   },
   methods: {
+    async logout() {
+      await this.$vx.logout();
+      localStorage.clear();
+      this.$emit("logout");
+      this.$router.push("/");
+    },
     async renderContent(path) {
       console.log("render content", path);
       this.breadcrumb = [];
@@ -978,7 +889,6 @@ export default {
         content = resp.data;
       } else {
         resp = resp.data;
-        console.log(resp);
 
         if (resp.status == 301 || resp.status == 302 || resp.status == 303) {
           //redirect
@@ -989,23 +899,53 @@ export default {
 
         if (resp.status == 401) {
           //
+          localStorage.clear();
+
           this.$emit("logout");
           this.$router.push("/");
         }
 
-        resp = resp.data;
+        
+        console.log(resp);
+        for (let action of resp) {
+          switch (action.type) {
+            case "message":
+              this.$message(action.body);
+              break;
 
-        if (resp.data.header) {
-          this.title = resp.data.header.title;
+            case "notify":
+              this.$notify(action.body);
+              break;
+
+            case "redirect":
+              this.$router.push(action.body);
+              break;
+
+            case "page":
+              console.log(action);
+              content += action.body.content;
+              if (action.body.header) {
+                this.title = action.body.header.title;
+              }
+
+              break;
+          }
         }
-
-        content = resp.data.body;
       }
 
       window.$(this.$refs.content).html(content);
     },
-    changeLanguage(language) {
-      console.log("change to ", language);
+    async changeLanguage(language) {
+      await this.$vx.setSelectedLanguage(language);
+      this.selectedLanguage = this.$vx.getSelectedLanguage();
+    },
+    contentWrapperClass() {
+      let c = [];
+      if (this.width == "boxed") {
+        c.push("container");
+        c.push("p-0");
+      }
+      return c;
     },
   },
 };
