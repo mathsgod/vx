@@ -21,7 +21,7 @@
               ></a>
             </li>
           </ul>
-          <ul class="nav navbar-nav bookmark-icons">
+          <!-- ul class="nav navbar-nav bookmark-icons">
             <li class="nav-item d-none d-lg-block">
               <a
                 class="nav-link"
@@ -82,7 +82,7 @@
                 <ul class="search-list search-list-bookmark"></ul>
               </div>
             </li>
-          </ul>
+          </ul -->
         </div>
         <ul class="nav navbar-nav align-items-center ml-auto">
           <li class="nav-item dropdown dropdown-language">
@@ -312,7 +312,7 @@
               <div class="user-nav d-sm-flex d-none">
                 <span class="user-name font-weight-bolder"
                   >{{ me.first_name }} {{ me.last_name }}</span
-                ><span class="user-status">Admin</span>
+                ><span class="user-status">{{me.usergroup}}</span>
               </div>
               <span class="avatar"
                 ><img
@@ -331,6 +331,16 @@
                 ><i class="mr-50" data-feather="user"></i> Profile</router-link
               >
               <div class="dropdown-divider"></div>
+              <!-- navbar dropdown -->
+              <router-link
+                class="dropdown-item"
+                v-for="(dd, index) in navbar.dropdown"
+                :key="index"
+                :to="dd.link"
+              >
+                <i class="mr-50" :class="dd.icon"></i>
+                {{ dd.label }}</router-link
+              >
               <!-- a class="dropdown-item" href="page-account-settings.html"
                 ><i class="mr-50" data-feather="settings"></i> Settings</a
               ><a class="dropdown-item" href="page-pricing.html"
@@ -682,7 +692,7 @@
 import NavItem from "./nav-item";
 import VxCustomizer from "./vx-customizer";
 export default {
-  name: "App",
+  name: "VxApp",
   provide() {
     return {
       layout: this,
@@ -704,28 +714,31 @@ export default {
       layoutName: "light-layout",
       menuCollapsed: false,
       selectedLanguage: null,
+      navbar: null,
     };
   },
   components: {
     NavItem,
     VxCustomizer,
   },
-  async created() {
-    let resp = await fetch("config.json");
-    await this.$vx.init(await resp.json());
+  created() {
     this.menus = this.$vx.menus;
     this.language = this.$vx.language;
     this.me = this.$vx.me;
     this.config = this.$vx.config;
 
-    this.navbarColor = this.me.style.navbar_color;
-    this.navbarType = this.me.style.navbar_type || "floating";
+    if (this.me.style) {
+      this.navbarColor = this.me.style.navbar_color || "";
+      this.navbarType = this.me.style.navbar_type || "floating";
+    }
 
     this.selectedLanguage = this.$vx.getSelectedLanguage();
 
     if (this.$route.path == "/" && this.me.default_page) {
       this.$router.push(this.me.default_page);
     }
+
+    this.navbar = this.$vx.navbar ?? {};
 
     console.log("route path", this.$route.path);
   },
@@ -742,11 +755,11 @@ export default {
       window.$.app.nav.init();
     });
 
-    await this.renderContent(this.$route.path);
+    await this.renderContent(this.$route.fullPath);
   },
   watch: {
     async $route(to) {
-      this.renderContent(to.path);
+      this.renderContent(to.fullPath);
     },
     navbarColor() {
       this.$vx.setNavbarColor(this.navbarColor);

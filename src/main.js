@@ -1,11 +1,28 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import ElementUI from 'element-ui';
-//import 'element-ui/lib/theme-chalk/index.css';
-import './assets/element-ui/theme/index.css';
+import VueI18n from 'vue-i18n'
+Vue.use(VueI18n)
 
-Vue.use(ElementUI);
+const i18n = new VueI18n({
+  locale: 'en',
+  messages: {
+    en: enLocale,
+    "zh-hk": zhTWLocale
+  }
+})
+
+import ElementUI from 'element-ui'
+//import 'element-ui/lib/theme-chalk/index.css';
+import './assets/element-ui/theme/index.css'
+
+import enLocale from 'element-ui/lib/locale/lang/en'
+//import zhCNLocale from 'element-ui/lib/locale/lang/zh-CN'
+import zhTWLocale from 'element-ui/lib/locale/lang/zh-TW'
+
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value)
+});
 import "vuesax/dist/vuesax.css"
 
 
@@ -54,12 +71,29 @@ Vue.component("r-table-dropdown-item", RTableDropdownItem);
 
 
 
+
 Vue.config.productionTip = false
+
+import VxLogin from "./components/vx-login";
+import VxForgotPassword from './components/vx-forgot-password';
+import VxApp from "./components/vx-app";
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 const routes = [
-  { path: '*' },
+  {
+    path: "/",
+    component: VxLogin
+  },
+  {
+    path: "/forgot_password",
+    component: VxForgotPassword
+  },
+  {
+    path: '*',
+    component: VxApp
+  },
+
 ];
 const router = new VueRouter({
   mode: "history",
@@ -74,7 +108,7 @@ new Vue({
 
 
 let init_vue = function (element) {
-  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view");
+  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link");
   nodes.forEach(node => {
     new Vue({
       router,

@@ -1,35 +1,34 @@
 <template>
   <div>
     <template v-if="ready">
-      <vx-login v-if="!logined"></vx-login>
-      <vx-app v-else v-on:logout="logout"></vx-app>
+      <router-view></router-view>
     </template>
     <template v-else> loading... </template>
   </div>
 </template>
 
 <script>
-import VxLogin from "./components/vx-login";
-import VxApp from "./components/vx-app";
 export default {
-  components: {
-    "vx-login": VxLogin,
-    "vx-app": VxApp,
-  },
   data() {
     return {
       ready: false,
       logined: false,
+      version: "v1",
     };
   },
-  async created() {
+  async beforeCreate() {
     let resp = await fetch("config.json");
     await this.$vx.init(await resp.json());
 
     this.ready = true;
     this.logined = this.$vx.logined;
+    this.$vx.setRouter(this.$router);
+
+    if (this.$route.path == "/") {
+      this.$router.push("/Dashboard");
+      return;
+    }
   },
-  mounted() {},
   methods: {
     logout() {
       this.logined = false;
