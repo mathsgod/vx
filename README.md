@@ -1,4 +1,4 @@
-# vue-vuexy
+# vx
 
 ## Project setup
 ```

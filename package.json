@@ -1,5 +1,5 @@
 {
-  "name": "vue-vuexy",
+  "name": "vx",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -40,7 +40,7 @@
     },
     "rules": {
       "no-unreachable": "off",
-      "no-empty":"off"
+      "no-empty": "off"
     }
   },
   "browserslist": [
