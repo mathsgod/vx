@@ -52,6 +52,12 @@ export default {
       }
       let resp = (await this.$vx.get(link)).data;
 
+      if (resp.error) {
+        this.$message.error(resp.error.message);
+
+        return;
+      }
+
       for (let a of resp) {
         if (a.type == "page") {
           window.$(this.$refs.content).html(a.body.content);

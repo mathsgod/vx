@@ -196,7 +196,7 @@ export default {
     },
     pageLength: {
       type: Number,
-      default: 25,
+      default: 10,
     },
     cellUrl: String,
     selectable: Boolean,

@@ -24,6 +24,7 @@ export default {
     this.logined = this.$vx.logined;
     this.$vx.setRouter(this.$router);
 
+
     if (this.$route.path == "/") {
       this.$router.push("/Dashboard");
       return;

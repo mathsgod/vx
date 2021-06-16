@@ -108,7 +108,7 @@ new Vue({
 
 
 let init_vue = function (element) {
-  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link");
+  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link");
   nodes.forEach(node => {
     new Vue({
       router,

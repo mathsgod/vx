@@ -4,7 +4,11 @@
       <!-- Login v1 -->
       <div class="card mb-0">
         <div class="card-body">
-          <a :href="$vx.config['company-url']" class="brand-logo" target="_blank">
+          <a
+            :href="$vx.config['company-url']"
+            class="brand-logo"
+            target="_blank"
+          >
             <el-image
               v-if="$vx.config['company-logo']"
               :src="$vx.config['company-logo']"
@@ -29,7 +33,10 @@
                 v-model="form.password"
                 type="password"
                 show-password
-              ></el-input>
+                @keyup.enter.native="submit()"
+              >
+                ></el-input
+              >
             </el-form-item>
           </el-form>
 

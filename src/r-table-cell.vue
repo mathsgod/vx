@@ -106,10 +106,15 @@ export default {
   methods: {
     async deleteRow() {
       try {
-        await this.$confirm("Are you sure?");
+        await this.$confirm("Are you sure?", { type: "warning" });
         let content = this.data[this.column.prop].content;
-        await this.$vx.delete(content);
-        this.$emit("data-deleted");
+        let resp = await this.$vx.delete(content);
+        if (resp.status == 204) {
+          this.$emit("data-deleted");
+          this.$message.success("Deleted");
+        } else {
+          this.$alert(resp.statusText);
+        }
       } catch (e) {
         console.log(e);
       }

@@ -46,6 +46,14 @@ class VX {
         return this.axios.post(url, data);
     }
 
+    put(url, data, config) {
+        return this.axios.put(url, data, config);
+    }
+
+    patch(url, data, config) {
+        return this.axios.patch(url, data, config);
+    }
+
     delete(url, config) {
         return this.axios.delete(url, config)
     }
@@ -144,6 +152,20 @@ class VX {
 
     setRouter(router) {
         this.$router = router;
+    }
+
+    setRoute(route) {
+        this.$route = route;
+    }
+
+    forgotPassword(username, email) {
+        return this.post("/", {
+            action: "forgot_password",
+            data: {
+                username,
+                email
+            }
+        });
     }
 
 

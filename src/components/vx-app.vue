@@ -312,12 +312,12 @@
               <div class="user-nav d-sm-flex d-none">
                 <span class="user-name font-weight-bolder"
                   >{{ me.first_name }} {{ me.last_name }}</span
-                ><span class="user-status">{{me.usergroup}}</span>
+                ><span class="user-status">{{ me.usergroup }}</span>
               </div>
               <span class="avatar"
                 ><img
                   class="round"
-                  src="images/portrait/small/avatar-s-11.jpg"
+                  :src="me.image"
                   alt="avatar"
                   height="40"
                   width="40" /><span class="avatar-status-online"></span
@@ -541,9 +541,16 @@
           <li class="nav-item mr-auto">
             <a
               class="navbar-brand"
-              href="../../../html/ltr/vertical-menu-template/index.html"
+              :href="$vx.config['company-url']"
+              target="_blank"
             >
-              <h2 class="brand-text">VX</h2>
+              <el-image
+                v-if="$vx.config['company-logo']"
+                :src="$vx.config['company-logo']"
+                style="height: 30px"
+                fit="contain"
+              ></el-image>
+              <h2 class="brand-text" v-else>{{ $vx.config.company }}</h2>
             </a>
           </li>
           <li class="nav-item nav-toggle">
@@ -722,6 +729,11 @@ export default {
     VxCustomizer,
   },
   created() {
+    if (!this.$vx.logined) {
+      this.$router.push("/");
+      return;
+    }
+
     this.menus = this.$vx.menus;
     this.language = this.$vx.language;
     this.me = this.$vx.me;
@@ -741,6 +753,7 @@ export default {
     this.navbar = this.$vx.navbar ?? {};
 
     console.log("route path", this.$route.path);
+    this.$vx.setRoute(this.$route);
   },
   async mounted() {
     if (window.feather) {
@@ -759,6 +772,7 @@ export default {
   },
   watch: {
     async $route(to) {
+      this.$vx.setRoute(to);
       this.renderContent(to.fullPath);
     },
     navbarColor() {

@@ -7,9 +7,10 @@
     </vx-card-body>
 
     <vx-card-footer>
-      <el-button @click="onSubmit()" icon="el-icon-check" type="success"
+      <el-button @click="onSubmit()" icon="el-icon-check" type="primary"
         >Submit</el-button
       >
+      <el-button @click="onBack">Back</el-button>
     </vx-card-footer>
   </vx-card>
 </template>
@@ -17,6 +18,10 @@
 export default {
   props: {
     action: String,
+    method: {
+      type: String,
+      default: "post",
+    },
     data: {
       type: Object,
       default() {
@@ -37,26 +42,47 @@ export default {
           if (this.action) {
             action = this.action;
           }
-          let resp = await this.$vx.post(action, this.form);
 
-          if (resp.error) {
-            this.$alert(resp.error.message, { type: "error" });
+          let resp;
+          if (this.method == "post") {
+            resp = await this.$vx.post(action, this.form);
+          } else if (this.method == "patch") {
+            resp = await this.$vx.patch(action, this.form);
+            if (resp.status == 204) {
+              this.$message.success("Updated");
+              this.$router.back();
+              return;
+            }
+          }
+
+          console.log(resp);
+
+          if (resp.status == 201) {
+            this.$message.success(resp.statusText);
+            this.$router.back();
             return;
           }
 
-          for (let action of resp.data) {
-            switch (action.header.type) {
-              case "message":
-                this.$message(action.body);
-                break;
+          if (resp.status == 200) {
+            if (resp.error) {
+              this.$alert(resp.error.message, { type: "error" });
+              return;
+            }
 
-              case "notify":
-                this.$notify(action.body);
-                break;
+            for (let action of resp.data) {
+              switch (action.type) {
+                case "message":
+                  this.$message(action.body);
+                  break;
 
-              case "redirect":
-                this.$router.push(action.body);
-                break;
+                case "notify":
+                  this.$notify(action.body);
+                  break;
+
+                case "redirect":
+                  this.$router.push(action.body);
+                  break;
+              }
             }
           }
         }

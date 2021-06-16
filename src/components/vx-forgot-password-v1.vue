@@ -34,7 +34,12 @@
             <el-form-item label="Username" required prop="username">
               <el-input v-model="form.username"></el-input>
             </el-form-item>
-            <el-form-item label="Email" required prop="email">
+            <el-form-item
+              label="Email"
+              required
+              prop="email"
+              :rules="[{ type: 'email' }]"
+            >
               <el-input
                 v-model="form.email"
                 type="email"
@@ -71,9 +76,19 @@ export default {
     this.company = this.$vx.config.company;
   },
   methods: {
-    submit() {
+    async submit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
+          try {
+            await this.$vx.forgotPassword(this.form.username, this.form.email);
+
+            this.$alert(
+              "A instrucation are sent your email if your username and email are correct.",
+              { type: "success" }
+            );
+
+            this.form = {};
+          } catch (e) {}
         }
       });
     },
