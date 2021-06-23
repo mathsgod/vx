@@ -20,14 +20,15 @@ export default {
     let resp = await fetch("config.json");
     await this.$vx.init(await resp.json());
 
-    this.ready = true;
     this.logined = this.$vx.logined;
+    this.ready = true;
     this.$vx.setRouter(this.$router);
 
-
-    if (this.$route.path == "/") {
-      this.$router.push("/Dashboard");
-      return;
+    if (this.logined) {
+      if (this.$route.path == "/") {
+        this.$router.push("/Dashboard");
+        return;
+      }
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <vx-card>
     <vx-card-body>
-      <el-form :model="form" label-width="auto" ref="form1">
+      <el-form :model="form" label-width="auto" ref="form1" class="vx-form">
         <slot v-bind:form="form"></slot>
       </el-form>
     </vx-card-body>

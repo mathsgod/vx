@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import "./assets/vx.css"
+
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 

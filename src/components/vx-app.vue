@@ -341,9 +341,9 @@
                 <i class="mr-50" :class="dd.icon"></i>
                 {{ dd.label }}</router-link
               >
-              <!-- a class="dropdown-item" href="page-account-settings.html"
-                ><i class="mr-50" data-feather="settings"></i> Settings</a
-              ><a class="dropdown-item" href="page-pricing.html"
+              <router-link class="dropdown-item" to="/User/setting"
+                ><i class="mr-50" data-feather="settings"></i> Settings</router-link
+              ><!-- a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
                 ><i class="mr-50" data-feather="help-circle"></i> FAQ</a
@@ -886,6 +886,8 @@ export default {
 
           this.$emit("logout");
           this.$router.push("/");
+
+          return;
         }
 
         console.log(resp);

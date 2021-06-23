@@ -23,7 +23,7 @@
             Please sign-in to your account and start the adventure
           </p>
 
-          <el-form :model="form" ref="form1">
+          <el-form :model="form" ref="form1" class="small-label">
             <el-form-item label="Username" required prop="username">
               <el-input v-model="form.username" autofocus></el-input>
             </el-form-item>
