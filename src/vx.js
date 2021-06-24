@@ -1,8 +1,12 @@
 import axios from 'axios';
-class VX {
+import { useRegistration } from '@web-auth/webauthn-helper';
+import { useLogin } from '@web-auth/webauthn-helper';
 
+class VX {
+    endpoint;
 
     async init(config) {
+        this.endpoint = config.endpoint;
         let headers = {};
 
         if (localStorage.getItem("vx-view-as")) {
@@ -36,6 +40,35 @@ class VX {
         this.me = resp.me;
 
         this.navbar = resp.navbar;
+    }
+
+    async authLogin(username) {
+
+        const login = useLogin({
+            actionUrl: this.endpoint + "?action=auth",
+            optionsUrl: this.endpoint + "?action=auth_options"
+        });
+
+        let resp = await login({
+            username,
+            userVerification: true
+        });
+        console.log(resp);
+
+    }
+
+    async register() {
+
+        const register = useRegistration({
+            actionUrl: this.endpoint + "User/auth_register",
+            actionHeader: {
+                Authorization: "Bearer " + this.access_token,
+            },
+            optionsUrl: this.endpoint + "User/auth_register_options"
+        }, {
+            Authorization: "Bearer " + this.access_token,
+        });
+        await register()
     }
 
     get(url, config) {

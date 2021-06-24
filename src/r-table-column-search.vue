@@ -9,7 +9,7 @@
           search = '';
           doSearch();
         "
-        size="mini"
+        :size="rTable.size"
       ></el-input>
     </template>
 
@@ -22,7 +22,7 @@
           search = '';
           doSearch();
         "
-
+        :size="rTable.size"
       ></el-input>
     </template>
 
@@ -83,7 +83,7 @@
 
 <script>
 export default {
-  inject:['rTable'],
+  inject: ["rTable"],
   props: {
     column: Object,
   },
@@ -136,8 +136,8 @@ export default {
       },
     };
   },
-  created(){
-    this.search=this.rTable.searchValue[this.column.prop];
+  created() {
+    this.search = this.rTable.searchValue[this.column.prop];
   },
   methods: {
     doSearch() {

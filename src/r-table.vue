@@ -6,7 +6,11 @@
           <div>
             Show
             <el-tooltip content="每頁顯示" placement="top">
-              <el-select v-model="localPageLength" style="width: 70px">
+              <el-select
+                v-model="localPageLength"
+                style="width: 70px"
+                :size="size"
+              >
                 <el-option
                   v-for="(p, index) in pageLengthOption"
                   :value="p"
@@ -25,18 +29,21 @@
               <el-button
                 @click="reload"
                 icon="el-icon-refresh-right"
+                :size="size"
               ></el-button>
             </el-tooltip>
-            <el-button @click="clearSearch">Clear search</el-button>
+            <el-button @click="clearSearch" :size="size"
+              >Clear search</el-button
+            >
 
             <el-tooltip content="Columns selector" placement="top">
-              <el-button @click="showColumnSelector = true">
+              <el-button @click="showColumnSelector = true" :size="size">
                 <i class="fas fa-fw fa-list"></i>
               </el-button>
             </el-tooltip>
 
             <el-tooltip content="Save search filter" placement="top">
-              <el-button @click="onSaveSearchFilter()">
+              <el-button @click="onSaveSearchFilter()" :size="size">
                 <i class="fas fa-fw fa-save"></i>
               </el-button>
             </el-tooltip>
@@ -58,7 +65,10 @@
         </el-dropdown>
       </div>
       <div class="table-responsive">
-        <table class="table table-hover m-0">
+        <table
+          class="table table-hover m-0"
+          :class="{ 'table-sm': smallTable }"
+        >
           <thead>
             <tr>
               <th v-if="selectable"></th>
@@ -174,8 +184,6 @@
 .vs-pagination--ul {
   margin-top: 1rem !important;
 }
-
-
 </style>
 
 <script>
@@ -202,6 +210,8 @@ export default {
     selectable: Boolean,
     defaultSorting: String,
     defaultSortingOrder: String,
+    size: String,
+    smallTable: Boolean,
   },
   provide() {
     return {
