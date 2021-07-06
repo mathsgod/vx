@@ -342,7 +342,8 @@
                 {{ dd.label }}</router-link
               >
               <router-link class="dropdown-item" to="/User/setting"
-                ><i class="mr-50" data-feather="settings"></i> Settings</router-link
+                ><i class="mr-50" data-feather="settings"></i>
+                Settings</router-link
               ><!-- a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
@@ -742,6 +743,15 @@ export default {
     if (this.me.style) {
       this.navbarColor = this.me.style.navbar_color || "";
       this.navbarType = this.me.style.navbar_type || "floating";
+      this.footerType = this.me.style.footer_type || "static";
+      this.menuCollapsed = this.me.style.collapsible || false;
+      console.log(this.me);
+    }
+
+    if(this.menuCollapsed){
+      document.body.classList.add("menu-collapsed");
+    }else{
+      document.body.classList.add("menu-expanded");
     }
 
     this.selectedLanguage = this.$vx.getSelectedLanguage();
@@ -781,6 +791,8 @@ export default {
     menuCollapsed() {
       window.$(".modern-nav-toggle").trigger("click");
       window.$(".main-menu").trigger("mouseleave");
+
+      this.$vx.setCollapsible(this.menuCollapsed);
     },
     layoutName() {
       let mainMenu = window.$(this.$refs.mainMenu);
@@ -930,6 +942,10 @@ export default {
         c.push("p-0");
       }
       return c;
+    },
+    async setFooterType(type) {
+      this.footerType = type;
+      await this.$vx.setFooterType(this.footerType);
     },
     setNavbarType(type) {
       this.$vx.setNavbarType(this.navbarType);

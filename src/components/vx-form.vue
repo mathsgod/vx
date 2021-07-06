@@ -55,11 +55,11 @@ export default {
             resp = await this.$vx.post(action, this.form);
           } else if (this.method == "patch") {
             resp = await this.$vx.patch(action, this.form);
-            if (resp.status == 204) {
-              this.$message.success("Updated");
-              this.$router.back();
-              return;
-            }
+          }
+
+          if (resp.status == 204) {
+            this.$message.success("Updated");
+            return;
           }
 
           console.log(resp);

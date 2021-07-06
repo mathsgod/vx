@@ -124,36 +124,34 @@ class VX {
     }
 
     async setSelectedLanguage(language) {
-        let resp = (await this.post("/", {
-            action: "selectedLanguage",
-            data: language
-        })).data;
+        let resp = await this.post("/?_entry=selectLanguage", {
+            language
+        });
 
-        if (resp.code == 200) {
+        if (resp.status == 200) {
             this.me.language = language;
         }
     }
 
 
     setNavbarColor(color) {
-        return this.post("/", {
-            action: "navbar_color",
-            data: color
-        });
+        return this.post("/?_entry=setNavbarColor", { color });
     }
 
     setNavbarType(type) {
-        return this.post("/", {
-            action: "navbar_type",
-            data: type
-        });
+        return this.post("/?_entry=setNavbarType", { type });
     }
 
     setLayout(layout) {
-        return this.post("/", {
-            action: "layout",
-            data: layout
-        });
+        return this.post("/?_entry=setLayout", { layout });
+    }
+
+    setFooterType(type) {
+        return this.post("/?_entry=setFooterType", { type });
+    }
+
+    setCollapsible(collapsible) {
+        return this.post("/?_entry=setCollapsible", { collapsible });
     }
 
     async refreshAccessToken() {
@@ -192,12 +190,9 @@ class VX {
     }
 
     forgotPassword(username, email) {
-        return this.post("/", {
-            action: "forgot_password",
-            data: {
-                username,
-                email
-            }
+        return this.post("/?_entry=forgetPassword", {
+            username,
+            email
         });
     }
 

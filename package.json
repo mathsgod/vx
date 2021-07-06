@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.15.1",
     "material-icons": "^0.7.0",
+    "perfect-scrollbar": "^1.5.1",
     "vue": "^2.6.11",
     "vue-i18n": "^8.24.4",
     "vue-router": "^3.5.1",

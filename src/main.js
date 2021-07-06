@@ -63,6 +63,8 @@ Vue.component("vx-card-footer", () => import("./components/vx-card-footer"));
 
 Vue.component("vx-form-table", () => import("./components/vx-form-table"));
 
+Vue.component("vx-file-manager", () => import("./components/vx-file-manager"));
+
 
 import RTable from "./r-table";
 import RTableColumn from "./r-table-column";

@@ -214,7 +214,7 @@
               name="footerType"
               class="custom-control-input"
               :checked="layout.footerType == 'sticky'"
-              @input="layout.footerType = 'sticky'"
+              @input="layout.setFooterType('sticky')"
             />
             <label class="custom-control-label" for="footer-type-sticky"
               >Sticky</label
@@ -227,7 +227,7 @@
               name="footerType"
               class="custom-control-input"
               :checked="layout.footerType == 'static'"
-              @input="layout.footerType = 'static'"
+              @input="layout.setFooterType('static')"
             />
             <label class="custom-control-label" for="footer-type-static"
               >Static</label
@@ -240,7 +240,7 @@
               name="footerType"
               class="custom-control-input"
               :checked="layout.footerType == 'hidden'"
-              @input="layout.footerType = 'hidden'"
+              @input="layout.setFooterType('hidden')"
             />
             <label class="custom-control-label" for="footer-type-hidden"
               >Hidden</label
@@ -269,6 +269,6 @@ export default {
         "bg-dark",
       ],
     };
-  }
+  },
 };
 </script>

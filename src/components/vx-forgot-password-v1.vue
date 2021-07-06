@@ -79,16 +79,21 @@ export default {
     async submit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
-          try {
-            await this.$vx.forgotPassword(this.form.username, this.form.email);
+          let resp = await this.$vx.forgotPassword(
+            this.form.username,
+            this.form.email
+          );
 
+          if (resp.status == 200) {
             this.$alert(
               "A instrucation are sent your email if your username and email are correct.",
               { type: "success" }
             );
+          } else {
+            this.$alert("server error", { type: "error" });
+          }
 
-            this.form = {};
-          } catch (e) {}
+          this.form = {};
         }
       });
     },
