@@ -92,6 +92,8 @@ export default {
   },
   methods: {
     clickContent() {
+      this.$emit("input", this.file.path);
+
       if (this.canPreview) {
         this.handleCommand("preview");
       }

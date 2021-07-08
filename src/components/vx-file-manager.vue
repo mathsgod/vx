@@ -1,6 +1,6 @@
 <template>
   <div class="file-manager-application">
-    <div class="content-area-wrapper">
+    <div class="content-area-wrapper vx-file-manager-content">
       <div class="sidebar-left">
         <div class="sidebar">
           <div class="sidebar-file-manager">
@@ -12,7 +12,7 @@
                 @command="addNew"
                 trigger="click"
               >
-                <el-button type="primary" class="w-100" :disabled="type">
+                <el-button type="primary" class="w-100" :disabled="type != null">
                   Add New
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -26,39 +26,27 @@
               <!-- sidebar list items starts  -->
               <div class="sidebar-list" ref="sidebarList">
                 <!-- links for file manager sidebar -->
-                <div class="list-group">
-                  <el-tree
-                    ref="tree"
-                    lazy
-                    :load="loadNode"
-                    @node-click="handleNodeClick"
-                    node-key="path"
-                  ></el-tree>
-                  <a
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action active"
-                  >
-                    <i data-feather="star" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Important</span>
-                  </a>
-                  <a
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="clock" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Recents</span>
-                  </a>
-                  <a
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="trash" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Deleted Files</span>
-                  </a>
-                </div>
+                <el-tree
+                  class="mb-2"
+                  ref="tree"
+                  lazy
+                  :load="loadNode"
+                  @node-click="handleNodeClick"
+                  node-key="path"
+                ></el-tree>
+                <a
+                  @click="listFiles('recent')"
+                  href="javascript:void(0)"
+                  class="list-group-item list-group-item-action"
+                >
+                  <i data-feather="clock" class="mr-50 font-medium-3"></i>
+                  <span class="align-middle">Recents</span>
+                </a>
                 <div class="list-group list-group-labels">
                   <h6 class="section-label px-2 mb-1">Labels</h6>
                   <a
+                    v-if="fileType == null"
+                    @click="listFiles('document')"
                     href="javascript:void(0)"
                     class="list-group-item list-group-item-action"
                   >
@@ -66,6 +54,7 @@
                     <span class="align-middle">Documents</span>
                   </a>
                   <a
+                    v-if="fileType == null || fileType == 'image'"
                     @click="listFiles('image')"
                     href="javascript:void(0)"
                     class="list-group-item list-group-item-action"
@@ -74,6 +63,8 @@
                     <span class="align-middle">Images</span>
                   </a>
                   <a
+                    v-if="fileType == null"
+                    @click="listFiles('video')"
                     href="javascript:void(0)"
                     class="list-group-item list-group-item-action"
                   >
@@ -81,6 +72,8 @@
                     <span class="align-middle">Videos</span>
                   </a>
                   <a
+                    v-if="fileType == null"
+                    @click="listFiles('audio')"
                     href="javascript:void(0)"
                     class="list-group-item list-group-item-action"
                   >
@@ -88,6 +81,8 @@
                     <span class="align-middle">Audio</span>
                   </a>
                   <a
+                    v-if="fileType == null"
+                    @click="listFiles('archive')"
                     href="javascript:void(0)"
                     class="list-group-item list-group-item-action"
                   >
@@ -98,7 +93,7 @@
                 <!-- links for file manager sidebar ends -->
 
                 <!-- storage status of file manager starts-->
-                <div class="storage-status mb-1 px-2">
+                <!-- div class="storage-status mb-1 px-2">
                   <h6 class="section-label mb-1">Storage Status</h6>
                   <div class="d-flex align-items-center cursor-pointer">
                     <i data-feather="server" class="font-large-1"></i>
@@ -119,7 +114,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div -->
                 <!-- storage status of file manager ends-->
               </div>
               <!-- side bar list items ends  -->
@@ -184,6 +179,7 @@
                   :headers="uploadHeaders"
                   :data="{ path: selectedPath }"
                   :on-success="onSuccessUpload"
+                  :accept="accept"
                 >
                   <i class="el-icon-upload"></i>
                   <div class="el-upload__text">
@@ -258,6 +254,7 @@
                   @duplicate="duplicateFile($event)"
                   @selected="selectedFile.push($event)"
                   @unselected="selectedFile = selectedFile.filter((s) => s != $event)"
+                  @input="inputFile($event)"
                 ></vx-file-manager-file>
               </div>
               <!-- /Files Container Ends -->
@@ -269,6 +266,14 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.vx-file-manager-content {
+  height: calc(
+    var(--vh, 1vh) * 100 - calc(calc(2rem * 2) + 4.45rem + 3.35rem + 1.3rem + 0rem)
+  );
+}
+</style>
 
 <script>
 import "../assets/css/plugins/extensions/ext-component-tree.css";
@@ -283,6 +288,14 @@ export default {
   components: {
     "vx-file-manager-file": VxFileManagerFile,
     "vx-file-manager-folder": VxFileManagerFolder,
+  },
+  props: {
+    defaultAction: {
+      default: "preview",
+      type: String,
+    },
+    fileType: String,
+    accept: String,
   },
   data() {
     return {
@@ -320,10 +333,15 @@ export default {
     },
   },
   methods: {
+    //file clicked
+    inputFile(path) {
+      this.$emit("input", path);
+    },
     onSuccessUpload() {
       this.reloadContent();
       this.$refs.uploads.clearFiles();
     },
+
     async listFiles(type) {
       this.type = type;
       this.reloadContent();
@@ -393,15 +411,31 @@ export default {
     },
     async reloadContent() {
       if (this.type) {
-        let data = (
-          await this.$vx.get("FileManager/listFiles", {
-            params: {
-              type: this.type,
-            },
-          })
-        ).data;
-        this.files = data;
-        this.folders = [];
+        if (this.type == "recent") {
+          let data = (
+            await this.$vx.get("FileManager/listRecentFiles", {
+              params: {
+                file_type: this.fileType,
+              },
+            })
+          ).data;
+          this.files = data;
+          this.folders = [];
+
+          return;
+        }
+
+        {
+          let data = (
+            await this.$vx.get("FileManager/listFiles", {
+              params: {
+                type: this.type,
+              },
+            })
+          ).data;
+          this.files = data;
+          this.folders = [];
+        }
 
         return;
       }
@@ -409,9 +443,10 @@ export default {
       this.folders = [];
 
       let data = (
-        await this.$vx.get("FileManager/listFile", {
+        await this.$vx.get("FileManager/listContents", {
           params: {
             path: this.selectedPath,
+            file_type: this.fileType,
           },
         })
       ).data;

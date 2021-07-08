@@ -64,7 +64,7 @@ Vue.component("vx-card-footer", () => import("./components/vx-card-footer"));
 Vue.component("vx-form-table", () => import("./components/vx-form-table"));
 
 Vue.component("vx-file-manager", () => import("./components/vx-file-manager"));
-
+Vue.component("vx-file-input", () => import("./components/vx-file-input"));
 
 import RTable from "./r-table";
 import RTableColumn from "./r-table-column";
@@ -73,6 +73,8 @@ Vue.component("r-table", RTable);
 Vue.component("r-table-column", RTableColumn);
 Vue.component("r-table-dropdown-item", RTableDropdownItem);
 
+
+Vue.component("vx-tinymce", () => import("./components/vx-tinymce"));
 
 
 
