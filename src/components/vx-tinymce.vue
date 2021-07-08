@@ -2,13 +2,7 @@
   <div>
     <tinymce :init="mceInit" v-model="localValue"></tinymce>
     <template v-if="showFM">
-      <el-dialog
-        :visible.sync="showFM"
-        width="80%"
-        top="2vh"
-        title="File manager"
-        :append-to-body="true"
-      >
+      <el-dialog :visible.sync="showFM" width="80%" top="2vh" title="File manager">
         <vx-file-manager
           v-model="content"
           @input="onSelectFile($event)"

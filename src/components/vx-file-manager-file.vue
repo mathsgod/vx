@@ -47,7 +47,7 @@
       </div>
       <small
         class="file-accessed text-muted"
-        v-text="`Last modify: ${file.modification_time}`"
+        v-text="`Last modify: ${file.last_modified}`"
       ></small>
     </div>
     <el-dialog :visible.sync="preview">

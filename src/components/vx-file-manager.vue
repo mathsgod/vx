@@ -3,7 +3,7 @@
     <div class="content-area-wrapper vx-file-manager-content">
       <div class="sidebar-left">
         <div class="sidebar">
-          <div class="sidebar-file-manager">
+          <div class="sidebar-file-manager" :class="{ show: showSidebar }">
             <div class="sidebar-inner">
               <!-- sidebar menu links starts -->
               <!-- add file button -->
@@ -42,54 +42,13 @@
                   <i data-feather="clock" class="mr-50 font-medium-3"></i>
                   <span class="align-middle">Recents</span>
                 </a>
-                <div class="list-group list-group-labels">
-                  <h6 class="section-label px-2 mb-1">Labels</h6>
-                  <a
-                    v-if="fileType == null"
-                    @click="listFiles('document')"
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="file-text" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Documents</span>
-                  </a>
-                  <a
-                    v-if="fileType == null || fileType == 'image'"
-                    @click="listFiles('image')"
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="image" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Images</span>
-                  </a>
-                  <a
-                    v-if="fileType == null"
-                    @click="listFiles('video')"
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="video" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Videos</span>
-                  </a>
-                  <a
-                    v-if="fileType == null"
-                    @click="listFiles('audio')"
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="music" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Audio</span>
-                  </a>
-                  <a
-                    v-if="fileType == null"
-                    @click="listFiles('archive')"
-                    href="javascript:void(0)"
-                    class="list-group-item list-group-item-action"
-                  >
-                    <i data-feather="layers" class="mr-50 font-medium-3"></i>
-                    <span class="align-middle">Archives</span>
-                  </a>
-                </div>
+
+                <vx-file-manager-labels
+                  :file-type="fileType"
+                  :value="type"
+                  @input="listFiles($event)"
+                ></vx-file-manager-labels>
+
                 <!-- links for file manager sidebar ends -->
 
                 <!-- storage status of file manager starts-->
@@ -125,142 +84,172 @@
       </div>
       <div class="content-right">
         <div class="content-wrapper">
-          <!-- file manager app content starts -->
-          <div class="file-manager-main-content">
-            <!-- search area start -->
+          <div class="content-header row"></div>
+          <div class="content-body">
+            <!-- overlay container -->
             <div
-              class="file-manager-content-header d-flex justify-content-between align-items-center"
-            >
-              <div class="d-flex align-items-center">
-                <!-- div
-                  class="sidebar-toggle d-block d-xl-none float-left align-middle ml-1"
-                >
-                  <i data-feather="menu" class="font-medium-5"></i>
-                </div>
-                <div class="input-group input-group-merge shadow-none m-0 flex-grow-1">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text border-0">
-                      <i data-feather="search"></i>
-                    </span>
+              class="body-content-overlay"
+              ref="overlay"
+              @click="showSidebar = false"
+              :class="{ show: showSidebar }"
+            ></div>
+
+            <!-- file manager app content starts -->
+            <div class="file-manager-main-content">
+              <!-- search area start -->
+              <div
+                class="file-manager-content-header d-flex justify-content-between align-items-center"
+              >
+                <div class="d-flex align-items-center">
+                  <div
+                    @click="showSidebar = !showSidebar"
+                    class="sidebar-toggle d-block d-xl-none float-left align-middle ml-1"
+                  >
+                    <i data-feather="menu" class="font-medium-5"></i>
                   </div>
-                  <input
-                    type="text"
-                    class="form-control files-filter border-0 bg-transparent"
-                    placeholder="Search"
-                  />
-                </div-->
-              </div>
-
-              <div class="d-flex align-items-center">
-                <el-button-group v-if="selectedFolder.length + selectedFile.length > 0">
-                  <el-button class="el-icon-delete" @click="deleteSelected"></el-button>
-                </el-button-group>
-
-                <el-button-group>
-                  <el-button
-                    icon="el-icon-menu"
-                    class="active"
-                    @click="mode = 'grid'"
-                  ></el-button>
-                  <el-button @click="mode = 'list'"><i class="fa fa-list"></i></el-button>
-                </el-button-group>
-              </div>
-            </div>
-            <!-- search area ends here -->
-
-            <div class="file-manager-content-body" ref="fileContent">
-              <template v-if="file_uploader">
-                <el-upload
-                  ref="uploads"
-                  class="upload-demo"
-                  drag
-                  :action="action"
-                  multiple
-                  :headers="uploadHeaders"
-                  :data="{ path: selectedPath }"
-                  :on-success="onSuccessUpload"
-                  :accept="accept"
-                >
-                  <i class="el-icon-upload"></i>
-                  <div class="el-upload__text">
-                    Drop file here or <em>click to upload</em>
-                  </div>
-                  <div class="el-upload__tip" slot="tip">
-                    Files with a size less than 10mb
-                  </div>
-                </el-upload>
-
-                <el-divider></el-divider>
-              </template>
-
-              <!-- Folders Container Starts -->
-              <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
-                <h6 class="files-section-title mt-25 mb-75">Folders</h6>
-                <div class="files-header">
-                  <h6 class="font-weight-bold mb-0">Filename</h6>
-                  <div>
-                    <h6 class="font-weight-bold file-item-size d-inline-block mb-0">
-                      Size
-                    </h6>
-                    <h6 class="font-weight-bold file-last-modified d-inline-block mb-0">
-                      Last modified
-                    </h6>
-                    <h6 class="font-weight-bold d-inline-block mr-1 mb-0">Actions</h6>
+                  <div class="input-group input-group-merge shadow-none m-0 flex-grow-1">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text border-0">
+                        <i data-feather="search"></i>
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control files-filter border-0 bg-transparent"
+                      placeholder="Search"
+                      @keyup="onSearch($event)"
+                      v-model="search_text"
+                    />
                   </div>
                 </div>
-                <!-- div class="card file-manager-item folder level-up">
-                  <div class="card-img-top file-logo-wrapper">
-                    <div class="d-flex align-items-center justify-content-center w-100">
-                      <i data-feather="arrow-up"></i>
+
+                <div class="d-flex align-items-center">
+                  <el-button-group v-if="selectedFolder.length + selectedFile.length > 0">
+                    <el-button class="el-icon-delete" @click="deleteSelected"></el-button>
+                  </el-button-group>
+
+                  <el-button-group>
+                    <el-button
+                      icon="el-icon-menu"
+                      class="active"
+                      @click="mode = 'grid'"
+                    ></el-button>
+                    <el-button @click="mode = 'list'"
+                      ><i class="fa fa-list"></i
+                    ></el-button>
+                  </el-button-group>
+                </div>
+              </div>
+              <!-- search area ends here -->
+
+              <div class="file-manager-content-body" ref="fileContent">
+                <template v-if="file_uploader">
+                  <el-upload
+                    ref="uploads"
+                    class="upload-demo"
+                    drag
+                    :action="action"
+                    multiple
+                    :headers="uploadHeaders"
+                    :data="{ path: selectedPath }"
+                    :on-success="onSuccessUpload"
+                    :accept="accept"
+                  >
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">
+                      Drop file here or <em>click to upload</em>
+                    </div>
+                    <div class="el-upload__tip" slot="tip">
+                      Files with a size less than 10mb
+                    </div>
+                  </el-upload>
+
+                  <el-divider></el-divider>
+                </template>
+
+                <!-- Folders Container Starts -->
+                <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
+                  <h6 class="files-section-title mt-25 mb-75">Folders</h6>
+                  <div class="files-header">
+                    <h6 class="font-weight-bold mb-0">Filename</h6>
+                    <div>
+                      <h6 class="font-weight-bold file-item-size d-inline-block mb-0">
+                        Size
+                      </h6>
+                      <h6 class="font-weight-bold file-last-modified d-inline-block mb-0">
+                        Last modified
+                      </h6>
+                      <h6 class="font-weight-bold d-inline-block mr-1 mb-0">Actions</h6>
                     </div>
                   </div>
-                  <div class="card-body pl-2 pt-0 pb-1">
-                    <div class="content-wrapper">
-                      <p class="card-text file-name mb-0">...</p>
+
+                  <div
+                    class="card file-manager-item folder level-up"
+                    v-if="showLevelUp"
+                    @click="onLevelUp"
+                  >
+                    <div class="card-img-top file-logo-wrapper">
+                      <div class="d-flex align-items-center justify-content-center w-100">
+                        <i class="fa fa-arrow-up"></i>
+                      </div>
+                    </div>
+                    <div class="card-body pl-2 pt-0 pb-1">
+                      <div class="content-wrapper">
+                        <p class="card-text file-name mb-0">...</p>
+                      </div>
                     </div>
                   </div>
-                </div -->
 
-                <vx-file-manager-folder
-                  v-for="(folder, index) in folders"
-                  :key="index"
-                  :folder="folder"
-                  @delete="deleteFolder($event)"
-                  @selected="selectFolder($event)"
-                  @unselected="unselectFolder($event)"
-                  @rename="renameFolder($event)"
-                ></vx-file-manager-folder>
+                  <vx-file-manager-folder
+                    v-for="(folder, index) in folders"
+                    :key="index"
+                    :folder="folder"
+                    @delete="deleteFolder($event)"
+                    @selected="selectFolder($event)"
+                    @unselected="unselectFolder($event)"
+                    @rename="renameFolder($event)"
+                    @input="folderClicked($event)"
+                  ></vx-file-manager-folder>
 
-                <div
-                  v-show="folders.length + files.length == 0"
-                  class="flex-grow-1 align-items-center no-result mb-3"
-                >
-                  <i data-feather="alert-circle" class="mr-50"></i>
-                  No Results
+                  <div
+                    class="flex-grow-1 align-items-center no-result mb-3"
+                    v-if="search_text != '' && folders.length == 0"
+                  >
+                    <i class="fa fa-exclamation-circle mr-50"></i>
+                    No Results
+                  </div>
                 </div>
-              </div>
-              <!-- /Folders Container Ends -->
+                <!-- /Folders Container Ends -->
 
-              <!-- Files Container Starts -->
-              <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
-                <h6 class="files-section-title mt-2 mb-75">Files</h6>
+                <!-- Files Container Starts -->
+                <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
+                  <h6 class="files-section-title mt-2 mb-75">Files</h6>
 
-                <vx-file-manager-file
-                  v-for="f in files"
-                  :key="f.path"
-                  :file="f"
-                  @delete="deleteFile($event)"
-                  @rename="renameFile($event)"
-                  @duplicate="duplicateFile($event)"
-                  @selected="selectedFile.push($event)"
-                  @unselected="selectedFile = selectedFile.filter((s) => s != $event)"
-                  @input="inputFile($event)"
-                ></vx-file-manager-file>
+                  <vx-file-manager-file
+                    v-for="f in files"
+                    :key="f.path"
+                    :file="f"
+                    @delete="deleteFile($event)"
+                    @rename="renameFile($event)"
+                    @duplicate="duplicateFile($event)"
+                    @selected="selectedFile.push($event)"
+                    @unselected="selectedFile = selectedFile.filter((s) => s != $event)"
+                    @input="inputFile($event)"
+                  ></vx-file-manager-file>
+
+                  <div
+                    class="flex-grow-1 align-items-center no-result mb-3"
+                    v-if="search_text != '' && files.length == 0"
+                  >
+                    <i class="fa fa-exclamation-circle mr-50"></i>
+                    No Results
+                  </div>
+                </div>
+                <!-- /Files Container Ends -->
               </div>
-              <!-- /Files Container Ends -->
             </div>
+            <!-- file manager app content ends -->
           </div>
-          <!-- file manager app content ends -->
         </div>
       </div>
     </div>
@@ -269,9 +258,7 @@
 
 <style scoped>
 .vx-file-manager-content {
-  height: calc(
-    var(--vh, 1vh) * 100 - calc(calc(2rem * 2) + 4.45rem + 3.35rem + 1.3rem + 0rem)
-  );
+  line-height: 1;
 }
 </style>
 
@@ -282,12 +269,14 @@ import PerfectScrollbar from "perfect-scrollbar";
 import VxFileManagerFile from "./vx-file-manager-file.vue";
 import VxFileManagerFolder from "./vx-file-manager-folder.vue";
 import feather from "feather-icons";
+import VxFileManagerLabels from "./vx-file-manager-labels.vue";
 
 export default {
   name: "vx-file-manager",
   components: {
     "vx-file-manager-file": VxFileManagerFile,
     "vx-file-manager-folder": VxFileManagerFolder,
+    VxFileManagerLabels,
   },
   props: {
     defaultAction: {
@@ -299,6 +288,8 @@ export default {
   },
   data() {
     return {
+      showSidebar: false,
+      parentPath: "",
       selectedPath: "",
       selectedNode: null,
       files: [],
@@ -310,6 +301,7 @@ export default {
       action: "",
       uploadHeaders: null,
       type: null,
+      search_text: "",
     };
   },
   created() {
@@ -332,7 +324,26 @@ export default {
       this.reloadContent();
     },
   },
+  computed: {
+    showLevelUp() {
+      if (this.selectedPath == "") {
+        return false;
+      }
+      return true;
+    },
+  },
   methods: {
+    onSearch() {
+      this.$nextTick(this.reloadContent);
+    },
+    onLevelUp() {
+      console.log(this.parentPath);
+      this.folderClicked(this.parentPath);
+    },
+    folderClicked(path) {
+      this.$refs.tree.setCurrentKey(path);
+      this.selectedPath = path;
+    },
     //file clicked
     inputFile(path) {
       this.$emit("input", path);
@@ -341,7 +352,6 @@ export default {
       this.reloadContent();
       this.$refs.uploads.clearFiles();
     },
-
     async listFiles(type) {
       this.type = type;
       this.reloadContent();
@@ -410,6 +420,10 @@ export default {
       this.selectedFolder = [];
     },
     async reloadContent() {
+      this.file_uploader = false;
+      this.selectedFolder = [];
+      this.selectedFile = [];
+
       if (this.type) {
         if (this.type == "recent") {
           let data = (
@@ -447,10 +461,12 @@ export default {
           params: {
             path: this.selectedPath,
             file_type: this.fileType,
+            search: this.search_text,
           },
         })
       ).data;
 
+      this.parentPath = data.parent;
       this.files = data.files;
       this.folders = data.folders;
     },

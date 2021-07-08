@@ -3,13 +3,7 @@
     <el-input @focus="focusInput" v-model="localData" clearable></el-input>
 
     <template v-if="dialogVisible">
-      <el-dialog
-        :append-to-body="true"
-        :visible.sync="dialogVisible"
-        width="80%"
-        title="File manager"
-        top="2vh"
-      >
+      <el-dialog :visible.sync="dialogVisible" width="80%" title="File manager" top="2vh">
         <vx-file-manager @input="fileSelected($event)"></vx-file-manager>
       </el-dialog>
     </template>

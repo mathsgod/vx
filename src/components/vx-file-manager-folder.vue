@@ -26,11 +26,14 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <div class="d-flex align-items-center justify-content-center w-100">
+      <div
+        class="d-flex align-items-center justify-content-center w-100"
+        @click="clickContent"
+      >
         <i data-feather="folder"></i>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" @click="clickContent">
       <div class="content-wrapper">
         <p class="card-text file-name mb-0" v-text="folder.name"></p>
         <p class="card-text file-size mb-0" v-text="folder.size"></p>
@@ -70,6 +73,9 @@ export default {
     },
   },
   methods: {
+    clickContent() {
+      this.$emit("input", this.folder.path);
+    },
     handleCommand(command) {
       if (command == "delete") {
         this.$confirm(`Delete ${this.folder.name}?`).then(() => {
