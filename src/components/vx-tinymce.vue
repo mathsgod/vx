@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tinymce :init="mceInit" v-model="localValue"></tinymce>
+    <tinymce :init="mceInit" v-model="localValue" :api-key="apiKey"></tinymce>
     <template v-if="showFM">
       <el-dialog :visible.sync="showFM" width="80%" top="2vh" title="File manager">
         <vx-file-manager
@@ -49,6 +49,13 @@ export default {
       type: Number,
       default: 600,
     },
+
+    baseUrl: {
+      type: String,
+      default: "/uploads/",
+    },
+
+    apiKey: String,
   },
 
   data() {
@@ -76,8 +83,10 @@ export default {
       toolbar:
         "filemanager codemirror undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
       init_instance_callback() {
-        let freeTiny = document.querySelector(".tox-notifications-container");
-        freeTiny.style.display = "none";
+        if (!that.apiKey) {
+          let freeTiny = document.querySelector(".tox-notifications-container");
+          freeTiny.style.display = "none";
+        }
       },
       setup() {
         window.tinymce.PluginManager.add("filemanager", (editor) => {
@@ -123,7 +132,8 @@ export default {
       console.log("insert content");
       this.showFM = false;
       let img = document.createElement("img");
-      img.src = "http://192.168.88.108:8001/vx/uploads/" + path;
+      //img.src = "http://192.168.88.108:8001/vx/uploads/" + path;
+      img.src = this.baseUrl + path;
 
       this.editor.insertContent(img.outerHTML);
     },

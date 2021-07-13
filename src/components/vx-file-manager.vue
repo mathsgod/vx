@@ -153,6 +153,7 @@
                     :headers="uploadHeaders"
                     :data="{ path: selectedPath }"
                     :on-success="onSuccessUpload"
+                    :on-error="onErrorUpload"
                     :accept="accept"
                   >
                     <i class="el-icon-upload"></i>
@@ -348,6 +349,10 @@ export default {
     inputFile(path) {
       this.$emit("input", path);
     },
+    onErrorUpload(err) {
+      console.log(err);
+      this.$message.error("upload failed!");
+    },
     onSuccessUpload() {
       this.reloadContent();
       this.$refs.uploads.clearFiles();
@@ -477,8 +482,12 @@ export default {
       this.reloadContent();
     },
     async renameFile(data) {
-      await this.$vx.post("FileManager/renameFile", data);
-      this.reloadContent();
+      let resp = (await this.$vx.post("FileManager/renameFile", data)).data;
+      if (resp.error) {
+        this.$message.error(resp.error.message);
+      } else {
+        this.reloadContent();
+      }
     },
     async duplicateFile(path) {
       await this.$vx.post("FileManager/duplicateFile", {

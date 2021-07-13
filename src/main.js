@@ -52,6 +52,9 @@ Vue.component("vue", () => import("./components/vue"))
 Vue.component("vx-tabs", () => import("./components/vx-tabs"));
 Vue.component("vx-tab", () => import("./components/vx-tab"));
 
+Vue.component("vx-table", () => import("./components/vx-table"));
+Vue.component("vx-table-search", () => import("./components/vx-table-search"));
+
 Vue.component("vx-view", () => import("./components/vx-view"));
 Vue.component("vx-view-item", () => import("./components/vx-view-item"));
 
@@ -114,7 +117,7 @@ new Vue({
 
 
 let init_vue = function (element) {
-  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link");
+  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link, vx-table");
   nodes.forEach(node => {
     new Vue({
       router,
