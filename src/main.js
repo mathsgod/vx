@@ -47,6 +47,7 @@ import 'material-icons/iconfont/material-icons.css';
 import VX from './vx';
 Vue.use(VX);
 
+Vue.component("vx-button", () => import("./components/vx-button"));
 
 Vue.component("vue", () => import("./components/vue"))
 Vue.component("vx-tabs", () => import("./components/vx-tabs"));
@@ -86,6 +87,7 @@ Vue.config.productionTip = false
 import VxLogin from "./components/vx-login";
 import VxForgotPassword from './components/vx-forgot-password';
 import VxApp from "./components/vx-app";
+import VxTest from "./components/vx-test";
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -97,6 +99,10 @@ const routes = [
   {
     path: "/forgot_password",
     component: VxForgotPassword
+  },
+  {
+    path: "/test",
+    component: VxTest
   },
   {
     path: '*',
