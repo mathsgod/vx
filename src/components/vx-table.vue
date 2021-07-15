@@ -8,7 +8,10 @@
 
     <vx-card class="shadow-none" :body-style="{ padding: '0px' }">
       <vx-card-body>
-        <div class="d-flex justify-content-between align-items-center mx-0 row">
+        <div
+          v-if="pagination"
+          class="d-flex justify-content-between align-items-center mx-0 row"
+        >
           <div class="d-flex col-sm-12 col-md-6 align-items-center p-50">
             <div>
               Show
@@ -41,9 +44,9 @@
           v-loading="loading"
           @filter-change="filterChanged"
         >
-          <slot v-bind:delete="onDelete"></slot>
+          <slot v-bind:delete="onDelete" v-bind:reload="reload"></slot>
         </el-table>
-        <vs-pagination :total="total" v-model="page"></vs-pagination>
+        <vs-pagination v-if="pagination" :total="total" v-model="page"></vs-pagination>
       </vx-card-body>
     </vx-card>
   </div>
@@ -66,6 +69,10 @@ export default {
     showView: Boolean,
     showUpdate: Boolean,
     showDelete: Boolean,
+    pagination: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -126,7 +133,7 @@ export default {
         .get(this.remote, {
           params: {
             page: this.page,
-            per_page: this.per_page,
+            per_page: this.pagination ? this.per_page : null,
             sort: this.sort,
             search: this.search,
             filter: this.filters,
