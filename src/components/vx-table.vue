@@ -2,7 +2,7 @@
   <div>
     <el-collapse v-if="searchable">
       <el-collapse-item title="Search" name="search">
-        <slot name="search" v-bind:search="onSearch"></slot>
+        <slot name="search" v-bind:search="search" v-bind:on-search="onSearch"></slot>
       </el-collapse-item>
     </el-collapse>
 
@@ -111,9 +111,7 @@ export default {
         }
       });
     },
-    onSearch(search) {
-      this.search = {};
-      this.search = search;
+    onSearch() {
       this.page = 1;
       this.reload();
     },

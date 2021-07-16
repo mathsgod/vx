@@ -2,3 +2,40 @@ form.small-label label.el-form-item__label{
     font-size: 0.857rem;
     line-height: normal;
 }
+
+.dark-layout .el-card{
+    background-color: #283046;
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 24%);
+}
+
+.dark-layout .el-card{
+    color: inherit;
+}
+
+div.el-card{
+    border: none;
+}
+
+.dark-layout .el-table{
+    background-color: #283046;
+}
+
+.dark-layout .el-table__row{
+    background-color: #283046;
+}
+
+.dark-layout .el-table th{
+    background: #343D55
+}
+
+.dark-layout .el-table--enable-row-hover .el-table__body tr:hover>td{
+    background-color: #242B3D
+}
+
+
+.dark-layout .el-table td, .dark-layout .el-table th{
+    color: #B4B7BD;
+    border-bottom: 1px solid #3B4253 !important;
+    border-top: 0px
+}
+
