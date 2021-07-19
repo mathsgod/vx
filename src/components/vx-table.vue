@@ -2,7 +2,16 @@
   <div>
     <el-collapse v-if="searchable">
       <el-collapse-item title="Search" name="search">
-        <slot name="search" v-bind:search="search" v-bind:on-search="onSearch"></slot>
+        <slot
+          name="search"
+          v-bind:search="search"
+          v-bind:on-search="onSearch"
+          :size="size"
+        ></slot>
+        <div>
+          <el-button @click="onSearch" :size="size">Search</el-button>
+          <el-button @click="resetSearch" :size="size">Reset</el-button>
+        </div>
       </el-collapse-item>
     </el-collapse>
 
@@ -16,7 +25,7 @@
             <div>
               Show
               <el-tooltip content="每頁顯示" placement="top">
-                <el-select v-model="localPerPage" style="width: 70px">
+                <el-select v-model="localPerPage" style="width: 70px" :size="size">
                   <el-option
                     v-for="(p, index) in pageLengthOption"
                     :value="p"
@@ -32,13 +41,18 @@
           <div class="d-flex col-sm-12 col-md-6 justify-content-end">
             <div class="p-50">
               <el-tooltip content="Reload" placement="top">
-                <el-button @click="reload" icon="el-icon-refresh-right"></el-button>
+                <el-button
+                  @click="reload"
+                  icon="el-icon-refresh-right"
+                  :size="size"
+                ></el-button>
               </el-tooltip>
             </div>
           </div>
         </div>
 
         <el-table
+          :size="size"
           :data="data"
           @sort-change="sortChanged"
           v-loading="loading"
@@ -73,6 +87,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    size: String,
   },
   data() {
     return {
@@ -96,6 +111,10 @@ export default {
     },
   },
   methods: {
+    resetSearch() {
+      this.search = {};
+      this.onSearch();
+    },
     filterChanged(filters) {
       this.filters = filters;
       this.reload();

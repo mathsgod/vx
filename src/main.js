@@ -54,7 +54,7 @@ Vue.component("vx-tabs", () => import("./components/vx-tabs"));
 Vue.component("vx-tab", () => import("./components/vx-tab"));
 
 Vue.component("vx-table", () => import("./components/vx-table"));
-Vue.component("vx-table-search", () => import("./components/vx-table-search"));
+
 
 Vue.component("vx-view", () => import("./components/vx-view"));
 Vue.component("vx-view-item", () => import("./components/vx-view-item"));

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useRegistration } from '@web-auth/webauthn-helper';
 import { useLogin } from '@web-auth/webauthn-helper';
 
+
 class VX {
     endpoint;
 
@@ -17,17 +18,11 @@ class VX {
             withCredentials: true,
             baseURL: config.endpoint,
             headers: headers
-
         });
-
-        this.access_token = localStorage.getItem("access_token");
-
-        this.axios.defaults.headers.Authorization = "Bearer " + this.access_token;
+        this.axios.defaults.headers.Authorization = "Bearer " + this.accessToken;
 
         let resp = await this.get("/");
         resp = resp.data;
-
-        console.log(resp);
 
         this.logined = resp.logined;
 
@@ -40,6 +35,29 @@ class VX {
         this.me = resp.me;
 
         this.navbar = resp.navbar;
+
+
+    }
+
+    set accessToken(token) {
+        localStorage.setItem("access_token", token);
+        if (token) {
+            this.axios.defaults.headers.Authorization = "Bearer " + token;
+        } else {
+            this.axios.defaults.headers.Authorization = null;
+        }
+    }
+
+    get accessToken() {
+        return localStorage.getItem("access_token");
+    }
+
+    set refreshToken(token) {
+        localStorage.setItem("refresh_token", token);
+    }
+
+    get refreshToken() {
+        return localStorage.getItem("refresh_token");
     }
 
     async authLogin(username) {
@@ -54,25 +72,42 @@ class VX {
             userVerification: true
         });
         console.log(resp);
-
     }
+
 
     async register() {
 
         const register = useRegistration({
             actionUrl: this.endpoint + "User/auth_register",
             actionHeader: {
-                Authorization: "Bearer " + this.access_token,
+                Authorization: "Bearer " + this.accessToken,
             },
             optionsUrl: this.endpoint + "User/auth_register_options"
         }, {
-            Authorization: "Bearer " + this.access_token,
+            Authorization: "Bearer " + this.accessToken,
         });
         await register()
     }
 
-    get(url, config) {
-        return this.axios.get(url, config);
+    async get(url, config) {
+        try {
+            let resp = this.axios.get(url, config);
+
+            let p = await resp;
+            if (p.status == 401) {
+                //try to renew
+                this.renewAccessToken();
+                resp = this.axios.get(url, config);
+            }
+            return resp;
+        } catch (e) {
+            if (e.response.status == 401) {
+                //renew token
+                await this.renewAccessToken();
+                return this.axios.get(url, config);
+            }
+            return e.response;
+        }
     }
 
     post(url, data) {
@@ -93,25 +128,19 @@ class VX {
 
     async login(username, password) {
 
-        let resp = (await this.post("/login", {
+
+        let { data } = await this.post("/login", {
             username: username,
             password: password
-        })).data;
+        });
 
-        if (resp.error) {
-            throw resp.error.message;
+        if (data.error) {
+            throw data.error.message;
         }
+        console.log(data);
 
-        if (resp.data) {
-            localStorage.setItem("access_token", resp.data.access_token);
-            localStorage.setItem("refresh_token", resp.data.refresh_token);
-
-            this.access_token = resp.data.access_token;
-            this.refresh_token = resp.data.refresh_token;
-            return;
-        }
-
-        throw "server error";
+        this.accessToken = data.accessToken;
+        this.refreshToken = data.refreshToken;
     }
 
     logout() {
@@ -154,20 +183,20 @@ class VX {
         return this.post("/?_entry=setCollapsible", { collapsible });
     }
 
-    async refreshAccessToken() {
+    async renewAccessToken() {
+        this.accessToken = "";
 
-        let resp = (await this.post("/", {
-            action: "renew_access_token",
-            refresh_token: this.refresh_token
-        })).data;
+        let { data } = await this.post("/?_entry=renew_access_token", {
+            refresh_token: this.refreshToken
+        });
 
-        if (resp.error) {
-            throw resp.error.message;
+        if (data.error) {
+            throw data.error.message;
         }
 
-        if (resp.data) {
-            this.access_token = resp.data.access_token;
-            localStorage.setItem("access_token", this.access_token);
+        if (data.access_token) {
+
+            this.accessToken = data.access_token;
         }
     }
 

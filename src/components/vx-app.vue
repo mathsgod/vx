@@ -3,13 +3,7 @@
     <!-- BEGIN: Header-->
     <nav
       ref="navbar"
-      class="
-        header-navbar
-        navbar navbar-expand-lg
-        align-items-center
-        floating-nav
-        navbar-light navbar-shadow
-      "
+      class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow"
       :class="navbarColor"
     >
       <div class="navbar-container d-flex content">
@@ -134,10 +128,7 @@
           </li -->
 
           <li class="nav-item dropdown dropdown-notification mr-25">
-            <a
-              class="nav-link"
-              href="javascript:void(0);"
-              data-toggle="dropdown"
+            <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"
               ><i class="ficon" data-feather="bell"></i
               ><!-- span class="badge badge-pill badge-danger badge-up">5</span --></a
             >
@@ -342,8 +333,7 @@
                 {{ dd.label }}</router-link
               >
               <router-link class="dropdown-item" to="/User/setting"
-                ><i class="mr-50" data-feather="settings"></i>
-                Settings</router-link
+                ><i class="mr-50" data-feather="settings"></i> Settings</router-link
               ><!-- a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
@@ -443,11 +433,7 @@
         >
           <div class="d-flex align-items-center">
             <div class="avatar mr-75">
-              <img
-                src="images/portrait/small/avatar-s-8.jpg"
-                alt="png"
-                height="32"
-              />
+              <img src="images/portrait/small/avatar-s-8.jpg" alt="png" height="32" />
             </div>
             <div class="search-data">
               <p class="search-data-title mb-0">John Doe</p>
@@ -463,11 +449,7 @@
         >
           <div class="d-flex align-items-center">
             <div class="avatar mr-75">
-              <img
-                src="images/portrait/small/avatar-s-1.jpg"
-                alt="png"
-                height="32"
-              />
+              <img src="images/portrait/small/avatar-s-1.jpg" alt="png" height="32" />
             </div>
             <div class="search-data">
               <p class="search-data-title mb-0">Michal Clark</p>
@@ -483,11 +465,7 @@
         >
           <div class="d-flex align-items-center">
             <div class="avatar mr-75">
-              <img
-                src="images/portrait/small/avatar-s-14.jpg"
-                alt="png"
-                height="32"
-              />
+              <img src="images/portrait/small/avatar-s-14.jpg" alt="png" height="32" />
             </div>
             <div class="search-data">
               <p class="search-data-title mb-0">Milena Gibson</p>
@@ -503,11 +481,7 @@
         >
           <div class="d-flex align-items-center">
             <div class="avatar mr-75">
-              <img
-                src="images/portrait/small/avatar-s-6.jpg"
-                alt="png"
-                height="32"
-              />
+              <img src="images/portrait/small/avatar-s-6.jpg" alt="png" height="32" />
             </div>
             <div class="search-data">
               <p class="search-data-title mb-0">Anna Strong</p>
@@ -519,9 +493,7 @@
     </ul>
     <ul class="main-search-list-defaultlist-other-list d-none">
       <li class="auto-suggestion justify-content-between">
-        <a
-          class="d-flex align-items-center justify-content-between w-100 py-50"
-        >
+        <a class="d-flex align-items-center justify-content-between w-100 py-50">
           <div class="d-flex justify-content-start">
             <span class="mr-75" data-feather="alert-circle"></span
             ><span>No results found.</span>
@@ -540,11 +512,7 @@
       <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
           <li class="nav-item mr-auto">
-            <a
-              class="navbar-brand"
-              :href="$vx.config['company-url']"
-              target="_blank"
-            >
+            <a class="navbar-brand" :href="$vx.config['company-url']" target="_blank">
               <el-image
                 v-if="$vx.config['company-logo']"
                 :src="$vx.config['company-logo']"
@@ -561,12 +529,7 @@
                 data-feather="x"
               ></i
               ><i
-                class="
-                  d-none d-xl-block
-                  collapse-toggle-icon
-                  font-medium-4
-                  text-primary
-                "
+                class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary"
                 data-feather="disc"
                 data-ticon="disc"
               ></i
@@ -610,11 +573,7 @@
                       <router-link to="/">Home</router-link>
                     </li>
 
-                    <li
-                      class="breadcrumb-item"
-                      v-for="(b, i) in breadcrumb"
-                      :key="i"
-                    >
+                    <li class="breadcrumb-item" v-for="(b, i) in breadcrumb" :key="i">
                       <router-link :to="b.to">{{ b.label }}</router-link>
                     </li>
 
@@ -683,9 +642,7 @@
           }}<a class="ml-25" :href="config['copyright-url']" target="_blank">{{
             config["copyright-name"]
           }}</a
-          ><span class="d-none d-sm-inline-block"
-            >, All rights Reserved</span
-          ></span
+          ><span class="d-none d-sm-inline-block">, All rights Reserved</span></span
         >
       </p>
     </footer>
@@ -748,9 +705,9 @@ export default {
       console.log(this.me);
     }
 
-    if(this.menuCollapsed){
+    if (this.menuCollapsed) {
       document.body.classList.add("menu-collapsed");
-    }else{
+    } else {
       document.body.classList.add("menu-expanded");
     }
 
@@ -825,25 +782,19 @@ export default {
       // Hides footer
       if (this.footerType == "hidden") {
         footer.addClass("d-none");
-        body
-          .removeClass("footer-static footer-fixed")
-          .addClass("footer-hidden");
+        body.removeClass("footer-static footer-fixed").addClass("footer-hidden");
       }
 
       // changes to Static footer
       if (this.footerType == "static") {
         body.removeClass("footer-fixed");
         footer.removeClass("d-none").addClass("footer-static");
-        body
-          .removeClass("footer-hidden footer-fixed")
-          .addClass("footer-static");
+        body.removeClass("footer-hidden footer-fixed").addClass("footer-static");
       }
 
       // changes to Sticky footer
       if (this.footerType == "sticky") {
-        body
-          .removeClass("footer-static footer-hidden")
-          .addClass("footer-fixed");
+        body.removeClass("footer-static footer-hidden").addClass("footer-fixed");
         footer.removeClass("d-none footer-static");
       }
     },
@@ -958,9 +909,7 @@ export default {
       let body = window.$(document.body);
       if (this.navbarType == "floating") {
         navBarShadow.removeClass("d-none");
-        navbar
-          .removeClass("d-none navbar-static-top fixed-top")
-          .addClass("floating-nav");
+        navbar.removeClass("d-none navbar-static-top fixed-top").addClass("floating-nav");
         body
           .removeClass("navbar-static navbar-hidden navbar-sticky")
           .addClass("navbar-floating");
@@ -968,9 +917,7 @@ export default {
 
       if (this.navbarType == "static") {
         navBarShadow.addClass("d-none");
-        navbar
-          .removeClass("d-none floating-nav fixed-top")
-          .addClass("navbar-static-top");
+        navbar.removeClass("d-none floating-nav fixed-top").addClass("navbar-static-top");
         body
           .removeClass("navbar-hidden navbar-floating navbar-sticky")
           .addClass("navbar-static");
@@ -979,9 +926,7 @@ export default {
       if (this.navbarType == "sticky") {
         navBarShadow.addClass("d-none");
 
-        navbar
-          .removeClass("d-none floating-nav navbar-static-top")
-          .addClass("fixed-top");
+        navbar.removeClass("d-none floating-nav navbar-static-top").addClass("fixed-top");
 
         body
           .removeClass("navbar-static navbar-floating navbar-hidden")

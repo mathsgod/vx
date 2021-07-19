@@ -15,13 +15,9 @@
       </ul>
     </template>
     <template v-else>
-      <a
-        class="d-flex align-items-center"
-        :href="value.link"
-        @click.prevent="clickLink"
-        ><i :class="icon"></i
-        ><span class="menu-item">{{ value.label }}</span></a
-      >
+      <router-link :to="value.link" class="d-flex align-items-center"
+        ><i :class="icon"></i><span class="menu-item">{{ value.label }}</span>
+      </router-link>
     </template>
   </li>
 </template>
@@ -64,9 +60,7 @@ export default {
     },
     isOpen() {
       if (this.$refs.nav_item) {
-        if (
-          this.$route.path.substr(0, this.value.link.length) == this.value.link
-        ) {
+        if (this.$route.path.substr(0, this.value.link.length) == this.value.link) {
           return true;
         }
 
