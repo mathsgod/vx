@@ -127,8 +127,6 @@ class VX {
     }
 
     async login(username, password) {
-
-
         let { data } = await this.post("/login", {
             username: username,
             password: password
@@ -137,14 +135,14 @@ class VX {
         if (data.error) {
             throw data.error.message;
         }
-        console.log(data);
-
-        this.accessToken = data.accessToken;
-        this.refreshToken = data.refreshToken;
+        this.accessToken = data.access_token;
+        this.refreshToken = data.refresh_token;
     }
 
     logout() {
-        console.log("logout");
+        this.accessToken = "";
+        this.refreshToken = "";
+        this.logined = false;
     }
 
 

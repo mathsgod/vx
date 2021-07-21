@@ -63,7 +63,7 @@
           @filter-change="filterChanged"
           :border="border"
         >
-          <slot v-bind:delete="onDelete" v-bind:reload="reload"></slot>
+          <slot v-bind:delete="onDelete" v-bind:reload="reload" :search="search"></slot>
         </el-table>
 
         <div class="d-flex justify-content-between mx-0 row">
