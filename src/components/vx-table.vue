@@ -115,7 +115,6 @@ export default {
       data: [],
       total: 0,
       sort: null,
-      showSearch: false,
       search: {},
       loading: false,
       filters: {},
