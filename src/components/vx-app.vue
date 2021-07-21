@@ -843,17 +843,6 @@ export default {
           return;
         }
 
-        if (resp.status == 401) {
-          //
-          localStorage.clear();
-
-          this.$emit("logout");
-          this.$router.push("/");
-
-          return;
-        }
-
-        console.log(resp);
         for (let action of resp) {
           switch (action.type) {
             case "message":
