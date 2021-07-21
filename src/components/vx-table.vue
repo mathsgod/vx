@@ -1,15 +1,18 @@
 <template>
   <div>
     <el-collapse v-if="searchable">
-      <el-collapse-item title="Search" name="search">
+      <el-collapse-item name="search">
+        <template slot="title"> <div class="ml-2">Search</div> </template>
+
         <slot
           name="search"
           v-bind:search="search"
           v-bind:on-search="onSearch"
           :size="size"
         ></slot>
-        <div>
-          <el-button @click="onSearch" :size="size">Search</el-button>
+
+        <div class="ml-2 mr-2">
+          <el-button @click="onSearch" :size="size" type="primary">Search</el-button>
           <el-button @click="resetSearch" :size="size">Reset</el-button>
         </div>
       </el-collapse-item>
@@ -54,13 +57,27 @@
         <el-table
           :size="size"
           :data="data"
+          :default-sort="defaultSort"
           @sort-change="sortChanged"
           v-loading="loading"
           @filter-change="filterChanged"
+          :border="border"
         >
           <slot v-bind:delete="onDelete" v-bind:reload="reload"></slot>
         </el-table>
-        <vs-pagination v-if="pagination" :total="total" v-model="page"></vs-pagination>
+
+        <div class="d-flex justify-content-between mx-0 row">
+          <div class="col-sm-12 col-md-6 align-self-center">
+            Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <vs-pagination
+              v-if="pagination"
+              :total="total"
+              v-model="page"
+            ></vs-pagination>
+          </div>
+        </div>
       </vx-card-body>
     </vx-card>
   </div>
@@ -88,6 +105,8 @@ export default {
       default: true,
     },
     size: String,
+    defaultSort: Object,
+    border: Boolean,
   },
   data() {
     return {
@@ -100,9 +119,23 @@ export default {
       search: {},
       loading: false,
       filters: {},
+      total_entries: 0,
     };
   },
+  computed: {
+    info() {
+      return {
+        from: (this.page - 1) * this.localPerPage + 1,
+        to: Math.min(this.page * this.localPerPage, this.total_entries),
+        total: this.total_entries,
+      };
+    },
+  },
   created() {
+    if (this.defaultSort) {
+      this.sort = this.defaultSort.prop + "|" + this.defaultSort.order;
+    }
+
     this.reload();
   },
   watch: {
@@ -165,6 +198,7 @@ export default {
           this.loading = false;
 
           this.total = Math.ceil(resp.total / this.per_page);
+          this.total_entries = resp.total;
           this.data = resp.data;
         })
         .catch((error) => {
