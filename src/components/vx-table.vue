@@ -66,18 +66,16 @@
           <slot v-bind:delete="onDelete" v-bind:reload="reload" :search="search"></slot>
         </el-table>
 
-        <div class="d-flex justify-content-between mx-0 row">
-          <div class="col-sm-12 col-md-6 align-self-center">
-            Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
+        <template v-if="pagination">
+          <div class="d-flex justify-content-between mx-0 row">
+            <div class="col-sm-12 col-md-6 align-self-center">
+              Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <vs-pagination :total="total" v-model="page"></vs-pagination>
+            </div>
           </div>
-          <div class="col-sm-12 col-md-6">
-            <vs-pagination
-              v-if="pagination"
-              :total="total"
-              v-model="page"
-            ></vs-pagination>
-          </div>
-        </div>
+        </template>
       </vx-card-body>
     </vx-card>
   </div>
