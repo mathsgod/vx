@@ -60,6 +60,15 @@ export default {
     },
     isOpen() {
       if (this.$refs.nav_item) {
+        //get module path
+        let p = this.$route.path.split("/");
+        if (p.length >= 2) {
+          let module = p[1];
+          if (this.value.name == module) {
+            return true;
+          }
+        }
+
         if (this.$route.path.substr(0, this.value.link.length) == this.value.link) {
           return true;
         }

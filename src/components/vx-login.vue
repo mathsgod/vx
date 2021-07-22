@@ -15,7 +15,11 @@ export default {
       version: "v1",
     };
   },
-  beforeCreate(){
+  beforeCreate() {
+    if (this.$vx.logined) {
+      this.$router.push("/Dashboard");
+      return;
+    }
     console.log(this.$vx.logined);
   },
   created() {
@@ -24,4 +28,3 @@ export default {
   },
 };
 </script>
-

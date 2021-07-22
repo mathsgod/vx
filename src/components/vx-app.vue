@@ -105,8 +105,8 @@
             </div>
           </li>
           <li class="nav-item d-none d-lg-block">
-            <a class="nav-link nav-link-style"
-              ><i class="ficon" data-feather="moon"></i
+            <a class="nav-link nav-link-style" @click="toggleDark"
+              ><vx-icon :name="layoutName == 'dark-layout' ? 'sun' : 'moon'"></vx-icon
             ></a>
           </li>
           <!-- li class="nav-item nav-search">
@@ -127,7 +127,7 @@
             </div>
           </li -->
 
-          <li class="nav-item dropdown dropdown-notification mr-25">
+          <li class="nav-item dropdown dropdown-notification mr-25 d-none">
             <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"
               ><i class="ficon" data-feather="bell"></i
               ><!-- span class="badge badge-pill badge-danger badge-up">5</span --></a
@@ -698,6 +698,7 @@ export default {
     this.config = this.$vx.config;
 
     if (this.me.style) {
+      this.layoutName = this.me.style.layout || "light-layout";
       this.navbarColor = this.me.style.navbar_color || "";
       this.navbarType = this.me.style.navbar_type || "floating";
       this.footerType = this.me.style.footer_type || "static";
@@ -800,6 +801,13 @@ export default {
     },
   },
   methods: {
+    toggleDark() {
+      if (this.layoutName == "dark-layout") {
+        this.layoutName = "light-layout";
+      } else {
+        this.layoutName = "dark-layout";
+      }
+    },
     async logout() {
       await this.$vx.logout();
       localStorage.clear();

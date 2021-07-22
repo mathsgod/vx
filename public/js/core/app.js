@@ -955,7 +955,7 @@ window.colors = {
     }
 
     // Navbar Dark / Light Layout Toggle Switch
-    $('.nav-link-style').on('click', function () {
+    /* $('.nav-link-style').on('click', function () {
       var $this = $(this),
         currentLayout = getCurrentLayout(),
         mainMenu = $('.main-menu'),
@@ -987,7 +987,7 @@ window.colors = {
         'box-shadow': 'inherit'
       });
       $('.horizontal-menu .horizontal-menu-wrapper.header-navbar').css('background', 'inherit');
-    });
+    }); */
   });
 
 })(window, document, jQuery);

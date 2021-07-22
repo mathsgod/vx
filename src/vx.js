@@ -110,8 +110,8 @@ class VX {
         }
     }
 
-    post(url, data) {
-        return this.axios.post(url, data);
+    post(url, data, config) {
+        return this.axios.post(url, data, config);
     }
 
     put(url, data, config) {
