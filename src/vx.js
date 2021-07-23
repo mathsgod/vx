@@ -19,7 +19,11 @@ class VX {
             baseURL: config.endpoint,
             headers: headers
         });
-        this.axios.defaults.headers.Authorization = "Bearer " + this.accessToken;
+
+        if (this.accessToken) {
+            this.axios.defaults.headers.Authorization = "Bearer " + this.accessToken;
+        }
+
 
         let resp = await this.get("/");
         resp = resp.data;
@@ -111,18 +115,30 @@ class VX {
     }
 
     post(url, data, config) {
+        if (url === null) {
+            url = this.$route.path;
+        }
         return this.axios.post(url, data, config);
     }
 
     put(url, data, config) {
+        if (url === null) {
+            url = this.$route.path;
+        }
         return this.axios.put(url, data, config);
     }
 
     patch(url, data, config) {
+        if (url === null) {
+            url = this.$route.path;
+        }
         return this.axios.patch(url, data, config);
     }
 
     delete(url, config) {
+        if (url === null) {
+            url = this.$route.path;
+        }
         return this.axios.delete(url, config)
     }
 

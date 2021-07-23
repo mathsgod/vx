@@ -1,13 +1,7 @@
 <template>
   <vx-card>
     <vx-card-body>
-      <el-form
-        :model="form"
-        label-width="auto"
-        ref="form1"
-        class="vx-form"
-        :size="size"
-      >
+      <el-form :model="form" label-width="auto" ref="form1" class="vx-form" :size="size">
         <slot v-bind:form="form"></slot>
       </el-form>
     </vx-card-body>
@@ -59,6 +53,9 @@ export default {
 
           if (resp.status == 204) {
             this.$message.success("Updated");
+            if (resp.headers.location) {
+              this.$router.push(resp.headers.location);
+            }
             return;
           }
 
@@ -66,7 +63,11 @@ export default {
 
           if (resp.status == 201) {
             this.$message.success(resp.statusText);
-            this.$router.back();
+
+            if (resp.headers.location) {
+              this.$router.push(resp.headers.location);
+            }
+
             return;
           }
 
