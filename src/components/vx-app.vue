@@ -731,6 +731,7 @@ export default {
     async changeLanguage(language) {
       await this.$vx.setSelectedLanguage(language);
       this.selectedLanguage = this.$vx.getSelectedLanguage();
+      this.$router.go();
     },
     contentWrapperClass() {
       let c = [];

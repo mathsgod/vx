@@ -4,11 +4,7 @@
       <!-- Login v1 -->
       <div class="card mb-0">
         <div class="card-body">
-          <a
-            :href="$vx.config['company-url']"
-            class="brand-logo"
-            target="_blank"
-          >
+          <a :href="$vx.config['company-url']" class="brand-logo" target="_blank">
             <el-image
               v-if="$vx.config['company-logo']"
               :src="$vx.config['company-logo']"
@@ -57,18 +53,27 @@
                 tabindex="3"
                 v-model="remember_me"
               />
-              <label class="custom-control-label" for="remember-me">
-                Remember Me
-              </label>
+              <label class="custom-control-label" for="remember-me"> Remember Me </label>
             </div>
           </div>
           <button
-            class="btn btn-primary btn-block"
+            class="btn btn-primary btn-block mb-50"
             tabindex="4"
             @click.prevent="submit()"
           >
             Sign in
           </button>
+
+          <div class="d-flex flex-column align-items-end">
+            <el-link @click="show_version = !show_version">version</el-link>
+
+            <div v-if="show_version">
+              <el-table :data="version" :show-header="false" size="mini">
+                <el-table-column prop="name"></el-table-column>
+                <el-table-column prop="value"></el-table-column>
+              </el-table>
+            </div>
+          </div>
         </div>
       </div>
       <!-- /Login v1 -->
@@ -84,10 +89,13 @@ export default {
       form: {},
       company: null,
       remember_me: false,
+      version: {},
+      show_version: false,
     };
   },
   created() {
     this.company = this.$vx.config.company;
+    this.version = this.$vx.version;
   },
   methods: {
     submit() {

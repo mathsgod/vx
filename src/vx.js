@@ -28,6 +28,8 @@ class VX {
         let resp = await this.get("/");
         resp = resp.data;
 
+        this.version = resp.version;
+
         this.logined = resp.logined;
 
         this.menus = resp.menus;
@@ -167,11 +169,11 @@ class VX {
     }
 
     async setSelectedLanguage(language) {
-        let resp = await this.post("/?_entry=selectLanguage", {
+        let resp = await this.post("/?_entry=setLanguage", {
             language
         });
 
-        if (resp.status == 200) {
+        if (resp.status == 204) {
             this.me.language = language;
         }
     }
