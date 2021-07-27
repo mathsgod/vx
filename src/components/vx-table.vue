@@ -1,83 +1,77 @@
 <template>
   <div>
-    <el-collapse v-if="searchable">
-      <el-collapse-item name="search">
-        <template slot="title"> <div class="ml-2">Search</div> </template>
+    <el-card :body-style="{ padding: '1rem' }">
+      <el-collapse v-if="searchable">
+        <el-collapse-item name="search" title="Search">
+          <slot
+            name="search"
+            v-bind:search="search"
+            v-bind:on-search="onSearch"
+            :size="size"
+          ></slot>
 
-        <slot
-          name="search"
-          v-bind:search="search"
-          v-bind:on-search="onSearch"
-          :size="size"
-        ></slot>
-
-        <div class="ml-2 mr-2">
-          <el-button @click="onSearch" :size="size" type="primary">Search</el-button>
-          <el-button @click="resetSearch" :size="size">Reset</el-button>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
-
-    <vx-card class="shadow-none" :body-style="{ padding: '0px' }">
-      <vx-card-body>
-        <div
-          v-if="pagination"
-          class="d-flex justify-content-between align-items-center mx-0 row"
-        >
-          <div class="d-flex col-sm-12 col-md-6 align-items-center p-50">
-            <div>
-              Show
-              <el-tooltip content="每頁顯示" placement="top">
-                <el-select v-model="localPerPage" style="width: 70px" :size="size">
-                  <el-option
-                    v-for="(p, index) in pageLengthOption"
-                    :value="p"
-                    v-text="p"
-                    :key="index"
-                  ></el-option>
-                </el-select>
-              </el-tooltip>
-              entries
-            </div>
+          <div class="ml-2 mr-2">
+            <el-button @click="onSearch" :size="size" type="primary">Search</el-button>
+            <el-button @click="resetSearch" :size="size">Reset</el-button>
           </div>
+        </el-collapse-item>
+      </el-collapse>
 
-          <div class="d-flex col-sm-12 col-md-6 justify-content-end">
-            <div class="p-50">
-              <el-tooltip content="Reload" placement="top">
-                <el-button
-                  @click="reload"
-                  icon="el-icon-refresh-right"
-                  :size="size"
-                ></el-button>
-              </el-tooltip>
-            </div>
+      <div
+        v-if="pagination"
+        class="d-flex justify-content-between align-items-center mb-50 mt-50"
+      >
+        <div class="d-flex">
+          <div>
+            Show
+            <el-tooltip content="每頁顯示" placement="top">
+              <el-select v-model="localPerPage" style="width: 70px" :size="size">
+                <el-option
+                  v-for="(p, index) in pageLengthOption"
+                  :value="p"
+                  v-text="p"
+                  :key="index"
+                ></el-option>
+              </el-select>
+            </el-tooltip>
+            entries
           </div>
         </div>
 
-        <el-table
-          :size="size"
-          :data="data"
-          :default-sort="defaultSort"
-          @sort-change="sortChanged"
-          v-loading="loading"
-          @filter-change="filterChanged"
-          :border="border"
-        >
-          <slot v-bind:delete="onDelete" v-bind:reload="reload" :search="search"></slot>
-        </el-table>
+        <div class="d-flex justify-content-end">
+          <el-tooltip content="Reload" placement="top">
+            <el-button
+              @click="reload"
+              icon="el-icon-refresh-right"
+              :size="size"
+            ></el-button>
+          </el-tooltip>
+        </div>
+      </div>
 
-        <template v-if="pagination">
-          <div class="d-flex justify-content-between mx-0 row">
-            <div class="col-sm-12 col-md-6 align-self-center">
-              Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
-            </div>
-            <div class="col-sm-12 col-md-6">
-              <vs-pagination :total="total" v-model="page"></vs-pagination>
-            </div>
+      <el-table
+        :size="size"
+        :data="data"
+        :default-sort="defaultSort"
+        @sort-change="sortChanged"
+        v-loading="loading"
+        @filter-change="filterChanged"
+        :border="border"
+      >
+        <slot v-bind:delete="onDelete" v-bind:reload="reload" :search="search"></slot>
+      </el-table>
+
+      <template v-if="pagination">
+        <div class="d-flex justify-content-between mx-0 row">
+          <div class="col-sm-12 col-md-6 align-self-center">
+            Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
           </div>
-        </template>
-      </vx-card-body>
-    </vx-card>
+          <div class="col-sm-12 col-md-6">
+            <vs-pagination :total="total" v-model="page"></vs-pagination>
+          </div>
+        </div>
+      </template>
+    </el-card>
   </div>
 </template>
 <script>

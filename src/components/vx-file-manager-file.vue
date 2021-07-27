@@ -36,7 +36,8 @@
         </el-dropdown>
       </div>
       <div class="d-flex align-items-center justify-content-center w-100">
-        <img :src="getIcon(file.extension)" alt="file-icon" height="35" />
+        <i :class="getIcon(file.extension)"></i>
+        <!-- img :src="getIcon(file.extension)" alt="file-icon" height="35" / -->
       </div>
     </div>
     <div class="card-body">
@@ -99,14 +100,26 @@ export default {
       }
     },
     getIcon(extension) {
-      let support = ["jpg", "doc", "txt", "json", "js", "pdf", "psd", "txt", "xls"];
+      let icon_map = {
+        pdf: "far fa-lg fa-file-pdf",
+        jpg: "far fa-lg fa-file-image",
+        png: "far fa-lg fa-file-image",
+        gif: "far fa-lg fa-file-image",
+        js: "fa fa-lg fa-js-square",
+        xls: "far fa-lg fa-file-excel",
+        xlsx: "far fa-lg fa-file-excel",
+        doc: "far fa-lg fa-file-word",
+        docx: "far fa-lg fa-file-word",
+      };
 
-      if (support.indexOf(extension) >= 0) {
-        return `/images/icons/${extension}.png`;
-      }
-      return "/images/icons/unknown.png";
+      return icon_map[extension] ?? "far fa-file fa-lg";
     },
     async handleCommand(command) {
+      if (command == "info") {
+        console.log(this.file);
+        return;
+      }
+
       if (command == "delete") {
         this.$confirm(`Delete ${this.file.name}?`).then(() => {
           this.$emit("delete", this.file.path);

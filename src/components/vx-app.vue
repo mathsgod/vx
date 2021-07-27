@@ -603,9 +603,18 @@ export default {
       let mainMenu = window.$(this.$refs.mainMenu);
       let navbar = window.$(this.$refs.navbar);
       let body = window.$(document.body);
-      body.removeClass("dark-layout bordered-layout");
+
+      body
+        .removeClass("dark-layout bordered-layout semi-dark-layout")
+        .addClass(this.layoutName);
+
       if (this.layoutName == "light-layout") {
         mainMenu.removeClass("menu-dark").addClass("menu-light");
+        navbar.removeClass("navbar-dark").addClass("navbar-light");
+      }
+
+      if (this.layoutName == "semi-dark-layout") {
+        mainMenu.removeClass("menu-light").addClass("menu-dark");
         navbar.removeClass("navbar-dark").addClass("navbar-light");
       }
 
