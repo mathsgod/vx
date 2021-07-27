@@ -4,11 +4,7 @@
       <!-- Forgot Password v1 -->
       <div class="card mb-0">
         <div class="card-body">
-          <a
-            :href="$vx.config['company-url']"
-            class="brand-logo"
-            target="_blank"
-          >
+          <a :href="$vx.config['company-url']" class="brand-logo" target="_blank">
             <el-image
               v-if="$vx.config['company-logo']"
               :src="$vx.config['company-logo']"
@@ -20,14 +16,14 @@
 
           <h4 class="card-title mb-1">Forgot Password? 🔒</h4>
           <p class="card-text mb-2">
-            Enter your username and email and we'll send you instructions to
-            reset your password
+            Enter your username and email and we'll send you instructions to reset your
+            password
           </p>
 
           <el-form
             ref="form1"
             :model="form"
-            class="auth-forgot-password-form mt-2"
+            class="auth-forgot-password-form mt-2 small-label"
             action="page-auth-reset-password-v1.html"
             method="POST"
           >
@@ -79,10 +75,7 @@ export default {
     async submit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
-          let resp = await this.$vx.forgotPassword(
-            this.form.username,
-            this.form.email
-          );
+          let resp = await this.$vx.forgotPassword(this.form.username, this.form.email);
 
           if (resp.status == 200) {
             this.$alert(

@@ -89,6 +89,7 @@ import VxLogin from "./components/vx-login";
 import VxForgotPassword from './components/vx-forgot-password';
 import VxApp from "./components/vx-app";
 import VxTest from "./components/vx-test";
+import PageResetPassword from "./components/page-reset-password";
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -104,6 +105,10 @@ const routes = [
   {
     path: "/test",
     component: VxTest
+  },
+  {
+    path: "/reset-password",
+    component: PageResetPassword
   },
   {
     path: '*',

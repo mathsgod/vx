@@ -241,6 +241,13 @@ class VX {
         });
     }
 
+    resetPassword(password, token) {
+        return this.post("/?_entry=resetPassword", {
+            password,
+            token
+        });
+
+    }
 
 }
 
