@@ -5,10 +5,9 @@
   </div>
 </template>
 
-
 <script>
-import VxForgotPasswordV1 from "./vx-forgot-password-v1";
-import VxForgotPasswordV2 from "./vx-forgot-password-v2";
+import VxForgotPasswordV1 from "./page-forgot-password-v1";
+import VxForgotPasswordV2 from "./page-forgot-password-v2";
 export default {
   components: { VxForgotPasswordV1, VxForgotPasswordV2 },
   data() {

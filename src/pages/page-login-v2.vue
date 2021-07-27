@@ -18,14 +18,8 @@
       <!-- /Brand logo-->
       <!-- Left Text-->
       <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-        <div
-          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
-        >
-          <img
-            class="img-fluid"
-            src="/images/pages/login-v2.svg"
-            alt="Login V2"
-          />
+        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+          <img class="img-fluid" src="/images/pages/login-v2.svg" alt="Login V2" />
         </div>
       </div>
       <!-- /Left Text-->
@@ -36,16 +30,12 @@
           <p class="card-text mb-2">
             Please sign-in to your account and start the adventure
           </p>
-          <el-form class="auth-login-form mt-2" :model="form" ref="form1">
+          <el-form class="auth-login-form mt-2 small-label" :model="form" ref="form1">
             <el-form-item label="Username" required prop="username">
               <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="Password" required prop="password">
-              <el-input
-                v-model="form.password"
-                type="password"
-                show-password
-              ></el-input>
+              <el-input v-model="form.password" type="password" show-password></el-input>
             </el-form-item>
 
             <div class="form-group">
@@ -65,9 +55,7 @@
                   tabindex="3"
                   v-model="remember_me"
                 />
-                <label class="custom-control-label" for="remember-me">
-                  Remember Me</label
-                >
+                <label class="custom-control-label" for="remember-me"> Remember Me</label>
               </div>
             </div>
             <button class="btn btn-primary btn-block" @click.prevent="submit">
@@ -82,7 +70,7 @@
 </template>
 <script>
 export default {
-  name: "vx-login",
+  name: "page-login-v2",
   data() {
     return {
       form: {},

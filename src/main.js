@@ -85,18 +85,18 @@ Vue.component("vx-tinymce", () => import("./components/vx-tinymce"));
 
 Vue.config.productionTip = false
 
-import VxLogin from "./components/vx-login";
-import VxForgotPassword from './components/vx-forgot-password';
+import PageLogin from "./pages/page-login";
+import VxForgotPassword from './pages/page-forgot-password';
 import VxApp from "./components/vx-app";
 import VxTest from "./components/vx-test";
-import PageResetPassword from "./components/page-reset-password";
+import PageResetPassword from "./pages/page-reset-password";
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    component: VxLogin
+    component: PageLogin
   },
   {
     path: "/forgot_password",

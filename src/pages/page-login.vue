@@ -1,15 +1,15 @@
 <template>
   <div>
-    <vx-login-v1 v-if="version == 'v1'"></vx-login-v1>
-    <vx-login-v2 v-if="version == 'v2'"></vx-login-v2>
+    <page-login-v1 v-if="version == 'v1'"></page-login-v1>
+    <page-login-v2 v-if="version == 'v2'"></page-login-v2>
   </div>
 </template>
 
 <script>
-import vxLoginV1 from "./vx-login-v1";
-import vxLoginV2 from "./vx-login-v2";
+import PageLoginV1 from "./page-login-v1";
+import PageLoginV2 from "./page-login-v2";
 export default {
-  components: { vxLoginV1, vxLoginV2 },
+  components: { PageLoginV1, PageLoginV2 },
   data() {
     return {
       version: "v1",
