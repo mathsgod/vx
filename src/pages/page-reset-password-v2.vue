@@ -1,8 +1,18 @@
 <template>
   <div class="auth-wrapper auth-v2">
     <div class="auth-inner row m-0">
-      <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
-        <h2 class="brand-text text-primary ml-1">Vuexy</h2>
+      <!-- Brand logo--><a
+        class="brand-logo"
+        :href="$vx.config['company-url']"
+        target="_blank"
+      >
+        <el-image
+          v-if="$vx.config['company-logo']"
+          :src="$vx.config['company-logo']"
+          style="height: 40px"
+          fit="contain"
+        ></el-image>
+        <h2 class="brand-text text-primary ml-1">{{ company }}</h2>
       </a>
       <!-- /Brand logo-->
       <!-- Left Text-->
@@ -23,62 +33,38 @@
           <p class="card-text mb-2">
             Your new password must be different from previously used passwords
           </p>
-          <form
-            class="auth-reset-password-form mt-2"
-            action="page-auth-login-v2.html"
-            method="POST"
+
+          <el-form
+            ref="form1"
+            :model="form"
+            class="auth-reset-password-form mt-2 small-label"
           >
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-new">New Password</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  class="form-control form-control-merge"
-                  id="reset-password-new"
-                  type="password"
-                  name="reset-password-new"
-                  placeholder="············"
-                  aria-describedby="reset-password-new"
-                  autofocus=""
-                  tabindex="1"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i data-feather="eye"></i
-                  ></span>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-between">
-                <label for="reset-password-confirm">Confirm Password</label>
-              </div>
-              <div class="input-group input-group-merge form-password-toggle">
-                <input
-                  class="form-control form-control-merge"
-                  id="reset-password-confirm"
-                  type="password"
-                  name="reset-password-confirm"
-                  placeholder="············"
-                  aria-describedby="reset-password-confirm"
-                  tabindex="2"
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text cursor-pointer"
-                    ><i data-feather="eye"></i
-                  ></span>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-primary btn-block" tabindex="3">
-              Set New Password
-            </button>
-          </form>
-          <p class="text-center mt-2">
-            <a href="page-auth-login-v2.html"
-              ><i data-feather="chevron-left"></i> Back to login</a
+            <el-form-item label="New Password" prop="pssword">
+              <el-input
+                type="password"
+                v-model="form.password"
+                required
+                show-password
+              ></el-input>
+            </el-form-item>
+
+            <el-form-item label="Confirm Password" prop="pssword">
+              <el-input
+                type="password"
+                v-model="form.confirm_password"
+                required
+                show-password
+              ></el-input>
+            </el-form-item>
+
+            <el-button type="primary" class="w-100" @click="submit"
+              >Set New Password</el-button
             >
+          </el-form>
+          <p class="text-center mt-2">
+            <router-link to="/">
+              <vx-icon name="chevron-left"></vx-icon> Back to login
+            </router-link>
           </p>
         </div>
       </div>
@@ -86,3 +72,39 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      company: null,
+      form: {},
+    };
+  },
+  created() {
+    this.company = this.$vx.config.company;
+  },
+  methods: {
+    submit() {
+      this.$refs.form1.validate(async (valid) => {
+        if (valid) {
+          if (this.form.password != this.form.confirm_password) {
+            this.$alert("Confirm password incorrect", { type: "error" });
+            return;
+          }
+
+          let { data } = await this.$vx.resetPassword(
+            this.form.password,
+            this.$route.query.token
+          );
+          if (data.error) {
+            this.$alert(data.error.message, { type: "error" });
+            return;
+          }
+          this.$alert("Password updated");
+        }
+      });
+    },
+  },
+};
+</script>

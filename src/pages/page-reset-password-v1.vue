@@ -23,7 +23,6 @@
             ref="form1"
             :model="form"
             class="auth-reset-password-form mt-2 small-label"
-            action="page-auth-login-v1.html"
           >
             <el-form-item label="New Password" prop="pssword">
               <el-input
