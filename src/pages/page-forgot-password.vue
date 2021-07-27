@@ -1,15 +1,15 @@
 <template>
   <div>
-    <vx-forgot-password-v1 v-if="version == 'v1'"></vx-forgot-password-v1>
-    <vx-forgot-password-v2 v-if="version == 'v2'"></vx-forgot-password-v2>
+    <page-forgot-password-v1 v-if="version == 'v1'"></page-forgot-password-v1>
+    <page-forgot-password-v2 v-if="version == 'v2'"></page-forgot-password-v2>
   </div>
 </template>
 
 <script>
-import VxForgotPasswordV1 from "./page-forgot-password-v1";
-import VxForgotPasswordV2 from "./page-forgot-password-v2";
+import PageForgotPasswordV1 from "./page-forgot-password-v1";
+import PageForgotPasswordV2 from "./page-forgot-password-v2";
 export default {
-  components: { VxForgotPasswordV1, VxForgotPasswordV2 },
+  components: { PageForgotPasswordV1, PageForgotPasswordV2 },
   data() {
     return {
       version: "v1",

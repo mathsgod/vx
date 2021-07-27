@@ -235,7 +235,7 @@ class VX {
     }
 
     forgotPassword(username, email) {
-        return this.post("/?_entry=forgetPassword", {
+        return this.post("/?_entry=forgotPassword", {
             username,
             email
         });

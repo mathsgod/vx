@@ -50,7 +50,7 @@
 
           <p class="text-center mt-2">
             <router-link to="/">
-              <i data-feather="chevron-left"></i> Back to login
+              <vx-icon name="chevron-left"></vx-icon> Back to login
             </router-link>
           </p>
         </div>
