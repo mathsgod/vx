@@ -25,23 +25,28 @@ class VX {
         }
 
 
-        let resp = await this.get("/");
-        resp = resp.data;
+        let { data } = await this.get("/");
 
-        this.version = resp.version;
+        this.version = data.version;
 
-        this.logined = resp.logined;
+        this.logined = data.logined;
 
-        this.menus = resp.menus;
+        this.menus = data.menus;
 
-        this.language = resp.language;
+        this.language = data.language;
 
-        this.config = resp.config;
+        this.config = data.config;
 
-        this.me = resp.me;
+        this.me = data.me;
 
-        this.navbar = resp.navbar;
+        this.navbar = data.navbar;
 
+
+        this.i18n = window.i18n;
+        this.i18n.locale = data.locale;
+        let messages = this.i18n.getLocaleMessage(data.locale ?? "en");
+        messages = { ...messages, ...data.i18n };
+        this.i18n.setLocaleMessage(data.locale, messages);
 
     }
 

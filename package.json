@@ -18,7 +18,7 @@
     "material-icons": "^0.7.0",
     "perfect-scrollbar": "^1.5.1",
     "vue": "^2.6.11",
-    "vue-i18n": "^8.24.4",
+    "vue-i18n": "^8.25.0",
     "vue-router": "^3.5.1",
     "vuesax": "^3.12.2"
   },

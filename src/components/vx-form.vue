@@ -7,10 +7,10 @@
     </vx-card-body>
 
     <vx-card-footer>
-      <el-button @click="onSubmit()" icon="el-icon-check" type="primary"
-        >Submit</el-button
-      >
-      <el-button @click="onBack">Back</el-button>
+      <el-button @click="onSubmit()" icon="el-icon-check" type="primary">{{
+        $t("Submit")
+      }}</el-button>
+      <el-button @click="onBack">{{ $t("Back") }}</el-button>
     </vx-card-footer>
   </vx-card>
 </template>

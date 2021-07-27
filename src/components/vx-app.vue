@@ -319,7 +319,8 @@
               aria-labelledby="dropdown-user"
             >
               <router-link class="dropdown-item" to="/User/profile"
-                ><i class="mr-50" data-feather="user"></i> Profile</router-link
+                ><i class="mr-50" data-feather="user"></i>
+                {{ $t("Profile") }}</router-link
               >
               <div class="dropdown-divider"></div>
               <!-- navbar dropdown -->
@@ -333,14 +334,15 @@
                 {{ dd.label }}</router-link
               >
               <router-link class="dropdown-item" to="/User/setting"
-                ><i class="mr-50" data-feather="settings"></i> Settings</router-link
+                ><i class="mr-50" data-feather="settings"></i>
+                {{ $t("Settings") }}</router-link
               ><!-- a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a
               ><a class="dropdown-item" href="page-faq.html"
                 ><i class="mr-50" data-feather="help-circle"></i> FAQ</a
               -->
               <a class="dropdown-item" href="/logout" @click.prevent="logout"
-                ><i class="mr-50" data-feather="power"></i> Logout</a
+                ><vx-icon name="power" class="mr-50"></vx-icon>{{ $t("Logout") }}</a
               >
             </div>
           </li>
@@ -545,9 +547,9 @@ export default {
     this.config = this.$vx.config;
 
     if (this.me.style) {
-      this.layoutName = this.me.style.layout || "light-layout";
+      this.layoutName = this.me.style.layout || "semi-dark-layout";
       this.navbarColor = this.me.style.navbar_color || "";
-      this.navbarType = this.me.style.navbar_type || "floating";
+      this.navbarType = this.me.style.navbar_type || "static";
       this.footerType = this.me.style.footer_type || "static";
       this.menuCollapsed = this.me.style.collapsible || false;
       console.log(this.me);
@@ -582,6 +584,8 @@ export default {
       window.dispatchEvent(new Event("load"));
       window.$.app.nav.init();
     });
+
+    this.loadNavbarType();
 
     await this.renderContent(this.$route.fullPath);
   },
@@ -687,13 +691,12 @@ export default {
       let paths = this.$route.path.split("/");
 
       this.title = paths[paths.length - 1];
-      this.title = this.title.replace("-", " ");
-      this.title = this.title[0].toUpperCase() + this.title.substring(1).toLowerCase();
+      this.title = this.$i18n.t(this.title);
 
       if (paths.length > 2) {
         this.breadcrumb.push({
           to: "/" + paths[1],
-          label: paths[1],
+          label: this.$i18n.t(paths[1]),
         });
       }
 
@@ -727,7 +730,7 @@ export default {
               console.log(action);
               content += action.body.content;
               if (action.body.header) {
-                this.title = action.body.header.title;
+                this.title = this.$i18n.t(action.body.header.title);
               }
 
               break;
@@ -755,7 +758,7 @@ export default {
       await this.$vx.setFooterType(this.footerType);
     },
     setNavbarType(type) {
-      this.$vx.setNavbarType(this.navbarType);
+      this.$vx.setNavbarType(type);
       this.navbarType = type;
       this.loadNavbarType();
     },

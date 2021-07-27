@@ -12,7 +12,8 @@ const i18n = new VueI18n({
     en: enLocale,
     "zh-hk": zhTWLocale
   }
-})
+});
+window.i18n = i18n;
 
 import ElementUI from 'element-ui'
 //import 'element-ui/lib/theme-chalk/index.css';
@@ -123,6 +124,7 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  i18n,
   render: h => h(App),
 }).$mount('#app')
 
@@ -132,6 +134,7 @@ let init_vue = function (element) {
   var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link, vx-table");
   nodes.forEach(node => {
     new Vue({
+      i18n: i18n,
       router,
       el: node
     });
