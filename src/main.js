@@ -48,6 +48,9 @@ import 'material-icons/iconfont/material-icons.css';
 import VX from './vx';
 Vue.use(VX);
 
+Vue.component("vx-nav", () => import("./components/vx-nav"));
+Vue.component("vx-nav-item", () => import("./components/vx-nav-item"));
+
 Vue.component("vx-icon", () => import("./components/vx-icon"));
 Vue.component("vx-button", () => import("./components/vx-button"));
 
