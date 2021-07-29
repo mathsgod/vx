@@ -8,13 +8,14 @@
     <a
       class="customizer-toggle d-flex align-items-center justify-content-center"
       href="javascript:void(0);"
-      ><i class="spinner" data-feather="settings"></i
-    ></a>
+    >
+      <vx-icon name="settings" width="14"></vx-icon>
+    </a>
     <div class="customizer-content">
       <!-- Customizer header -->
       <div class="customizer-header px-2 pt-1 pb-0 position-relative">
-        <h4 class="mb-0">Theme Customizer</h4>
-        <p class="m-0">Customize & Preview in Real Time</p>
+        <h4 class="mb-0" v-t="'Theme Customizer'"></h4>
+        <p class="m-0" v-t="'Customize & Preview in Real Time'"></p>
 
         <a class="customizer-close" href="javascript:void(0);"
           ><i data-feather="x"></i
@@ -49,7 +50,9 @@
               :checked="layout.layoutName == 'bordered-layout'"
               @input="layout.layoutName = 'bordered-layout'"
             />
-            <label class="custom-control-label" for="skinbordered">Bordered</label>
+            <label class="custom-control-label" for="skinbordered"
+              >Bordered</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -73,7 +76,9 @@
               :checked="layout.layoutName == 'semi-dark-layout'"
               @input="layout.layoutName = 'semi-dark-layout'"
             />
-            <label class="custom-control-label" for="skinsemidark">Semi Dark</label>
+            <label class="custom-control-label" for="skinsemidark"
+              >Semi Dark</label
+            >
           </div>
         </div>
       </div>
@@ -92,7 +97,10 @@
               :checked="layout.menuCollapsed"
               @input="layout.menuCollapsed = !layout.menuCollapsed"
             />
-            <label class="custom-control-label" for="collapse-sidebar-switch"></label>
+            <label
+              class="custom-control-label"
+              for="collapse-sidebar-switch"
+            ></label>
           </div>
         </div>
       </div>
@@ -111,7 +119,9 @@
               :checked="layout.width == 'full'"
               @input="layout.width = 'full'"
             />
-            <label class="custom-control-label" for="layout-width-full">Full Width</label>
+            <label class="custom-control-label" for="layout-width-full"
+              >Full Width</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -122,7 +132,9 @@
               :checked="layout.width == 'boxed'"
               @input="layout.width = 'boxed'"
             />
-            <label class="custom-control-label" for="layout-width-boxed">Boxed</label>
+            <label class="custom-control-label" for="layout-width-boxed"
+              >Boxed</label
+            >
           </div>
         </div>
       </div>
@@ -159,7 +171,9 @@
               :checked="layout.navbarType == 'floating'"
               @input="layout.setNavbarType('floating')"
             />
-            <label class="custom-control-label" for="nav-type-floating">Floating</label>
+            <label class="custom-control-label" for="nav-type-floating"
+              >Floating</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -170,7 +184,9 @@
               :checked="layout.navbarType == 'sticky'"
               @input="layout.setNavbarType('sticky')"
             />
-            <label class="custom-control-label" for="nav-type-sticky">Sticky</label>
+            <label class="custom-control-label" for="nav-type-sticky"
+              >Sticky</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -181,7 +197,9 @@
               :checked="layout.navbarType == 'static'"
               @input="layout.setNavbarType('static')"
             />
-            <label class="custom-control-label" for="nav-type-static">Static</label>
+            <label class="custom-control-label" for="nav-type-static"
+              >Static</label
+            >
           </div>
           <div class="custom-control custom-radio">
             <input
@@ -192,7 +210,9 @@
               :checked="layout.navbarType == 'hidden'"
               @input="layout.setNavbarType('hidden')"
             />
-            <label class="custom-control-label" for="nav-type-hidden">Hidden</label>
+            <label class="custom-control-label" for="nav-type-hidden"
+              >Hidden</label
+            >
           </div>
         </div>
       </div>
@@ -211,7 +231,9 @@
               :checked="layout.footerType == 'sticky'"
               @input="layout.setFooterType('sticky')"
             />
-            <label class="custom-control-label" for="footer-type-sticky">Sticky</label>
+            <label class="custom-control-label" for="footer-type-sticky"
+              >Sticky</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -222,7 +244,9 @@
               :checked="layout.footerType == 'static'"
               @input="layout.setFooterType('static')"
             />
-            <label class="custom-control-label" for="footer-type-static">Static</label>
+            <label class="custom-control-label" for="footer-type-static"
+              >Static</label
+            >
           </div>
           <div class="custom-control custom-radio mr-1">
             <input
@@ -233,7 +257,9 @@
               :checked="layout.footerType == 'hidden'"
               @input="layout.setFooterType('hidden')"
             />
-            <label class="custom-control-label" for="footer-type-hidden">Hidden</label>
+            <label class="custom-control-label" for="footer-type-hidden"
+              >Hidden</label
+            >
           </div>
         </div>
       </div>
