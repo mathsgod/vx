@@ -11,7 +11,9 @@
           ></slot>
 
           <div class="ml-2 mr-2">
-            <el-button @click="onSearch" :size="size" type="primary">Search</el-button>
+            <el-button @click="onSearch" :size="size" type="primary"
+              >Search</el-button
+            >
             <el-button @click="resetSearch" :size="size">Reset</el-button>
           </div>
         </el-collapse-item>
@@ -25,7 +27,11 @@
           <div>
             Show
             <el-tooltip content="每頁顯示" placement="top">
-              <el-select v-model="localPerPage" style="width: 70px" :size="size">
+              <el-select
+                v-model="localPerPage"
+                style="width: 70px"
+                :size="size"
+              >
                 <el-option
                   v-for="(p, index) in pageLengthOption"
                   :value="p"
@@ -58,7 +64,11 @@
         @filter-change="filterChanged"
         :border="border"
       >
-        <slot v-bind:delete="onDelete" v-bind:reload="reload" :search="search"></slot>
+        <slot
+          v-bind:delete="onDelete"
+          v-bind:reload="reload"
+          :search="search"
+        ></slot>
       </el-table>
 
       <template v-if="pagination">

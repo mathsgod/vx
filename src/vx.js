@@ -102,16 +102,16 @@ class VX {
 
     async get(url, config) {
         let resp = this.axios.get(url, config);
-        let p = await resp;
-        if (p.status == 401) {
-            //try to renew
-            try {
-                this.renewAccessToken();
-                resp = this.get(url, config);
-            } catch (e) {
 
+        try {
+            await resp;
+        } catch (e) {
+            if (e.response.status == 401) {
+                await this.renewAccessToken();
+                return this.get(url, config);
             }
         }
+
         return resp;
     }
 
