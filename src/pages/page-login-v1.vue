@@ -4,7 +4,11 @@
       <!-- Login v1 -->
       <div class="card mb-0">
         <div class="card-body">
-          <a :href="$vx.config['company-url']" class="brand-logo" target="_blank">
+          <a
+            :href="$vx.config['company-url']"
+            class="brand-logo"
+            target="_blank"
+          >
             <el-image
               v-if="$vx.config['company-logo']"
               :src="$vx.config['company-logo']"
@@ -53,7 +57,9 @@
                 tabindex="3"
                 v-model="remember_me"
               />
-              <label class="custom-control-label" for="remember-me"> Remember Me </label>
+              <label class="custom-control-label" for="remember-me">
+                Remember Me
+              </label>
             </div>
           </div>
           <button
@@ -96,6 +102,11 @@ export default {
   created() {
     this.company = this.$vx.config.company;
     this.version = this.$vx.version;
+    if (this.remember_me) {
+      if (localStorage.getItem("username")) {
+        this.form.username = localStorage.getItem("username");
+      }
+    }
   },
   methods: {
     submit() {
@@ -104,9 +115,12 @@ export default {
           try {
             await this.$vx.login(this.form.username, this.form.password);
             this.$vx.cancelViewAs();
-            if (this.form.remember_me) {
-              localStorage.setItem("vx_remember_me", true);
-              localStorage.setItem("vx_username", this.form.username);
+            if (this.remember_me) {
+              localStorage.setItem("remember_me", true);
+              localStorage.setItem("username", this.form.username);
+            } else {
+              localStorage.removeItem("remember_me");
+              localStorage.removeItem("username");
             }
             this.$router.go();
           } catch (e) {

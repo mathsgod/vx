@@ -18,8 +18,14 @@
       <!-- /Brand logo-->
       <!-- Left Text-->
       <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-          <img class="img-fluid" src="/images/pages/login-v2.svg" alt="Login V2" />
+        <div
+          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+        >
+          <img
+            class="img-fluid"
+            src="/images/pages/login-v2.svg"
+            alt="Login V2"
+          />
         </div>
       </div>
       <!-- /Left Text-->
@@ -30,12 +36,20 @@
           <p class="card-text mb-2">
             Please sign-in to your account and start the adventure
           </p>
-          <el-form class="auth-login-form mt-2 small-label" :model="form" ref="form1">
+          <el-form
+            class="auth-login-form mt-2 small-label"
+            :model="form"
+            ref="form1"
+          >
             <el-form-item label="Username" required prop="username">
               <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item label="Password" required prop="password">
-              <el-input v-model="form.password" type="password" show-password></el-input>
+              <el-input
+                v-model="form.password"
+                type="password"
+                show-password
+              ></el-input>
             </el-form-item>
 
             <div class="form-group">
@@ -55,7 +69,9 @@
                   tabindex="3"
                   v-model="remember_me"
                 />
-                <label class="custom-control-label" for="remember-me"> Remember Me</label>
+                <label class="custom-control-label" for="remember-me">
+                  Remember Me</label
+                >
               </div>
             </div>
             <button class="btn btn-primary btn-block" @click.prevent="submit">
@@ -76,19 +92,22 @@ export default {
       form: {},
       company: null,
       company_logo: null,
+      remember_me: false,
     };
   },
   created() {
     this.company = this.$vx.config.company;
     this.company_logo = this.$vx.config["company-logo"];
+    this.remember_me = localStorage.remember_me ? true : false;
+    if (this.remember_me) {
+      if (localStorage.username) {
+        this.form.username = localStorage.username;
+      }
+    }
   },
   mounted() {
     if (window.feather) {
       window.feather.replace({ width: 14, height: 14 });
-    }
-    if (localStorage.getItem("vx_remember_me")) {
-      //  this.form.username = localStorage.getItem("vx_username");
-      //this.form.remember_me=true;
     }
   },
   methods: {
@@ -99,8 +118,11 @@ export default {
             await this.$vx.login(this.form.username, this.form.password);
             this.$vx.cancelViewAs();
             if (this.remember_me) {
-              localStorage.setItem("vx_remember_me", true);
-              localStorage.setItem("vx_username", this.form.username);
+              localStorage.setItem("remember_me", true);
+              localStorage.setItem("username", this.form.username);
+            } else {
+              localStorage.removeItem("remember_me");
+              localStorage.removeItem("username");
             }
             this.$router.go();
           } catch (e) {

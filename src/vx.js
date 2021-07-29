@@ -101,24 +101,18 @@ class VX {
     }
 
     async get(url, config) {
-        try {
-            let resp = this.axios.get(url, config);
-
-            let p = await resp;
-            if (p.status == 401) {
-                //try to renew
+        let resp = this.axios.get(url, config);
+        let p = await resp;
+        if (p.status == 401) {
+            //try to renew
+            try {
                 this.renewAccessToken();
-                resp = this.axios.get(url, config);
+                resp = this.get(url, config);
+            } catch (e) {
+
             }
-            return resp;
-        } catch (e) {
-            if (e.response.status == 401) {
-                //renew token
-                await this.renewAccessToken();
-                return this.axios.get(url, config);
-            }
-            return e.response;
         }
+        return resp;
     }
 
     post(url, data, config) {
@@ -207,11 +201,15 @@ class VX {
     async renewAccessToken() {
         this.accessToken = "";
 
+        if (!this.refreshToken) {
+            return;
+        }
         let { data } = await this.post("/?_entry=renew_access_token", {
             refresh_token: this.refreshToken
         });
 
         if (data.error) {
+            this.refreshToken = "";
             throw data.error.message;
         }
 
