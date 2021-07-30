@@ -3,7 +3,13 @@
     <!-- BEGIN: Header-->
     <nav
       ref="navbar"
-      class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow"
+      class="
+        header-navbar
+        navbar navbar-expand-lg
+        align-items-center
+        floating-nav
+        navbar-light navbar-shadow
+      "
       :class="navbarColor"
     >
       <div class="navbar-container d-flex content">
@@ -13,6 +19,21 @@
               <a class="nav-link menu-toggle" href="javascript:void(0);"
                 ><vx-icon name="menu"></vx-icon
               ></a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav bookmark-icons">
+            <li class="nav-item d-none d-lg-block">
+              <el-tooltip content="My favorite">
+                <a class="nav-link" @click.prevent="onFavorite">
+                  <vx-icon
+                    v-if="isFavorite"
+                    name="heart"
+                    fill="red"
+                    style="color: red !important"
+                  ></vx-icon>
+                  <vx-icon name="heart" fill="none" v-else></vx-icon>
+                </a>
+              </el-tooltip>
             </li>
           </ul>
           <!-- ul class="nav navbar-nav bookmark-icons">
@@ -106,7 +127,9 @@
           </li>
           <li class="nav-item d-none d-lg-block">
             <a class="nav-link nav-link-style" @click="toggleDark"
-              ><vx-icon :name="layoutName == 'dark-layout' ? 'sun' : 'moon'"></vx-icon
+              ><vx-icon
+                :name="layoutName == 'dark-layout' ? 'sun' : 'moon'"
+              ></vx-icon
             ></a>
           </li>
           <!-- li class="nav-item nav-search">
@@ -128,7 +151,10 @@
           </li -->
 
           <li class="nav-item dropdown dropdown-notification mr-25 d-none">
-            <a class="nav-link" href="javascript:void(0);" data-toggle="dropdown"
+            <a
+              class="nav-link"
+              href="javascript:void(0);"
+              data-toggle="dropdown"
               ><i class="ficon" data-feather="bell"></i
               ><!-- span class="badge badge-pill badge-danger badge-up">5</span --></a
             >
@@ -342,7 +368,8 @@
                 ><i class="mr-50" data-feather="help-circle"></i> FAQ</a
               -->
               <a class="dropdown-item" href="/logout" @click.prevent="logout"
-                ><vx-icon name="power" class="mr-50"></vx-icon>{{ $t("Logout") }}</a
+                ><vx-icon name="power" class="mr-50"></vx-icon
+                >{{ $t("Logout") }}</a
               >
             </div>
           </li>
@@ -361,7 +388,11 @@
       <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
           <li class="nav-item mr-auto">
-            <a class="navbar-brand" :href="$vx.config['company-url']" target="_blank">
+            <a
+              class="navbar-brand"
+              :href="$vx.config['company-url']"
+              target="_blank"
+            >
               <el-image
                 v-if="$vx.config['company-logo']"
                 :src="$vx.config['company-logo']"
@@ -378,7 +409,12 @@
                 data-feather="x"
               ></i
               ><i
-                class="d-none d-xl-block collapse-toggle-icon font-medium-4 text-primary"
+                class="
+                  d-none d-xl-block
+                  collapse-toggle-icon
+                  font-medium-4
+                  text-primary
+                "
                 data-feather="disc"
                 data-ticon="disc"
               ></i
@@ -393,6 +429,24 @@
           id="main-menu-navigation"
           data-menu="menu-navigation"
         >
+          <template v-if="favs.length > 0">
+            <li class="navigation-header">
+              <span v-t="'My favorite'"></span
+              ><i data-feather="more-horizontal"></i>
+            </li>
+
+            <nav-item
+              class="nav-item"
+              v-for="(m, index) in favs"
+              :value="m"
+              :key="`fav-${index}`"
+            ></nav-item>
+          </template>
+
+          <li class="navigation-header">
+            <span v-t="'Main navigation'"></span
+            ><i data-feather="more-horizontal"></i>
+          </li>
           <nav-item
             class="nav-item"
             v-for="(m, index) in menus"
@@ -422,7 +476,11 @@
                       <router-link to="/">Home</router-link>
                     </li>
 
-                    <li class="breadcrumb-item" v-for="(b, i) in breadcrumb" :key="i">
+                    <li
+                      class="breadcrumb-item"
+                      v-for="(b, i) in breadcrumb"
+                      :key="i"
+                    >
                       <router-link :to="b.to">{{ b.label }}</router-link>
                     </li>
 
@@ -491,7 +549,9 @@
           }}<a class="ml-25" :href="config['copyright-url']" target="_blank">{{
             config["copyright-name"]
           }}</a
-          ><span class="d-none d-sm-inline-block">, All rights Reserved</span></span
+          ><span class="d-none d-sm-inline-block"
+            >, All rights Reserved</span
+          ></span
         >
       </p>
     </footer>
@@ -529,6 +589,7 @@ export default {
       menuCollapsed: false,
       selectedLanguage: null,
       navbar: null,
+      favs: [],
     };
   },
   components: {
@@ -541,6 +602,7 @@ export default {
       return;
     }
 
+    this.favs = this.$vx.favs;
     this.menus = this.$vx.menus;
     this.language = this.$vx.language;
     this.me = this.$vx.me;
@@ -643,24 +705,50 @@ export default {
       // Hides footer
       if (this.footerType == "hidden") {
         footer.addClass("d-none");
-        body.removeClass("footer-static footer-fixed").addClass("footer-hidden");
+        body
+          .removeClass("footer-static footer-fixed")
+          .addClass("footer-hidden");
       }
 
       // changes to Static footer
       if (this.footerType == "static") {
         body.removeClass("footer-fixed");
         footer.removeClass("d-none").addClass("footer-static");
-        body.removeClass("footer-hidden footer-fixed").addClass("footer-static");
+        body
+          .removeClass("footer-hidden footer-fixed")
+          .addClass("footer-static");
       }
 
       // changes to Sticky footer
       if (this.footerType == "sticky") {
-        body.removeClass("footer-static footer-hidden").addClass("footer-fixed");
+        body
+          .removeClass("footer-static footer-hidden")
+          .addClass("footer-fixed");
         footer.removeClass("d-none footer-static");
       }
     },
   },
+  computed: {
+    isFavorite() {
+      let paths = this.favs.map((fav) => fav.link);
+      return paths.indexOf(this.$route.fullPath) >= 0;
+    },
+  },
   methods: {
+    async onFavorite() {
+      if (this.isFavorite) {
+        await this.$vx.removeMyFavorite(this.$route.fullPath);
+      } else {
+        try {
+          let { value } = await this.$prompt("Please input label");
+          await this.$vx.addMyFavorite(value, this.$route.fullPath);
+        } catch (e) {}
+      }
+
+      //reload manu
+      await this.$vx.reload();
+      this.favs=this.$vx.favs;
+    },
     toggleDark() {
       if (this.layoutName == "dark-layout") {
         this.layoutName = "light-layout";
@@ -768,7 +856,9 @@ export default {
       let body = window.$(document.body);
       if (this.navbarType == "floating") {
         navBarShadow.removeClass("d-none");
-        navbar.removeClass("d-none navbar-static-top fixed-top").addClass("floating-nav");
+        navbar
+          .removeClass("d-none navbar-static-top fixed-top")
+          .addClass("floating-nav");
         body
           .removeClass("navbar-static navbar-hidden navbar-sticky")
           .addClass("navbar-floating");
@@ -776,7 +866,9 @@ export default {
 
       if (this.navbarType == "static") {
         navBarShadow.addClass("d-none");
-        navbar.removeClass("d-none floating-nav fixed-top").addClass("navbar-static-top");
+        navbar
+          .removeClass("d-none floating-nav fixed-top")
+          .addClass("navbar-static-top");
         body
           .removeClass("navbar-hidden navbar-floating navbar-sticky")
           .addClass("navbar-static");
@@ -785,7 +877,9 @@ export default {
       if (this.navbarType == "sticky") {
         navBarShadow.addClass("d-none");
 
-        navbar.removeClass("d-none floating-nav navbar-static-top").addClass("fixed-top");
+        navbar
+          .removeClass("d-none floating-nav navbar-static-top")
+          .addClass("fixed-top");
 
         body
           .removeClass("navbar-static navbar-floating navbar-hidden")

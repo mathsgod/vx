@@ -32,6 +32,7 @@ class VX {
         this.logined = data.logined;
 
         this.menus = data.menus;
+        this.favs = data.favs;
 
         this.language = data.language;
 
@@ -48,6 +49,12 @@ class VX {
         messages = { ...messages, ...data.i18n };
         this.i18n.setLocaleMessage(data.locale, messages);
 
+    }
+
+    async reload() {
+        let { data } = await this.get("/");
+        this.menus = data.menus;
+        this.favs = data.favs;
     }
 
     set accessToken(token) {
@@ -249,7 +256,17 @@ class VX {
             password,
             token
         });
+    }
 
+    addMyFavorite(label, path) {
+        return this.post("/?_entry=addMyFavorite", {
+            label,
+            path
+        });
+    }
+
+    removeMyFavorite(path) {
+        return this.post("/?_entry=removeMyFavorite", { path });
     }
 
 }
