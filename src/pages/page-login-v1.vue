@@ -70,6 +70,14 @@
             Sign in
           </button>
 
+          <button
+            class="btn btn-primary btn-block mb-50"
+            tabindex="4"
+            @click.prevent="bio()"
+          >
+            Bio Auth
+          </button>
+
           <div class="d-flex flex-column align-items-end">
             <el-link @click="show_version = !show_version">version</el-link>
 
@@ -109,6 +117,14 @@ export default {
     }
   },
   methods: {
+    async bio() {
+      try {
+        await this.$vx.authLogin(this.form.username);
+        this.$router.go();
+      } catch (e) {
+        this.$alert(e, { type: "error" });
+      }
+    },
     submit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {

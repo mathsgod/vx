@@ -81,19 +81,30 @@ class VX {
     async authLogin(username) {
 
         const login = useLogin({
-            actionUrl: this.endpoint + "?action=auth",
-            optionsUrl: this.endpoint + "?action=auth_options"
+            actionUrl: this.endpoint + "?_entry=authAssertion",
+            optionsUrl: this.endpoint + "?_entry=authRequestOptions"
         });
 
         let resp = await login({
             username,
             userVerification: true
         });
-        console.log(resp);
+        if (resp.error) {
+            throw resp.error.message;
+        }
+
+        if (resp.access_token) {
+            this.accessToken = resp.access_token;
+        }
+
+        if (resp.refreshToken) {
+            this.refreshToken = resp.refresh_token;
+        }
+
+
     }
 
-
-    async register() {
+    async authRegister() {
 
         const register = useRegistration({
             actionUrl: this.endpoint + "User/auth_register",
