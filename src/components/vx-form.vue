@@ -1,7 +1,13 @@
 <template>
-  <vx-card>
+  <vx-card v-loading="loading">
     <vx-card-body>
-      <el-form :model="form" label-width="auto" ref="form1" class="vx-form" :size="size">
+      <el-form
+        :model="form"
+        label-width="auto"
+        ref="form1"
+        class="vx-form"
+        :size="size"
+      >
         <slot v-bind:form="form"></slot>
       </el-form>
     </vx-card-body>
@@ -33,6 +39,7 @@ export default {
   data() {
     return {
       form: this.data,
+      loading: false,
     };
   },
   methods: {
@@ -45,11 +52,13 @@ export default {
           }
 
           let resp;
+          this.loading = true;
           if (this.method == "post") {
             resp = await this.$vx.post(action, this.form);
           } else if (this.method == "patch") {
             resp = await this.$vx.patch(action, this.form);
           }
+          this.loading = false;
 
           if (resp.status == 204) {
             this.$message.success("Updated");
@@ -58,8 +67,6 @@ export default {
             }
             return;
           }
-
-          console.log(resp);
 
           if (resp.status == 201) {
             this.$message.success(resp.statusText);
@@ -72,8 +79,8 @@ export default {
           }
 
           if (resp.status == 200) {
-            if (resp.error) {
-              this.$alert(resp.error.message, { type: "error" });
+            if (resp.data.error) {
+              this.$alert(resp.data.error.message, { type: "error" });
               return;
             }
 
