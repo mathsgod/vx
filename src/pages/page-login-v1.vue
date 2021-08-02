@@ -38,6 +38,10 @@
                 ></el-input
               >
             </el-form-item>
+
+            <el-form-item label="Code" required prop="code" v-if="need_code">
+              <el-input v-model="form.code"></el-input>
+            </el-form-item>
           </el-form>
 
           <div class="form-group">
@@ -114,6 +118,7 @@ export default {
       version: {},
       show_version: false,
       bio_login: false,
+      need_code: false,
     };
   },
   created() {
@@ -144,7 +149,11 @@ export default {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
           try {
-            await this.$vx.login(this.form.username, this.form.password);
+            await this.$vx.login(
+              this.form.username,
+              this.form.password,
+              this.form.code
+            );
             this.$vx.cancelViewAs();
             if (this.remember_me) {
               localStorage.setItem("remember_me", true);
@@ -155,6 +164,11 @@ export default {
             }
             this.$router.go();
           } catch (e) {
+            if (e == "code required") {
+              this.need_code = true;
+              return;
+            }
+
             this.$alert(e, { type: "error" });
           }
         }

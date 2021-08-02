@@ -81,7 +81,7 @@ class VX {
     async authLogin(username) {
 
         const login = useLogin({
-            actionUrl: this.endpoint + "?_entry=authAssertion&username="+username,
+            actionUrl: this.endpoint + "?_entry=authAssertion&username=" + username,
             optionsUrl: this.endpoint + "?_entry=authRequestOptions"
         });
 
@@ -161,10 +161,11 @@ class VX {
         return this.axios.delete(url, config)
     }
 
-    async login(username, password) {
+    async login(username, password, code) {
         let { data } = await this.post("/login", {
             username: username,
-            password: password
+            password: password,
+            code: code
         });
 
         if (data.error) {

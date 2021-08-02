@@ -52,6 +52,10 @@
               ></el-input>
             </el-form-item>
 
+            <el-form-item label="Code" required prop="code" v-if="need_code">
+              <el-input v-model="form.code"></el-input>
+            </el-form-item>
+
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <router-link to="/forgot_password"
@@ -74,7 +78,30 @@
                 >
               </div>
             </div>
-            <button class="btn btn-primary btn-block" @click.prevent="submit">
+
+            <el-row :gutter="10" class="mb-50" v-if="bio_login">
+              <el-col :span="18">
+                <button
+                  class="btn btn-primary btn-block"
+                  @click.prevent="submit()"
+                >
+                  Sign in
+                </button>
+              </el-col>
+              <el-col :span="6">
+                <button
+                  class="btn btn-primary btn-block"
+                  @click.prevent="bio()"
+                >
+                  <i class="fas fa-fingerprint"></i>
+                </button>
+              </el-col>
+            </el-row>
+            <button
+              class="btn btn-primary btn-block mb-50"
+              @click.prevent="submit()"
+              v-else
+            >
               Sign in
             </button>
           </el-form>
@@ -93,6 +120,7 @@ export default {
       company: null,
       company_logo: null,
       remember_me: false,
+      need_code: false,
     };
   },
   created() {
@@ -104,6 +132,11 @@ export default {
         this.form.username = localStorage.username;
       }
     }
+    if (localStorage.getItem("auth_username")) {
+      this.bio_login = true;
+    } else {
+      this.bio_login = false;
+    }
   },
   mounted() {
     if (window.feather) {
@@ -111,11 +144,23 @@ export default {
     }
   },
   methods: {
+    async bio() {
+      try {
+        await this.$vx.authLogin(localStorage.getItem("auth_username"));
+        this.$router.go();
+      } catch (e) {
+        this.$alert(e, { type: "error" });
+      }
+    },
     submit() {
       this.$refs.form1.validate(async (valid) => {
         if (valid) {
           try {
-            await this.$vx.login(this.form.username, this.form.password);
+            await this.$vx.login(
+              this.form.username,
+              this.form.password,
+              this.form.code
+            );
             this.$vx.cancelViewAs();
             if (this.remember_me) {
               localStorage.setItem("remember_me", true);
@@ -126,6 +171,12 @@ export default {
             }
             this.$router.go();
           } catch (e) {
+            if (e == "code required") {
+              this.need_code = true;
+              return;
+            }
+
+            console.log(e);
             this.$alert(e, { type: "error" });
           }
         }
