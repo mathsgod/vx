@@ -81,7 +81,7 @@ class VX {
     async authLogin(username) {
 
         const login = useLogin({
-            actionUrl: this.endpoint + "?_entry=authAssertion",
+            actionUrl: this.endpoint + "?_entry=authAssertion&username="+username,
             optionsUrl: this.endpoint + "?_entry=authRequestOptions"
         });
 
