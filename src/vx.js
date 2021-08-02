@@ -115,7 +115,7 @@ class VX {
         }, {
             Authorization: "Bearer " + this.accessToken,
         });
-        await register()
+        return await register()
     }
 
     async get(url, config) {

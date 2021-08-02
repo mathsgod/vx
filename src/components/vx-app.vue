@@ -758,7 +758,6 @@ export default {
     },
     async logout() {
       await this.$vx.logout();
-      localStorage.clear();
       this.$emit("logout");
       this.$router.push("/");
     },

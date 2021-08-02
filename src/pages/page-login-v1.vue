@@ -62,20 +62,28 @@
               </label>
             </div>
           </div>
+
+          <el-row :gutter="10" class="mb-50" v-if="bio_login">
+            <el-col :span="18">
+              <button
+                class="btn btn-primary btn-block"
+                @click.prevent="submit()"
+              >
+                Sign in
+              </button>
+            </el-col>
+            <el-col :span="6">
+              <button class="btn btn-primary btn-block" @click.prevent="bio()">
+                <i class="fas fa-fingerprint"></i>
+              </button>
+            </el-col>
+          </el-row>
           <button
             class="btn btn-primary btn-block mb-50"
-            tabindex="4"
             @click.prevent="submit()"
+            v-else
           >
             Sign in
-          </button>
-
-          <button
-            class="btn btn-primary btn-block mb-50"
-            tabindex="4"
-            @click.prevent="bio()"
-          >
-            Bio Auth
           </button>
 
           <div class="d-flex flex-column align-items-end">
@@ -105,6 +113,7 @@ export default {
       remember_me: false,
       version: {},
       show_version: false,
+      bio_login: false,
     };
   },
   created() {
@@ -115,13 +124,19 @@ export default {
         this.form.username = localStorage.getItem("username");
       }
     }
+    if (localStorage.getItem("auth_username")) {
+      this.bio_login = true;
+    } else {
+      this.bio_login = false;
+    }
   },
   methods: {
     async bio() {
       try {
-        await this.$vx.authLogin(this.form.username);
+        await this.$vx.authLogin(localStorage.getItem("auth_username"));
         this.$router.go();
       } catch (e) {
+        console.log(e);
         this.$alert(e, { type: "error" });
       }
     },
