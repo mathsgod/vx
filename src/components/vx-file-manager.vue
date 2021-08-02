@@ -12,12 +12,22 @@
                 @command="addNew"
                 trigger="click"
               >
-                <el-button type="primary" class="w-100" :disabled="type != null">
+                <el-button
+                  type="primary"
+                  class="w-100"
+                  :disabled="type != null"
+                >
                   Add New
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="folder">Folder</el-dropdown-item>
-                  <el-dropdown-item command="file">File</el-dropdown-item>
+                  <el-dropdown-item
+                    command="folder"
+                    v-t="'Folder'"
+                  ></el-dropdown-item>
+                  <el-dropdown-item
+                    command="file"
+                    v-t="'File'"
+                  ></el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
@@ -98,25 +108,43 @@
             <div class="file-manager-main-content">
               <!-- search area start -->
               <div
-                class="file-manager-content-header d-flex justify-content-between align-items-center"
+                class="
+                  file-manager-content-header
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                "
               >
                 <div class="d-flex align-items-center">
                   <div
                     @click="showSidebar = !showSidebar"
-                    class="sidebar-toggle d-block d-xl-none float-left align-middle ml-1"
+                    class="
+                      sidebar-toggle
+                      d-block d-xl-none
+                      float-left
+                      align-middle
+                      ml-1
+                    "
                   >
                     <i data-feather="menu" class="font-medium-5"></i>
                   </div>
-                  <div class="input-group input-group-merge shadow-none m-0 flex-grow-1">
+                  <div
+                    class="
+                      input-group input-group-merge
+                      shadow-none
+                      m-0
+                      flex-grow-1
+                    "
+                  >
                     <div class="input-group-prepend">
                       <span class="input-group-text border-0">
-                        <i data-feather="search"></i>
+                        <vx-icon name="search" width="14"></vx-icon>
                       </span>
                     </div>
                     <input
                       type="text"
                       class="form-control files-filter border-0 bg-transparent"
-                      placeholder="Search"
+                      :placeholder="$t('Search')"
                       @keyup="onSearch($event)"
                       v-model="search_text"
                     />
@@ -124,8 +152,13 @@
                 </div>
 
                 <div class="d-flex align-items-center">
-                  <el-button-group v-if="selectedFolder.length + selectedFile.length > 0">
-                    <el-button class="el-icon-delete" @click="deleteSelected"></el-button>
+                  <el-button-group
+                    v-if="selectedFolder.length + selectedFile.length > 0"
+                  >
+                    <el-button
+                      class="el-icon-delete"
+                      @click="deleteSelected"
+                    ></el-button>
                   </el-button-group>
 
                   <el-button-group>
@@ -169,18 +202,35 @@
                 </template>
 
                 <!-- Folders Container Starts -->
-                <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
+                <div
+                  class="view-container"
+                  :class="mode == 'list' ? 'list-view' : ''"
+                >
                   <h6 class="files-section-title mt-25 mb-75">Folders</h6>
                   <div class="files-header">
-                    <h6 class="font-weight-bold mb-0">Filename</h6>
+                    <h6 class="font-weight-bold mb-0" v-t="'Name'"></h6>
                     <div>
-                      <h6 class="font-weight-bold file-item-size d-inline-block mb-0">
-                        Size
+                      <h6
+                        class="
+                          font-weight-bold
+                          file-item-size
+                          d-inline-block
+                          mb-0
+                        "
+                        v-t="'Size'"
+                      ></h6>
+                      <h6
+                        class="
+                          font-weight-bold
+                          file-last-modified
+                          d-inline-block
+                          mb-0
+                        "
+                        v-t="'Date modified'"
+                      ></h6>
+                      <h6 class="font-weight-bold d-inline-block mr-1 mb-0">
+                        Actions
                       </h6>
-                      <h6 class="font-weight-bold file-last-modified d-inline-block mb-0">
-                        Last modified
-                      </h6>
-                      <h6 class="font-weight-bold d-inline-block mr-1 mb-0">Actions</h6>
                     </div>
                   </div>
 
@@ -190,7 +240,14 @@
                     @click="onLevelUp"
                   >
                     <div class="card-img-top file-logo-wrapper">
-                      <div class="d-flex align-items-center justify-content-center w-100">
+                      <div
+                        class="
+                          d-flex
+                          align-items-center
+                          justify-content-center
+                          w-100
+                        "
+                      >
                         <i class="fa fa-arrow-up"></i>
                       </div>
                     </div>
@@ -223,7 +280,10 @@
                 <!-- /Folders Container Ends -->
 
                 <!-- Files Container Starts -->
-                <div class="view-container" :class="mode == 'list' ? 'list-view' : ''">
+                <div
+                  class="view-container"
+                  :class="mode == 'list' ? 'list-view' : ''"
+                >
                   <h6 class="files-section-title mt-2 mb-75">Files</h6>
 
                   <vx-file-manager-file
@@ -234,7 +294,9 @@
                     @rename="renameFile($event)"
                     @duplicate="duplicateFile($event)"
                     @selected="selectedFile.push($event)"
-                    @unselected="selectedFile = selectedFile.filter((s) => s != $event)"
+                    @unselected="
+                      selectedFile = selectedFile.filter((s) => s != $event)
+                    "
                     @input="inputFile($event)"
                   ></vx-file-manager-file>
 
@@ -503,7 +565,8 @@ export default {
       this.$refs.tree.remove(path);
     },
     async renameFolder(data) {
-      let newNode = (await this.$vx.post("FileManager/renameFolder", data)).data;
+      let newNode = (await this.$vx.post("FileManager/renameFolder", data))
+        .data;
       this.reloadContent();
       this.$refs.tree.remove(data.path);
       this.$refs.tree.append(newNode, this.selectedNode);

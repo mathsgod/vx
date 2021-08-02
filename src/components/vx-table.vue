@@ -2,7 +2,7 @@
   <div>
     <el-card :body-style="{ padding: '1rem' }">
       <el-collapse v-if="searchable">
-        <el-collapse-item name="search" title="Search">
+        <el-collapse-item name="search" :title="$t('Search')">
           <slot
             name="search"
             v-bind:search="search"
@@ -11,10 +11,13 @@
           ></slot>
 
           <div class="ml-2 mr-2">
-            <el-button @click="onSearch" :size="size" type="primary"
-              >Search</el-button
-            >
-            <el-button @click="resetSearch" :size="size">Reset</el-button>
+            <el-button
+              @click="onSearch"
+              :size="size"
+              type="primary"
+              v-t="'Search'"
+            ></el-button>
+            <el-button @click="resetSearch" :size="size" v-t="$t('Reset')"></el-button>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -45,7 +48,7 @@
         </div>
 
         <div class="d-flex justify-content-end">
-          <el-tooltip content="Reload" placement="top">
+          <el-tooltip :content="$t('Reload')" placement="top">
             <el-button
               @click="reload"
               icon="el-icon-refresh-right"

@@ -360,7 +360,7 @@
                 {{ dd.label }}</router-link
               >
               <router-link class="dropdown-item" to="/User/setting"
-                ><i class="mr-50" data-feather="settings"></i>
+                ><vx-icon name="settings" class="mr-50"></vx-icon>
                 {{ $t("Settings") }}</router-link
               ><!-- a class="dropdown-item" href="page-pricing.html"
                 ><i class="mr-50" data-feather="credit-card"></i> Pricing</a

@@ -9,7 +9,7 @@
       :class="{ active: value == 'document' }"
     >
       <i data-feather="file-text" class="mr-50 font-medium-3"></i>
-      <span class="align-middle">Documents</span>
+      <span class="align-middle" v-t="'Documents'"></span>
     </a>
     <a
       v-if="fileType == null || fileType == 'image'"
@@ -19,7 +19,7 @@
       :class="{ active: value == 'image' }"
     >
       <i data-feather="image" class="mr-50 font-medium-3"></i>
-      <span class="align-middle">Images</span>
+      <span class="align-middle" v-t="'Images'"></span>
     </a>
     <a
       v-if="fileType == null"
@@ -29,7 +29,7 @@
       :class="{ active: value == 'video' }"
     >
       <i data-feather="video" class="mr-50 font-medium-3"></i>
-      <span class="align-middle">Videos</span>
+      <span class="align-middle" v-t="'Videos'"></span>
     </a>
     <a
       v-if="fileType == null"
@@ -39,7 +39,7 @@
       :class="{ active: value == 'audio' }"
     >
       <i data-feather="music" class="mr-50 font-medium-3"></i>
-      <span class="align-middle">Audio</span>
+      <span class="align-middle" v-t="'Audio'"></span>
     </a>
     <a
       v-if="fileType == null"
