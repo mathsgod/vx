@@ -76,3 +76,6 @@ div.el-card{
     color:inherit;
 }
 
+:root{
+    --primary:red !important
+}
