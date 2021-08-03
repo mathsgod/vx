@@ -10,7 +10,7 @@
       <label class="custom-control-label" :for="`file_${file.path}`"></label>
     </div>
     <div class="card-img-top file-logo-wrapper">
-      <div class="dropdown float-right">
+      <div class="dropdown float-right px-50">
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             <i data-feather="more-vertical"></i>
@@ -19,7 +19,10 @@
             <el-dropdown-item icon="el-icon-download" command="download"
               >Download</el-dropdown-item
             >
-            <el-dropdown-item icon="el-icon-view" command="preview" v-if="canPreview"
+            <el-dropdown-item
+              icon="el-icon-view"
+              command="preview"
+              v-if="canPreview"
               >Preview</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-copy-document" command="duplicate"
@@ -28,7 +31,9 @@
             <el-dropdown-item icon="el-icon-edit-outline" command="rename"
               >Rename</el-dropdown-item
             >
-            <el-dropdown-item icon="el-icon-info" command="info">Info</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-info" command="info"
+              >Info</el-dropdown-item
+            >
             <el-dropdown-item icon="el-icon-delete" command="delete"
               >Delete</el-dropdown-item
             >
@@ -54,12 +59,22 @@
     <el-dialog :visible.sync="preview">
       <el-image class="w-100" :src="url"></el-image>
     </el-dialog>
+
+    <el-drawer v-if="show_info" :visible.sync="show_info">
+      <vx-file-manager-info
+        v-if="show_info"
+        :show.sync="show_info"
+        :data="{ ...file, ...{ icon: getIcon(file.extension) } }"
+      ></vx-file-manager-info>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 import feather from "feather-icons";
+import vxFileManagerInfo from "./vx-file-manager-info.vue";
 export default {
+  components: { vxFileManagerInfo },
   props: {
     file: Object,
   },
@@ -68,6 +83,7 @@ export default {
       checked: false,
       preview: false,
       url: null,
+      show_info: false,
     };
   },
   created() {},
@@ -116,6 +132,7 @@ export default {
     },
     async handleCommand(command) {
       if (command == "info") {
+        this.show_info = true;
         console.log(this.file);
         return;
       }

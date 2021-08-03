@@ -37,12 +37,18 @@
               <div class="sidebar-list" ref="sidebarList">
                 <!-- links for file manager sidebar -->
                 <el-tree
+                  draggable
                   class="mb-2"
                   ref="tree"
                   lazy
                   :load="loadNode"
                   @node-click="handleNodeClick"
                   node-key="path"
+                  :expand-on-click-node="false"
+                  :default-expanded-keys="[base]"
+                  @node-drag-end="handleDragEnd"
+                  :allow-drop="allowDrop"
+                  @node-drop="handleDrop"
                 ></el-tree>
                 <a
                   @click="listFiles('recent')"
@@ -159,6 +165,11 @@
                       class="el-icon-delete"
                       @click="deleteSelected"
                     ></el-button>
+                    <el-button
+                      @click="showSelectFolder = true"
+                      v-if="selectedFile.length > 0"
+                      >Move</el-button
+                    >
                   </el-button-group>
 
                   <el-button-group>
@@ -316,6 +327,27 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      v-if="showSelectFolder"
+      title="Select folder ..."
+      :visible.sync="showSelectFolder"
+    >
+      <el-tree
+        ref="tree2"
+        lazy
+        :load="loadNode"
+        node-key="path"
+        :expand-on-click-node="false"
+        :default-expanded-keys="[base]"
+        :highlight-current="true"
+        class="mb-1"
+      ></el-tree>
+      <el-button
+        type="primary"
+        @click="moveSelectedTo($refs.tree2.getCurrentNode())"
+        >Select</el-button
+      >
+    </el-dialog>
   </div>
 </template>
 
@@ -334,6 +366,7 @@ import VxFileManagerFolder from "./vx-file-manager-folder.vue";
 import feather from "feather-icons";
 import VxFileManagerLabels from "./vx-file-manager-labels.vue";
 
+
 export default {
   name: "vx-file-manager",
   components: {
@@ -342,6 +375,10 @@ export default {
     VxFileManagerLabels,
   },
   props: {
+    base: {
+      type: String,
+      default: "",
+    },
     defaultAction: {
       default: "preview",
       type: String,
@@ -351,9 +388,10 @@ export default {
   },
   data() {
     return {
+      showSelectFolder: false,
       showSidebar: false,
       parentPath: "",
-      selectedPath: "",
+      selectedPath: this.base,
       selectedNode: null,
       files: [],
       folders: [],
@@ -396,6 +434,62 @@ export default {
     },
   },
   methods: {
+    async moveSelectedTo(selectedNode) {
+      if (!selectedNode) return;
+      await this.$confirm(`Move selected file to ${selectedNode.path}?`);
+
+      this.showSelectFolder = false;
+
+      for (let file of this.selectedFile) {
+        await this.$vx.post("FileManager/moveFile", {
+          path: file,
+          target: selectedNode.path,
+        });
+      }
+
+      this.selectedFile = [];
+      this.reloadContent();
+    },
+    allowDrop(draggingNode, dropNode, type) {
+      if (type == "inner") return true;
+      return false;
+    },
+    async handleDrop(draggingNode, dropNode) {
+      try {
+        await this.$confirm(
+          `Moving ${draggingNode.data.path} to ${dropNode.data.path}`,
+          {
+            type: "warning",
+          }
+        );
+        await this.moveFolder(draggingNode.data.path, dropNode.data.path);
+
+        //reload target
+        let node = this.$refs.tree.getNode(dropNode.data.path);
+        node.loaded = false;
+        node.expand();
+      } catch (e) {
+        let data = draggingNode.data;
+        let pNode = this.$refs.tree.getNode(data.location);
+        pNode.loaded = false;
+        pNode.expand();
+      }
+    },
+    handleDragEnd(draggingNode, dropNode, dropType, ev) {
+      console.log("drop end");
+      return;
+      console.log(
+        "tree drag end: ",
+        draggingNode,
+        dropNode && dropNode.label,
+        dropType,
+        ev
+      );
+      console.log(ev);
+      ev.preventDefault();
+
+      return false;
+    },
     onSearch() {
       this.$nextTick(this.reloadContent);
     },
@@ -465,20 +559,32 @@ export default {
       }
     },
     async loadNode(node, resolve) {
+      console.log(node);
       if (node.level === 0) {
-        let resp = (await this.$vx.get("FileManager/listDirectory")).data;
-        return resolve(resp);
+        /*       let { data } = await this.$vx.get("FileManager/listDirectory", {
+          params: {
+            path: this.base,
+          },
+        });
+        console.log(data); */
+
+        resolve([
+          {
+            label: "My storage",
+            path: this.base,
+          },
+        ]);
+
+        return;
       }
 
-      let resp = (
-        await this.$vx.get("FileManager/listDirectory", {
-          params: {
-            path: node.data.path,
-          },
-        })
-      ).data;
+      let { data } = await this.$vx.get("FileManager/listDirectory", {
+        params: {
+          path: node.data.path,
+        },
+      });
 
-      return resolve(resp);
+      return resolve(data);
     },
     handleNodeClick(data) {
       this.type = null;
@@ -493,13 +599,11 @@ export default {
 
       if (this.type) {
         if (this.type == "recent") {
-          let data = (
-            await this.$vx.get("FileManager/listRecentFiles", {
-              params: {
-                file_type: this.fileType,
-              },
-            })
-          ).data;
+          let { data } = await this.$vx.get("FileManager/listRecentFiles", {
+            params: {
+              file_type: this.fileType,
+            },
+          });
           this.files = data;
           this.folders = [];
 
@@ -523,15 +627,13 @@ export default {
       this.files = [];
       this.folders = [];
 
-      let data = (
-        await this.$vx.get("FileManager/listContents", {
-          params: {
-            path: this.selectedPath,
-            file_type: this.fileType,
-            search: this.search_text,
-          },
-        })
-      ).data;
+      let { data } = await this.$vx.get("FileManager/listContents", {
+        params: {
+          path: this.selectedPath,
+          file_type: this.fileType,
+          search: this.search_text,
+        },
+      });
 
       this.parentPath = data.parent;
       this.files = data.files;
@@ -570,6 +672,16 @@ export default {
       this.reloadContent();
       this.$refs.tree.remove(data.path);
       this.$refs.tree.append(newNode, this.selectedNode);
+    },
+    async moveFolder(path, target) {
+      let { data } = await this.$vx.post("FileManager/moveFolder", {
+        path,
+        target,
+      });
+      if (data.error) {
+        this.$alert(data.error.message, { type: "error" });
+      }
+      this.reloadContent();
     },
   },
 };
