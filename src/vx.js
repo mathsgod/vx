@@ -42,12 +42,15 @@ class VX {
 
         this.navbar = data.navbar;
 
-
+        this.file_upload_max_size = data.file_upload_max_size;
+        
         this.i18n = window.i18n;
         this.i18n.locale = data.locale;
         let messages = this.i18n.getLocaleMessage(data.locale ?? "en");
         messages = { ...messages, ...data.i18n };
         this.i18n.setLocaleMessage(data.locale, messages);
+
+        
 
     }
 

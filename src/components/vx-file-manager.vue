@@ -1,5 +1,5 @@
 <template>
-  <div class="file-manager-application">
+  <div class="file-manager-application vx-file-manager">
     <div class="content-area-wrapper vx-file-manager-content">
       <div class="sidebar-left">
         <div class="sidebar">
@@ -49,6 +49,7 @@
                   @node-drag-end="handleDragEnd"
                   :allow-drop="allowDrop"
                   @node-drop="handleDrop"
+                  :highlight-current="true"
                 ></el-tree>
                 <a
                   @click="listFiles('recent')"
@@ -205,7 +206,7 @@
                       Drop file here or <em>click to upload</em>
                     </div>
                     <div class="el-upload__tip" slot="tip">
-                      Files with a size less than 10mb
+                      Files with a size less than {{$vx.file_upload_max_size}}
                     </div>
                   </el-upload>
 

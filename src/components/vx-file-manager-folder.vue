@@ -7,22 +7,26 @@
         :id="`folder_${folder.path}`"
         v-model="checked"
       />
-      <label class="custom-control-label" :for="`folder_${folder.path}`"></label>
+      <label
+        class="custom-control-label"
+        :for="`folder_${folder.path}`"
+      ></label>
     </div>
     <div class="card-img-top file-logo-wrapper">
-      <div class="dropdown float-right">
+      <div class="dropdown float-right px-50">
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             <i data-feather="more-vertical"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-edit-outline" command="rename"
-              >Rename</el-dropdown-item
+            <el-dropdown-item
+              icon="el-icon-edit-outline"
+              command="rename"
+              >{{$t('Rename')}}</el-dropdown-item
             >
-            <el-dropdown-item icon="el-icon-info" command="info">Info</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-delete" command="delete"
-              >Delete</el-dropdown-item
-            >
+            <el-dropdown-item icon="el-icon-delete" command="delete">{{
+              $t("Delete")
+            }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>

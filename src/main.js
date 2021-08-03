@@ -1,7 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import "./assets/css/bootstrap.min.css";
+import "./assets/css/bootstrap-extended.min.css";
+import "./assets/css/colors.min.css";
+import "./assets/css/components.min.css";
+import "./assets/css/themes/dark-layout.min.css";
+import "./assets/css/themes/bordered-layout.min.css";
+import "./assets/css/themes/semi-dark-layout.min.css";
+import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
+
+        
 import "./assets/vx.css"
+
 
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)

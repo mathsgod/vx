@@ -17,25 +17,25 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item icon="el-icon-download" command="download"
-              >Download</el-dropdown-item
+              >{{$t('Download')}}</el-dropdown-item
             >
             <el-dropdown-item
               icon="el-icon-view"
               command="preview"
               v-if="canPreview"
-              >Preview</el-dropdown-item
+              >{{$t('Preview')}}</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-copy-document" command="duplicate"
               >Make a copy</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-edit-outline" command="rename"
-              >Rename</el-dropdown-item
+              >{{$t('Rename')}}</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-info" command="info"
-              >Info</el-dropdown-item
+              >{{$t('Info')}}</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-delete" command="delete"
-              >Delete</el-dropdown-item
+              >{{$t('Delete')}}</el-dropdown-item
             >
           </el-dropdown-menu>
         </el-dropdown>
