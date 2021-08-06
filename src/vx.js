@@ -232,7 +232,7 @@ class VX {
 
         if (data.error) {
             this.refreshToken = "";
-            throw data.error.message;
+            return;
         }
 
         if (data.access_token) {
