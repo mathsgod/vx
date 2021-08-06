@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useRegistration } from '@web-auth/webauthn-helper';
 import { useLogin } from '@web-auth/webauthn-helper';
-
+import package_json from './../package.json';
 
 class VX {
     endpoint;
 
     async init(config) {
+        this.vx_version = package_json.version;
         this.endpoint = config.endpoint;
         let headers = {};
 
