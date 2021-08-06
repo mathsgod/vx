@@ -14,6 +14,7 @@ import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
 import "./assets/vx.css"
 
 
+
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 
