@@ -53,11 +53,44 @@ export default {
 
           let resp;
           this.loading = true;
-          if (this.method == "post") {
-            resp = await this.$vx.post(action, this.form);
-          } else if (this.method == "patch") {
-            resp = await this.$vx.patch(action, this.form);
+
+          if (this.$el.querySelectorAll("input.el-upload__input").length > 0) {
+            let formData = new FormData();
+
+            this.$el
+              .querySelectorAll("input.el-upload__input")
+              .forEach((input) => {
+                if (input.multiple) {
+                  input.files.forEach((file) => {
+                    formData.append(input.name + "[]", file);
+                  });
+                } else {
+                  input.files.forEach((file) => {
+                    formData.append(input.name, file);
+                  });
+                }
+              });
+
+            formData.append(
+              "vx",
+              new Blob([JSON.stringify(this.form)], {
+                type: "application/json",
+              })
+            );
+
+            resp = await this.$vx.post(action, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
+          } else {
+            if (this.method == "post") {
+              resp = await this.$vx.post(action, this.form);
+            } else if (this.method == "patch") {
+              resp = await this.$vx.patch(action, this.form);
+            }
           }
+
           this.loading = false;
 
           if (resp.status == 204) {

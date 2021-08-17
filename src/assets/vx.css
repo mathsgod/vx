@@ -20,9 +20,25 @@ form.small-label label.el-form-item__label{
     margin: inherit;
 }
 
+.main-menu.menu-dark .navigation>li>ul li.has-sub>a, .main-menu.menu-dark .navigation>li>ul li.has-sub>ul>li, .main-menu.menu-dark .navigation>li>ul li:not(.has-sub){
+    margin:inherit;
+}
+
+#main-menu-navigation > li.nav-item.has-sub.open.sidebar-group-active > ul > li.has-sub.open > ul > li.active > a{
+    background-color: transparent
+}
+
+.main-menu.menu-dark .navigation>li ul li ul a{
+    padding:10px 15px 10px 20px;
+}
+
 .main-menu.menu-light .navigation>li ul li ul a{
     padding:10px 15px 10px 20px;
 }
+.semi-dark-layout .main-menu-content .navigation-main .menu-content .active a{
+    background-color: transparent!important;   
+}
+
 
 .dark-layout .el-card{
     background-color: #283046;
