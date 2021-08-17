@@ -3,7 +3,26 @@ form.small-label label.el-form-item__label{
     line-height: normal;
 }
 
+.has-sub>ul.menu-content>li>a{
+    margin:0px 15px 0px 15px !important;
+}
 
+.main-menu ul.menu-content{
+    margin-left: 7px !important;
+}
+
+.main-menu .navigation >li.has-sub li.active{
+    margin-right: 15px!important;
+}
+
+
+.main-menu .navigation>li>ul li.has-sub>a, .main-menu.menu-light .navigation>li>ul li.has-sub>ul>li, .main-menu.menu-light .navigation>li>ul li:not(.has-sub){
+    margin: inherit;
+}
+
+.main-menu.menu-light .navigation>li ul li ul a{
+    padding:10px 15px 10px 20px;
+}
 
 .dark-layout .el-card{
     background-color: #283046;
