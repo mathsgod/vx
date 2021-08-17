@@ -3,7 +3,7 @@ form.small-label label.el-form-item__label{
     line-height: normal;
 }
 
-.has-sub>ul.menu-content>li>a{
+.main-menu .has-sub>ul.menu-content>li>a{
     margin:0px 15px 0px 15px !important;
 }
 
