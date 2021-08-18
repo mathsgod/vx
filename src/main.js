@@ -60,6 +60,8 @@ import 'material-icons/iconfont/material-icons.css';
 import VX from './vx';
 Vue.use(VX);
 
+Vue.component("vx-avatar-group", () => import("./components/vx-avatar-group"));
+Vue.component("vx-avatar", () => import("./components/vx-avatar"));
 Vue.component("vx-nav", () => import("./components/vx-nav"));
 Vue.component("vx-nav-item", () => import("./components/vx-nav-item"));
 
