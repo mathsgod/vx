@@ -96,26 +96,21 @@ export default {
 
           if (resp.status == 204) {
             this.$message.success("Updated");
-            if (this.successUrl) {
-              this.$router.push(this.successUrl);
-              return;
-            }
-
-            if (resp.headers.location) {
-              this.$router.push(resp.headers.location);
-            }
-            return;
           }
 
           if (resp.status == 201) {
             this.$message.success(resp.statusText);
+          }
 
+          if (resp.status == 201 || resp.status == 204) {
             if (this.successUrl) {
-              this.$router.push(this.successUrl);
+              let url = this.successUrl;
+              url = url.replace(
+                ":content-location",
+                resp.headers["content-location"]
+              );
+              this.$router.push(url);
               return;
-            }
-            if (resp.headers.location) {
-              this.$router.push(resp.headers.location);
             }
 
             return;

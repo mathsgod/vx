@@ -20,6 +20,8 @@ export default {
     let resp = await fetch("config.json");
     await this.$vx.init(await resp.json());
 
+    document.title = this.$vx.config.company ?? "vx";
+
     this.logined = this.$vx.logined;
     this.ready = true;
     this.$vx.setRouter(this.$router);
