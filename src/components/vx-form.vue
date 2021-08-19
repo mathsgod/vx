@@ -25,6 +25,7 @@ export default {
   props: {
     action: String,
     size: String,
+    successUrl: String,
     method: {
       type: String,
       default: "post",
@@ -95,6 +96,11 @@ export default {
 
           if (resp.status == 204) {
             this.$message.success("Updated");
+            if (this.successUrl) {
+              this.$router.push(this.successUrl);
+              return;
+            }
+
             if (resp.headers.location) {
               this.$router.push(resp.headers.location);
             }
@@ -104,6 +110,10 @@ export default {
           if (resp.status == 201) {
             this.$message.success(resp.statusText);
 
+            if (this.successUrl) {
+              this.$router.push(this.successUrl);
+              return;
+            }
             if (resp.headers.location) {
               this.$router.push(resp.headers.location);
             }

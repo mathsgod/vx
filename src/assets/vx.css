@@ -114,3 +114,7 @@ div.el-card{
 :root{
     --primary:red !important
 }
+
+.el-table{
+    z-index:2
+}
