@@ -73,6 +73,14 @@ class VX {
         }
     }
 
+    get objectID() {
+        let s = this.$route.path.split("/");
+        if (s.length >= 2) {
+            return parseInt([2]);
+        }
+        return null;
+    }
+
     get accessToken() {
         return localStorage.getItem("access_token");
     }
