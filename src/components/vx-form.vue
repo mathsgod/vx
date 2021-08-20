@@ -94,15 +94,15 @@ export default {
 
           this.loading = false;
 
-          if (resp.status == 204) {
-            this.$message.success("Updated");
-          }
+          if (resp.status.toString()[0] == "2") {
+            if (resp.status == 204) {
+              this.$message.success("Updated");
+            }
 
-          if (resp.status == 201) {
-            this.$message.success(resp.statusText);
-          }
+            if (resp.status == 201) {
+              this.$message.success(resp.statusText);
+            }
 
-          if (resp.status == 201 || resp.status == 204) {
             if (this.successUrl) {
               let url = this.successUrl;
               url = url.replace(
@@ -112,31 +112,15 @@ export default {
               this.$router.push(url);
               return;
             }
-
             return;
           }
 
-          if (resp.status == 200) {
-            if (resp.data.error) {
-              this.$alert(resp.data.error.message, { type: "error" });
+          if (resp.status.toString()[0] == "4") {
+            if (resp.status == 401) {
+              this.$router.push("/");
               return;
             }
-
-            for (let action of resp.data) {
-              switch (action.type) {
-                case "message":
-                  this.$message(action.body);
-                  break;
-
-                case "notify":
-                  this.$notify(action.body);
-                  break;
-
-                case "redirect":
-                  this.$router.push(action.body);
-                  break;
-              }
-            }
+            this.$message.error(action.body);
           }
         }
       });
