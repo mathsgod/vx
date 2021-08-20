@@ -17,7 +17,11 @@
               type="primary"
               v-t="'Search'"
             ></el-button>
-            <el-button @click="resetSearch" :size="size" v-t="$t('Reset')"></el-button>
+            <el-button
+              @click="resetSearch"
+              :size="size"
+              v-t="$t('Reset')"
+            ></el-button>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -153,7 +157,13 @@ export default {
       this.onSearch();
     },
     filterChanged(filters) {
-      this.filters = filters;
+      let f = {};
+      for (let c in filters) {
+        if (filters[c].length > 0) {
+          f[c] = filters[c];
+        }
+      }
+      this.filters = f;
       this.reload();
     },
     onDelete(uri) {
