@@ -76,7 +76,7 @@ class VX {
     get objectID() {
         let s = this.$route.path.split("/");
         if (s.length >= 2) {
-            return parseInt([2]);
+            return parseInt(s[2]);
         }
         return null;
     }
