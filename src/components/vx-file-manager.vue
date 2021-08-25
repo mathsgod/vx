@@ -408,7 +408,7 @@ export default {
   },
   created() {
     this.reloadContent();
-    this.action = this.$vx.endpoint + "/FileManager/uploadFile";
+    this.action = this.$vx.endpoint + "FileManager/uploadFile";
     this.uploadHeaders = {
       Authorization: "Bearer " + this.$vx.accessToken,
     };
