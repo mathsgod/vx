@@ -28,7 +28,7 @@ export default {
 
     if (this.logined) {
       if (this.$route.path == "/") {
-        this.$router.push("/Dashboard");
+        this.$router.push(this.$vx.me.default_page);
         return;
       }
     }
