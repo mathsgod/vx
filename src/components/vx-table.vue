@@ -147,6 +147,9 @@ export default {
     this.reload();
   },
   watch: {
+    localPerPage() {
+      this.reload();
+    },
     page() {
       this.reload();
     },
@@ -197,7 +200,7 @@ export default {
         .get(this.remote, {
           params: {
             page: this.page,
-            per_page: this.pagination ? this.per_page : null,
+            per_page: this.pagination ? this.localPerPage : null,
             sort: this.sort,
             search: this.search,
             filter: this.filters,
@@ -211,7 +214,7 @@ export default {
 
           this.loading = false;
 
-          this.total = Math.ceil(resp.total / this.per_page);
+          this.total = Math.ceil(resp.total / this.localPerPage);
           this.total_entries = resp.total;
           this.data = resp.data;
         })
