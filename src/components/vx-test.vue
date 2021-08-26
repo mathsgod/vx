@@ -4,7 +4,7 @@
 
     <jspreadsheet
       ref="jss"
-      :minDimensions="[5, 10]"
+      :min-dimensions="[5, 10]"
       :columns="columns"
     ></jspreadsheet>
 
