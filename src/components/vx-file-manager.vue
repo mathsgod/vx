@@ -543,17 +543,22 @@ export default {
       this.selectedFolder = this.selectedFolder.filter((s) => s != path);
     },
     addNew(command) {
+      let current_node = this.$refs.tree.getCurrentNode();
+      if (!current_node) {
+        this.$message.warning("Please select folder");
+        return;
+      }
+
       if (command == "file") {
         this.file_uploader = true;
       }
       if (command == "folder") {
         this.$prompt("Please input new folder name").then(async ({ value }) => {
-          let data = (
-            await this.$vx.post("FileManager/createFolder", {
-              path: this.selectedPath + "/" + value,
-            })
-          ).data;
-          this.$refs.tree.append(data, this.selectedNode);
+          let { data } = await this.$vx.post("FileManager/createFolder", {
+            path: this.selectedPath + "/" + value,
+          });
+
+          this.$refs.tree.append(data, this.$refs.tree.getCurrentNode());
           await this.reloadContent();
         });
       }
@@ -573,6 +578,10 @@ export default {
             path: this.base,
           },
         ]);
+
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(this.base);
+        });
 
         return;
       }
