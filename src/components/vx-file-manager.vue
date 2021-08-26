@@ -206,7 +206,7 @@
                       Drop file here or <em>click to upload</em>
                     </div>
                     <div class="el-upload__tip" slot="tip">
-                      Files with a size less than {{$vx.file_upload_max_size}}
+                      Files with a size less than {{ $vx.file_upload_max_size }}
                     </div>
                   </el-upload>
 
@@ -366,7 +366,6 @@ import VxFileManagerFile from "./vx-file-manager-file.vue";
 import VxFileManagerFolder from "./vx-file-manager-folder.vue";
 import feather from "feather-icons";
 import VxFileManagerLabels from "./vx-file-manager-labels.vue";
-
 
 export default {
   name: "vx-file-manager",
@@ -560,7 +559,6 @@ export default {
       }
     },
     async loadNode(node, resolve) {
-      console.log(node);
       if (node.level === 0) {
         /*       let { data } = await this.$vx.get("FileManager/listDirectory", {
           params: {
@@ -612,13 +610,16 @@ export default {
         }
 
         {
-          let data = (
-            await this.$vx.get("FileManager/listFiles", {
-              params: {
-                type: this.type,
-              },
-            })
-          ).data;
+          let { data } = await this.$vx.get("FileManager/listFiles", {
+            params: {
+              path: this.base,
+              type: this.type,
+            },
+          });
+          if (data.error) {
+            this.$message.error(data.error.message);
+            return;
+          }
           this.files = data;
           this.folders = [];
         }
