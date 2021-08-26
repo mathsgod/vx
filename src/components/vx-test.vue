@@ -6,6 +6,7 @@
       ref="jss"
       :min-dimensions="[5, 10]"
       :columns="columns"
+      v-model="data"
     ></jspreadsheet>
 
     <el-button @click="add">add</el-button>
@@ -45,11 +46,13 @@ export default {
           width: 100,
         },
       ],
+      data: [],
     };
   },
   methods: {
     add() {
-      this.$refs.jss.insertRow();
+      console.log(this.data);
+      //this.$refs.jss.insertRow();
     },
   },
 };
