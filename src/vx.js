@@ -296,6 +296,19 @@ class VX {
         return this.post("/?_entry=removeMyFavorite", { path });
     }
 
+    loadScript(src) {
+        return new Promise((resolve) => {
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.addEventListener("load", resolve);
+            script.src = src;
+
+            document.getElementsByClassName("content-body")[0].appendChild(script);
+
+
+        });
+    }
+
 }
 
 export default {
