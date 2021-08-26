@@ -10,6 +10,7 @@
     ></jspreadsheet>
 
     <el-button @click="add">add</el-button>
+    <el-button @click="getData">get</el-button>
   </div>
 </template>
 <script>
@@ -46,13 +47,17 @@ export default {
           width: 100,
         },
       ],
-      data: [],
+      data: [["1", "2", "3"]],
     };
   },
   methods: {
     add() {
+      this.data = [["x", "y", "z"]];
+
+      //this.$refs.jss.reload();
+    },
+    getData() {
       console.log(this.data);
-      //this.$refs.jss.insertRow();
     },
   },
 };
