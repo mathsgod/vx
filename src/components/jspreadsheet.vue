@@ -6,9 +6,12 @@
 import jspreadsheet from "jspreadsheet-ce";
 
 export default {
+  props: {
+    minDimensions: Array,
+  },
   mounted() {
-    console.log(this.$attrs);
-    Object.assign(this, jspreadsheet(this.$el, this.$attrs));
+    let options = Object.assign(this.$attrs, this.$props);
+    Object.assign(this, jspreadsheet(this.$el, options));
   },
 };
 </script>

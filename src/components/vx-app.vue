@@ -556,14 +556,6 @@
       </p>
     </footer>
 
-    <el-backtop
-      target=".page-component__scroll .el-scrollbar__wrap"
-      :bottom="100"
-    >
-      <button class="btn btn-primary btn-icon" type="button">
-        <i data-feather="arrow-up"></i>
-      </button>
-    </el-backtop>
     <!-- END: Footer-->
   </div>
 </template>
