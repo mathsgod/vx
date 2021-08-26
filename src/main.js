@@ -10,7 +10,7 @@ import "./assets/css/themes/bordered-layout.min.css";
 import "./assets/css/themes/semi-dark-layout.min.css";
 import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
 
-        
+
 import "./assets/vx.css"
 
 
@@ -59,6 +59,8 @@ import 'material-icons/iconfont/material-icons.css';
 
 import VX from './vx';
 Vue.use(VX);
+
+Vue.component("jspreadsheet", () => import("./components/jspreadsheet"));
 
 Vue.component("vx-avatar-group", () => import("./components/vx-avatar-group"));
 Vue.component("vx-avatar", () => import("./components/vx-avatar"));
