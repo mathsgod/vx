@@ -2,6 +2,7 @@
   <vx-card v-loading="loading">
     <vx-card-body>
       <el-form
+        @submit.native.prevent
         :model="form"
         label-width="auto"
         ref="form1"
