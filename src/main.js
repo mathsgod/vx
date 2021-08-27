@@ -60,6 +60,10 @@ import 'material-icons/iconfont/material-icons.css';
 import VX from './vx';
 Vue.use(VX);
 
+import ElImageViewer from "element-ui/packages/image/src/image-viewer";
+Vue.component("el-image-viewer", ElImageViewer);
+
+
 Vue.component("jspreadsheet", () => import("./components/jspreadsheet"));
 
 Vue.component("vx-avatar-group", () => import("./components/vx-avatar-group"));

@@ -1,6 +1,15 @@
 <template>
   <div>
-    abc
+    <div>
+      <el-button @click="onPreview">Preview</el-button>
+      <el-image-viewer
+        v-if="showViewer"
+        :on-close="closeViewer"
+        :url-list="[url]"
+      />
+    </div>
+
+    <el-divider></el-divider>
 
     <jspreadsheet
       ref="jss"
@@ -14,11 +23,11 @@
   </div>
 </template>
 <script>
-import "jspreadsheet-ce/src/jspreadsheet.css";
-import "jsuites/dist/jsuites.css";
 export default {
   data() {
     return {
+      showViewer: false, // 显示查看器
+      url: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
       search: "",
       columns: [
         {
@@ -58,6 +67,13 @@ export default {
     },
     getData() {
       console.log(this.data);
+    },
+    onPreview() {
+      this.showViewer = true;
+    },
+    // 关闭查看器
+    closeViewer() {
+      this.showViewer = false;
     },
   },
 };

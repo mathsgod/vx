@@ -1,5 +1,7 @@
 <script>
 import jspreadsheet from "jspreadsheet-ce";
+import "jspreadsheet-ce/src/jspreadsheet.css";
+import "jsuites/dist/jsuites.css";
 
 export default {
   props: {
