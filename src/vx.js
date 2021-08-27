@@ -3,6 +3,9 @@ import { useRegistration } from '@web-auth/webauthn-helper';
 import { useLogin } from '@web-auth/webauthn-helper';
 import package_json from './../package.json';
 
+import jwtDecode from "jwt-decode";
+import moment from "moment";
+
 class VX {
     endpoint;
 
@@ -19,6 +22,14 @@ class VX {
             baseURL: config.endpoint,
             headers: headers
         });
+
+
+        if (this.accessToken) {
+            let payload = jwtDecode(this.accessToken);
+            if (payload.exp < moment().unix()) { //expired
+                await this.renewAccessToken();
+            }
+        }
 
         if (this.accessToken) {
             this.axios.defaults.headers.Authorization = "Bearer " + this.accessToken;
