@@ -136,6 +136,14 @@ class VX {
     async get(url, config) {
         let resp = this.axios.get(url, config);
 
+
+        if (url.substring(0, 1) != "/") {
+            let path = this.$route.path.split("/");
+            path.pop();
+            path.push(url);
+            url = path.join("/");
+        }
+
         try {
             await resp;
         } catch (e) {
