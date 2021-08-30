@@ -58,11 +58,7 @@ export default {
         return;
       }
 
-      for (let a of resp) {
-        if (a.type == "page") {
-          window.$(this.$refs.content).html(a.body.content);
-        }
-      }
+      window.$(this.$refs.content).html(resp);
     },
     getClass() {
       return ["nav-" + this.type];
