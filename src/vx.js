@@ -144,54 +144,53 @@ class VX {
         return await register()
     }
 
-    async get(url, config) {
 
+    processUrl(url) {
+        if (url === undefined) {
+            return this.$route.fullPath;
+        }
         if (url.substring(0, 1) != "/") {
             let path = this.$route.path.split("/");
             path.pop();
             path.push(url);
-            url = path.join("/");
+            return path.join("/");
         }
 
-        let resp = this.axios.get(url, config);
+        return url;
+    }
+
+    async get(url, config) {
+        let u = this.processUrl(url);
+        let resp = this.axios.get(u, config);
         try {
             await resp;
         } catch (e) {
             if (e.response.status == 401) {
                 await this.renewAccessToken();
-                return this.get(url, config);
+                return this.get(u, config);
             }
         }
-
         return resp;
     }
 
     post(url, data, config) {
-        if (url === null) {
-            url = this.$route.path;
-        }
-        return this.axios.post(url, data, config);
+        let u = this.processUrl(url);
+        return this.axios.post(u, data, config);
     }
 
     put(url, data, config) {
-        if (url === null) {
-            url = this.$route.path;
-        }
-        return this.axios.put(url, data, config);
+        let u = this.processUrl(url);
+        return this.axios.put(u, data, config);
     }
 
     patch(url, data, config) {
-        if (url === null) {
-            url = this.$route.path;
-        }
-        return this.axios.patch(url, data, config);
+        let u = this.processUrl(url);
+        return this.axios.patch(u, data, config);
     }
 
     delete(url, config) {
-        if (url === null) {
-            url = this.$route.path;
-        }
-        return this.axios.delete(url, config)
+        let u = this.processUrl(url);
+        return this.axios.delete(u, config)
     }
 
     async login(username, password, code) {
