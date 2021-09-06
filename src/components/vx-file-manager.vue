@@ -441,7 +441,7 @@ export default {
       this.showSelectFolder = false;
 
       for (let file of this.selectedFile) {
-        await this.$vx.post("FileManager/moveFile", {
+        await this.$vx.post("/FileManager/moveFile", {
           path: file,
           target: selectedNode.path,
         });
@@ -520,14 +520,14 @@ export default {
     deleteSelected() {
       this.$confirm("Delete?").then(async () => {
         for (let p of this.selectedFolder) {
-          await this.$vx.post("FileManager/deleteFolder", {
+          await this.$vx.post("/FileManager/deleteFolder", {
             path: p,
           });
           await this.$refs.tree.remove(p);
         }
 
         for (let file of this.selectedFile) {
-          await this.$vx.post("FileManager/deleteFile", {
+          await this.$vx.post("/FileManager/deleteFile", {
             path: file,
           });
         }
@@ -554,7 +554,7 @@ export default {
       }
       if (command == "folder") {
         this.$prompt("Please input new folder name").then(async ({ value }) => {
-          let { data } = await this.$vx.post("FileManager/createFolder", {
+          let { data } = await this.$vx.post("/FileManager/createFolder", {
             path: this.selectedPath + "/" + value,
           });
 
@@ -586,7 +586,7 @@ export default {
         return;
       }
 
-      let { data } = await this.$vx.get("FileManager/listDirectory", {
+      let { data } = await this.$vx.get("/FileManager/listDirectory", {
         params: {
           path: node.data.path,
         },
@@ -607,7 +607,7 @@ export default {
 
       if (this.type) {
         if (this.type == "recent") {
-          let { data } = await this.$vx.get("FileManager/listRecentFiles", {
+          let { data } = await this.$vx.get("/FileManager/listRecentFiles", {
             params: {
               file_type: this.fileType,
             },
@@ -619,7 +619,7 @@ export default {
         }
 
         {
-          let { data } = await this.$vx.get("FileManager/listFiles", {
+          let { data } = await this.$vx.get("/FileManager/listFiles", {
             params: {
               path: this.base,
               type: this.type,
@@ -638,7 +638,7 @@ export default {
       this.files = [];
       this.folders = [];
 
-      let { data } = await this.$vx.get("FileManager/listContents", {
+      let { data } = await this.$vx.get("/FileManager/listContents", {
         params: {
           path: this.selectedPath,
           file_type: this.fileType,
@@ -651,13 +651,13 @@ export default {
       this.folders = data.folders;
     },
     async deleteFile(file) {
-      await this.$vx.post("FileManager/deleteFile", {
+      await this.$vx.post("/FileManager/deleteFile", {
         path: file,
       });
       this.reloadContent();
     },
     async renameFile(data) {
-      let resp = (await this.$vx.post("FileManager/renameFile", data)).data;
+      let resp = (await this.$vx.post("/FileManager/renameFile", data)).data;
       if (resp.error) {
         this.$message.error(resp.error.message);
       } else {
@@ -665,27 +665,27 @@ export default {
       }
     },
     async duplicateFile(path) {
-      await this.$vx.post("FileManager/duplicateFile", {
+      await this.$vx.post("/FileManager/duplicateFile", {
         path,
       });
       this.reloadContent();
     },
     async deleteFolder(path) {
-      await this.$vx.post("FileManager/deleteFolder", {
+      await this.$vx.post("/FileManager/deleteFolder", {
         path,
       });
       this.reloadContent();
       this.$refs.tree.remove(path);
     },
     async renameFolder(data) {
-      let newNode = (await this.$vx.post("FileManager/renameFolder", data))
+      let newNode = (await this.$vx.post("/FileManager/renameFolder", data))
         .data;
       this.reloadContent();
       this.$refs.tree.remove(data.path);
       this.$refs.tree.append(newNode, this.selectedNode);
     },
     async moveFolder(path, target) {
-      let { data } = await this.$vx.post("FileManager/moveFolder", {
+      let { data } = await this.$vx.post("/FileManager/moveFolder", {
         path,
         target,
       });
