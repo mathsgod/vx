@@ -159,7 +159,7 @@ export default {
       }
 
       if (command == "preview") {
-        let resp = await this.$vx.get("FileManager/readFile", {
+        let resp = await this.$vx.get("/FileManager/readFile", {
           params: {
             path: this.file.path,
           },
@@ -172,7 +172,7 @@ export default {
       }
 
       if (command == "download") {
-        let resp = await this.$vx.get("FileManager/readFile", {
+        let resp = await this.$vx.get("/FileManager/readFile", {
           params: {
             path: this.file.path,
           },
