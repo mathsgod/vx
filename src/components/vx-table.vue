@@ -2,7 +2,10 @@
   <div>
     <el-card :body-style="{ padding: '1rem' }">
       <el-collapse v-if="searchable">
-        <el-collapse-item name="search" :title="$t('Search')">
+        <el-collapse-item name="search">
+          <template v-slot:title>
+            <i class="el-icon-search"></i>&nbsp;&nbsp;{{$t('Search')}}
+          </template>
           <slot
             name="search"
             v-bind:search="search"
