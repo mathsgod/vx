@@ -4,7 +4,7 @@
       <el-collapse v-if="searchable">
         <el-collapse-item name="search">
           <template v-slot:title>
-            <i class="el-icon-search"></i>&nbsp;&nbsp;{{$t('Search')}}
+            <i class="el-icon-search"></i>&nbsp;&nbsp;{{ $t("Search") }}
           </template>
           <slot
             name="search"
@@ -147,10 +147,20 @@ export default {
       this.sort = this.defaultSort.prop + "|" + this.defaultSort.order;
     }
 
+    //by using this remote link to get local data
+    let d = this.getLocalData();
+    if (d.per_page) {
+      this.localPerPage = d.per_page;
+    }
+
     this.reload();
   },
   watch: {
     localPerPage() {
+      let d = this.getLocalData();
+      d.per_page = this.localPerPage;
+      this.setLocalData(d);
+
       this.reload();
     },
     page() {
@@ -158,6 +168,14 @@ export default {
     },
   },
   methods: {
+    setLocalData(data) {
+      localStorage.setItem(this.remote, JSON.stringify(data));
+    },
+    getLocalData() {
+      if (!localStorage.getItem(this.remote)) return {};
+      let a = localStorage.getItem(this.remote);
+      return JSON.parse(a);
+    },
     resetSearch() {
       this.search = {};
       this.onSearch();
