@@ -9,8 +9,6 @@ import "./assets/css/themes/dark-layout.min.css";
 import "./assets/css/themes/bordered-layout.min.css";
 import "./assets/css/themes/semi-dark-layout.min.css";
 import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
-
-
 import "./assets/vx.css"
 
 
@@ -59,6 +57,8 @@ import 'material-icons/iconfont/material-icons.css';
 
 import VX from './vx';
 Vue.use(VX);
+
+
 
 import ElImageViewer from "element-ui/packages/image/src/image-viewer";
 Vue.component("el-image-viewer", ElImageViewer);

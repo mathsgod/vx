@@ -13,7 +13,7 @@
     "axios": "^0.21.1",
     "codemirror": "^5.62.0",
     "core-js": "^3.6.5",
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.15.6",
     "feather-icons": "^4.28.0",
     "jspreadsheet-ce": "^4.9.1",
     "jsuites": "^4.9.4",
