@@ -18,7 +18,12 @@ export default {
   },
   async beforeCreate() {
     let resp = await fetch("config.json");
-    await this.$vx.init(await resp.json());
+    try {
+      await this.$vx.init(await resp.json());
+    } catch (e) {
+      this.$alert(e, { type: "error" });
+      return;
+    }
 
     document.title = this.$vx.config.company ?? "vx";
 

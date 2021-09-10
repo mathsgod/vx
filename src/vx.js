@@ -37,6 +37,11 @@ class VX {
 
 
         let { data } = await this.get("/");
+        if (data.error) {
+            throw data.error.message;
+        }
+
+
 
         this.version = data.version;
         this.version.push({
