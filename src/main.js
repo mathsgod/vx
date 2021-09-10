@@ -66,6 +66,7 @@ Vue.component("el-image-viewer", ElImageViewer);
 
 Vue.component("jspreadsheet", () => import("./components/jspreadsheet"));
 
+Vue.component("vx-div", () => import("./components/vx-div"));
 Vue.component("vx-avatar-group", () => import("./components/vx-avatar-group"));
 Vue.component("vx-avatar", () => import("./components/vx-avatar"));
 Vue.component("vx-nav", () => import("./components/vx-nav"));
