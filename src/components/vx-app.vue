@@ -531,7 +531,7 @@
             </div>
           </div -->
         </div>
-        <div class="content-body" ref="content"></div>
+        <div class="content-body" ref="content" v-loading="loading"></div>
       </div>
     </div>
     <!-- END: Content-->
@@ -588,6 +588,7 @@ export default {
       selectedLanguage: null,
       navbar: null,
       favs: [],
+      loading: false,
     };
   },
   components: {
@@ -760,14 +761,21 @@ export default {
       this.$router.push("/");
     },
     async renderContent(path) {
-      console.log("render content", path);
+      let content_el = this.$refs.content;
+      while (content_el.firstChild) {
+        content_el.removeChild(content_el.firstChild);
+      }
+
       this.breadcrumb = [];
       this.title = "";
+      this.loading = true;
       let resp;
       try {
         resp = await this.$vx.get(path);
+        this.loading = false;
       } catch (e) {
         window.$(this.$refs.content).html(e);
+        this.loading = false;
         return;
       }
 
@@ -792,34 +800,8 @@ export default {
 
         if (resp.status == 301 || resp.status == 302 || resp.status == 303) {
           //redirect
-
           this.$router.push(resp.location);
           return;
-        }
-
-        for (let action of resp) {
-          switch (action.type) {
-            case "message":
-              this.$message(action.body);
-              break;
-
-            case "notify":
-              this.$notify(action.body);
-              break;
-
-            case "redirect":
-              this.$router.push(action.body);
-              break;
-
-            case "page":
-              console.log(action);
-              content += action.body.content;
-              if (action.body.header) {
-                this.title = this.$i18n.t(action.body.header.title);
-              }
-
-              break;
-          }
         }
       }
 
