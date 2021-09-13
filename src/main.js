@@ -26,7 +26,7 @@ const i18n = new VueI18n({
 window.i18n = i18n;
 
 import ElementUI from 'element-ui'
-//import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css';
 import './assets/element-ui/theme/index.css'
 
 import enLocale from 'element-ui/lib/locale/lang/en'
