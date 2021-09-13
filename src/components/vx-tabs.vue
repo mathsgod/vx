@@ -4,7 +4,12 @@
       <slot></slot>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" role="tabpanel" ref="content"></div>
+      <div
+        class="tab-pane active"
+        role="tabpanel"
+        ref="content"
+        :loading="loading"
+      ></div>
     </div>
   </div>
 </template>
@@ -18,7 +23,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
 
   async mounted() {
@@ -50,7 +57,9 @@ export default {
       } else {
         link = url;
       }
+      this.loading = true;
       let resp = (await this.$vx.get(link)).data;
+      this.loading = false;
 
       if (resp.error) {
         this.$message.error(resp.error.message);
