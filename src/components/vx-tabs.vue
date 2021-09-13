@@ -8,7 +8,7 @@
         class="tab-pane active"
         role="tabpanel"
         ref="content"
-        :loading="loading"
+        v-loading="loading"
       ></div>
     </div>
   </div>
