@@ -214,11 +214,11 @@ export default {
       }
       this.reload();
     },
-    reload() {
+    async reload() {
       this.loading = true;
 
-      return this.$vx
-        .get(this.remote, {
+      try {
+        let { data, status } = await this.$vx.get(this.remote, {
           params: {
             page: this.page,
             per_page: this.pagination ? this.localPerPage : null,
@@ -229,22 +229,22 @@ export default {
             show_update: this.showUpdate,
             show_delete: this.showDelete,
           },
-        })
-        .then((resp) => {
-          resp = resp.data;
-
-          this.loading = false;
-
-          this.total = Math.ceil(resp.total / this.localPerPage);
-          this.total_entries = resp.total;
-          this.data = resp.data;
-        })
-        .catch((error) => {
-          if (error.response.status == 401) {
-            this.$router.push("/");
-            return;
-          }
         });
+
+        this.loading = false;
+
+        if (status == 401) {
+          this.$router.push("/");
+          return;
+        }
+
+        this.total = Math.ceil(data.total / this.localPerPage);
+        this.total_entries = data.total;
+        this.data = data.data;
+      } catch (e) {
+        this.loading = false;
+        this.$alert(e, { type: "error" });
+      }
     },
   },
 };
