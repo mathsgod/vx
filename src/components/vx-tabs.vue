@@ -64,16 +64,15 @@ export default {
         this.loading = false;
 
         if (data.error) {
-          this.$message.error(resp.error.message);
+          this.$message.error(data.error.message);
 
           return;
         }
 
         window.$(this.$refs.content).html(data);
-        
       } catch (e) {
         this.loading = false;
-        this.$message.error(e);
+        this.$alert(e, { type: "error" });
         return;
       }
     },
