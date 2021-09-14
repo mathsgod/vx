@@ -58,16 +58,24 @@ export default {
         link = url;
       }
       this.loading = true;
-      let resp = (await this.$vx.get(link)).data;
-      this.loading = false;
 
-      if (resp.error) {
-        this.$message.error(resp.error.message);
+      try {
+        let { data } = await this.$vx.get(link);
+        this.loading = false;
 
+        if (data.error) {
+          this.$message.error(resp.error.message);
+
+          return;
+        }
+
+        window.$(this.$refs.content).html(data);
+        
+      } catch (e) {
+        this.loading = false;
+        this.$message.error(e);
         return;
       }
-
-      window.$(this.$refs.content).html(resp);
     },
     getClass() {
       return ["nav-" + this.type];
