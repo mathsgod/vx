@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <el-descriptions title="User Info">
+      <el-descriptions title="User Info" :column="1">
         <el-descriptions-item label="Username"
           >kooriookami</el-descriptions-item
         >
