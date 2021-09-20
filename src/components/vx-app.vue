@@ -787,10 +787,24 @@ export default {
       this.title = this.$i18n.t(this.title);
 
       if (paths.length > 2) {
-        this.breadcrumb.push({
-          to: "/" + paths[1],
-          label: this.$i18n.t(paths[1]),
-        });
+        if (paths[paths.length - 1] == "view") {
+          this.breadcrumb.push({
+            to: "/" + paths[1],
+            label: this.$i18n.t(paths[1]),
+          });
+        } else {
+          if (paths.length == 4) {
+            this.breadcrumb.push({
+              to: "/" + paths[1] + "/" + paths[2] + "/view",
+              label: this.$i18n.t(paths[1]),
+            });
+          } else {
+            this.breadcrumb.push({
+              to: "/" + paths[1],
+              label: this.$i18n.t(paths[1]),
+            });
+          }
+        }
       }
 
       if (resp.headers["content-type"] == "text/html; charset=UTF-8") {
