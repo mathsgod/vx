@@ -29,6 +29,7 @@ export default {
     async reload() {
       if (this.remote) {
         this.loading = true;
+        this.$emit("loading");
         try {
           let { data } = await this.$vx.get(this.remote);
           this.loading = false;
@@ -36,6 +37,7 @@ export default {
         } catch (e) {
           this.loading = false;
         }
+        this.$emit("loaded");
       } else {
         console.warn("vx-div: remote not set");
       }

@@ -19,7 +19,7 @@
       </el-descriptions>
     </el-card>
 
-    <vx-div :remote="remote"></vx-div>
+    <vx-div :remote="remote" @loading="a" @loaded="b"></vx-div>
     <el-button @click="click1">load</el-button>
     <el-button @click="click2">load2</el-button>
   </div>
@@ -32,6 +32,12 @@ export default {
     };
   },
   methods: {
+    a() {
+      console.log("loading");
+    },
+    b() {
+      console.log("loaded");
+    },
     click1() {
       this.remote = "/System/test?a=1";
     },
