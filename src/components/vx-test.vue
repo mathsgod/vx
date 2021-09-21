@@ -21,6 +21,7 @@
 
     <vx-div :remote="remote"></vx-div>
     <el-button @click="click1">load</el-button>
+    <el-button @click="click2">load2</el-button>
   </div>
 </template>
 <script>
@@ -33,6 +34,9 @@ export default {
   methods: {
     click1() {
       this.remote = "/System/test?a=1";
+    },
+    click2() {
+      this.remote = "/System/test?a=2";
     },
   },
 };
