@@ -1,5 +1,5 @@
 <template>
-  <div><slot></slot></div>
+  <div v-loading="loading"><slot></slot></div>
 </template>
 <script>
 export default {
@@ -9,6 +9,11 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  data() {
+    return {
+      loading: false,
+    };
   },
   async created() {
     this.reload();
@@ -23,8 +28,14 @@ export default {
   methods: {
     async reload() {
       if (this.remote) {
-        let { data } = await this.$vx.get(this.remote);
-        window.$(this.$el).html(data);
+        this.loading = true;
+        try {
+          let { data } = await this.$vx.get(this.remote);
+          this.loading = false;
+          window.$(this.$el).html(data);
+        } catch (e) {
+          this.loading = false;
+        }
       } else {
         console.warn("vx-div: remote not set");
       }
