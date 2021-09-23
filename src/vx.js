@@ -68,10 +68,10 @@ class VX {
         this.i18n.locale = data.locale;
         let messages = this.i18n.getLocaleMessage(data.locale ?? "en");
         messages = { ...messages, ...data.i18n };
+
         this.i18n.setLocaleMessage(data.locale, messages);
-
-
-
+        this.i18n_messages = messages;
+        this.i18n_module_messages = data.i18n_module;
     }
 
     async reload() {
@@ -291,6 +291,15 @@ class VX {
 
     setRoute(route) {
         this.$route = route;
+
+        if (route.params.module != this.module) {
+            this.module = route.params.module;
+
+            //change message
+            let l = this.i18n_module_messages[this.module] ?? [];
+            this.i18n.setLocaleMessage(this.i18n.locale, { ...this.i18n_messages, ...l });
+        }
+
     }
 
     forgotPassword(username, email) {

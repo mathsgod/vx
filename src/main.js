@@ -136,6 +136,18 @@ const routes = [
     component: PageResetPassword
   },
   {
+    path: '/:module/:action',
+    component: VxApp
+  },  
+  {
+    path: '/:module/:id/:action',
+    component: VxApp
+  },
+  {
+    path: '/:module',
+    component: VxApp
+  },  
+  {
     path: '*',
     component: VxApp
   },
