@@ -74,6 +74,28 @@ class VX {
         this.i18n_module_messages = data.i18n_module;
     }
 
+    loadCSS() {
+        console.log("load css");
+        for (let css of this.config.css) {
+
+            new Promise((resolve, reject) => {
+
+                let link = document.createElement('link');
+                link.href = css;
+                link.rel = 'stylesheet';
+
+                link.onload = () => resolve(link);
+                link.onerror = () => reject(`Style load error for ${css}`);
+
+                document.head.append(link);
+
+
+            });
+
+        }
+
+    }
+
     async reload() {
         let { data } = await this.get("/");
         this.menus = data.menus;

@@ -1,6 +1,13 @@
 <template>
   <div>
     <apexchart
+      type="radialBar"
+      :series="series1"
+      :options="opt1"
+      width="250"
+    ></apexchart>
+
+    <apexchart
       width="500"
       type="bar"
       :options="chartOptions"
@@ -35,6 +42,60 @@
 export default {
   data() {
     return {
+      opt1: {
+        grid: {
+          padding: {
+            bottom: 30,
+          },
+        },
+        stroke: {
+          lineCap: "round",
+        },
+        colors:["#51e5a8"],
+        fill: {
+          type: "gradient",
+          gradient: {
+            shade: "dark",
+            type: "horizontal",
+            shadeIntensity: 0.5,
+            gradientToColors: ["#28C76F"],
+            inverseColors: true,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100],
+          },
+        },
+        plotOptions: {
+          radialBar: {
+            offsetY: -10,
+            startAngle: -150,
+            endAngle: 150,
+            hollow: {
+              size: "77%",
+            },
+            dataLabels: {
+              name: {
+                show: false,
+              },
+              value: {
+                fontSize: "2.86rem",
+                fontWeight: "600",
+              },
+            },
+          },
+        },
+        sparklink: {
+          enabled: true,
+        },
+        dropShadow: {
+          enabled: true,
+          blur: 3,
+          left: 1,
+          top: 1,
+          opacity: 0.1,
+        },
+      },
+      series1: [83],
       remote: "/System/test",
       chartOptions: {
         chart: {

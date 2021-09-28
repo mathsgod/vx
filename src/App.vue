@@ -20,6 +20,7 @@ export default {
     let resp = await fetch("config.json");
     try {
       await this.$vx.init(await resp.json());
+      this.$vx.loadCSS();
     } catch (e) {
       this.$alert(e, { type: "error" });
       return;
