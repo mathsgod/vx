@@ -112,9 +112,7 @@ div.el-card{
     color:inherit;
 }
 
-:root{
-    --primary:red !important
-}
+
 
 .el-table{
     z-index:2
@@ -131,4 +129,18 @@ div.el-card{
 
 .dark-layout .el-loading-mask{
     background-color: #3B4253;
+}
+
+.dark-layout .el-textarea__inner{
+    background-color: inherit;
+    color:inherit;
+}
+
+.dark-layout .el-button--default{
+    background-color: inherit;
+    color:inherit;
+}
+
+.dark-layout .el-switch__label{
+    color: inherit;
 }
