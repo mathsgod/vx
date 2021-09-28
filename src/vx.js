@@ -75,7 +75,7 @@ class VX {
     }
 
     loadCSS() {
-        console.log("load css");
+        
         for (let css of this.config.css) {
 
             new Promise((resolve, reject) => {
