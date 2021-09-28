@@ -152,3 +152,16 @@ div.el-card{
     background-color: inherit;
 }
 
+
+
+.dark-layout .el-message-box{
+    background-color: #283046;
+}
+
+.dark-layout .el-message-box__content{
+    color: #B4B7BD;
+}
+
+.dark-layout pre{
+    color:inherit;
+}
