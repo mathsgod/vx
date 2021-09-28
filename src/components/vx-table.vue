@@ -35,7 +35,7 @@
       <div class="d-flex">
         <div>
           Show
-          <el-tooltip content="每頁顯示" placement="top">
+          <el-tooltip :content="$t('vx-per-page')" placement="top">
             <el-select v-model="localPerPage" style="width: 70px" :size="size">
               <el-option
                 v-for="(p, index) in pageLengthOption"
