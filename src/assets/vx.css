@@ -72,7 +72,7 @@ div.el-card{
 }
 
 .dark-layout .el-table--enable-row-hover .el-table__body tr:hover>td{
-    background-color: #242B3D
+    background-color: #242B3D !important;
 }
 
 .dark-layout .el-table--border td, .dark-layout .el-table--border th{
@@ -144,3 +144,11 @@ div.el-card{
 .dark-layout .el-switch__label{
     color: inherit;
 }
+
+.dark-layout .el-table tr{
+    background-color: inherit;
+}
+.dark-layout .el-table__expanded-cell{
+    background-color: inherit;
+}
+
