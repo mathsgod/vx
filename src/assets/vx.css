@@ -67,7 +67,8 @@ div.el-card{
 }
 
 .dark-layout .el-table th{
-    background: #343D55
+    color: #d0d2d6 !important; 
+    background-color: #343d55 !important;
 }
 
 .dark-layout .el-table--enable-row-hover .el-table__body tr:hover>td{
@@ -117,4 +118,17 @@ div.el-card{
 
 .el-table{
     z-index:2
+}
+
+.dark-layout .el-descriptions{
+    color: inherit !important;
+}
+
+.dark-layout .el-descriptions .el-descriptions__body{
+    background-color: inherit;
+    color: inherit;
+}
+
+.dark-layout .el-loading-mask{
+    background-color: #3B4253;
 }
