@@ -22,6 +22,7 @@ Vue.use(VueI18n)
 
 const i18n = new VueI18n({
   locale: 'en',
+  fallbackLocale: 'en',
   messages: {
     en: enLocale,
     "zh-hk": zhTWLocale
@@ -142,7 +143,7 @@ const routes = [
   {
     path: '/:module/:action',
     component: VxApp
-  },  
+  },
   {
     path: '/:module/:id/:action',
     component: VxApp
@@ -150,7 +151,7 @@ const routes = [
   {
     path: '/:module',
     component: VxApp
-  },  
+  },
   {
     path: '*',
     component: VxApp

@@ -79,7 +79,8 @@
     <template v-if="pagination">
       <div class="d-flex justify-content-between mx-0 row">
         <div class="col-sm-12 col-md-6 align-self-center">
-          Showing {{ info.from }} to {{ info.to }} of {{ info.total }} entries
+        {{ $t("vx-table-message",[info.from,info.to,info.total]) }}
+          
         </div>
         <div class="col-sm-12 col-md-6">
           <vs-pagination :total="total" v-model="page"></vs-pagination>

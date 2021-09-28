@@ -70,6 +70,13 @@ class VX {
         messages = { ...messages, ...data.i18n };
 
         this.i18n.setLocaleMessage(data.locale, messages);
+
+        if (data.locale != "en") {
+            this.i18n.setLocaleMessage("en", data.i18n_en);    
+        }
+        
+        
+
         this.i18n_messages = messages;
         this.i18n_module_messages = data.i18n_module;
     }
