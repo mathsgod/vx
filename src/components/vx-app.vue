@@ -653,7 +653,13 @@ export default {
   watch: {
     async $route(to) {
       this.$vx.setRoute(to);
+      
       this.renderContent(to.fullPath);
+      if(document.body.classList.contains("menu-open")){
+        document.body.classList.remove("menu-open");
+        document.body.classList.add("menu-hide");
+        document.getElementsByClassName("sidenav-overlay").forEach(o=>o.classList.remove('show'));
+      }
     },
     navbarColor() {
       this.$vx.setNavbarColor(this.navbarColor);
