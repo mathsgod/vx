@@ -25,8 +25,13 @@ class VX {
 
 
         if (this.accessToken) {
-            let payload = jwtDecode(this.accessToken);
-            if (payload.exp < moment().unix()) { //expired
+            try {
+                let payload = jwtDecode(this.accessToken);
+                if (payload.exp < moment().unix()) { //expired
+                    await this.renewAccessToken();
+                }
+            } catch (e) {
+                this.accessToken = "";
                 await this.renewAccessToken();
             }
         }
@@ -72,17 +77,17 @@ class VX {
         this.i18n.setLocaleMessage(data.locale, messages);
 
         if (data.locale != "en") {
-            this.i18n.setLocaleMessage("en", data.i18n_en);    
+            this.i18n.setLocaleMessage("en", data.i18n_en);
         }
-        
-        
+
+
 
         this.i18n_messages = messages;
         this.i18n_module_messages = data.i18n_module;
     }
 
     loadCSS() {
-        
+
         for (let css of this.config.css) {
 
             new Promise((resolve, reject) => {
