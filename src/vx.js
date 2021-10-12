@@ -295,7 +295,7 @@ class VX {
             return;
         }
         try {
-            await this.post("/?_entry=renew_access_token", {
+            let { data } = await this.post("/?_entry=renew_access_token", {
                 refresh_token: this.refreshToken
             });
 
