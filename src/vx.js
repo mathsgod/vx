@@ -304,7 +304,6 @@ class VX {
             }
         } catch (e) {
             this.refreshToken = "";
-            this.accessToken = "";
         }
     }
 
