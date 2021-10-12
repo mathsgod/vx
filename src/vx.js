@@ -294,18 +294,17 @@ class VX {
         if (!this.refreshToken) {
             return;
         }
-        let { data } = await this.post("/?_entry=renew_access_token", {
-            refresh_token: this.refreshToken
-        });
+        try {
+            await this.post("/?_entry=renew_access_token", {
+                refresh_token: this.refreshToken
+            });
 
-        if (data.error) {
+            if (data.access_token) {
+                this.accessToken = data.access_token;
+            }
+        } catch (e) {
             this.refreshToken = "";
-            return;
-        }
-
-        if (data.access_token) {
-
-            this.accessToken = data.access_token;
+            this.accessToken = "";
         }
     }
 
