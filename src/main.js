@@ -65,9 +65,12 @@ Vue.use(VX);
 
 
 
+
 import ElImageViewer from "element-ui/packages/image/src/image-viewer";
 Vue.component("el-image-viewer", ElImageViewer);
 
+
+Vue.component("vx-input-xlsx", () => import("./components/vx-input-xlsx"));
 
 Vue.component("jspreadsheet", () => import("./components/jspreadsheet"));
 

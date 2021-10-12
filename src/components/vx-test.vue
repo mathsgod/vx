@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vx-input-xlsx v-model="xData"></vx-input-xlsx>
     <apexchart
       type="radialBar"
       :series="series1"
@@ -39,9 +40,12 @@
   </div>
 </template>
 <script>
+import vxInputXlsx from "./vx-input-xlsx.vue";
 export default {
+  components: { vxInputXlsx },
   data() {
     return {
+      xData: [],
       opt1: {
         grid: {
           padding: {
@@ -51,7 +55,7 @@ export default {
         stroke: {
           lineCap: "round",
         },
-        colors:["#51e5a8"],
+        colors: ["#51e5a8"],
         fill: {
           type: "gradient",
           gradient: {
