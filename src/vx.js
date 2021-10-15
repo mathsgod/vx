@@ -233,17 +233,18 @@ class VX {
     }
 
     async login(username, password, code) {
-        let { data } = await this.post("/login", {
-            username: username,
-            password: password,
-            code: code
-        });
-
-        if (data.error) {
-            throw data.error.message;
+        try {
+            let { data } = await this.post("/login", {
+                username: username,
+                password: password,
+                code: code
+            });
+            this.accessToken = data.access_token;
+            this.refreshToken = data.refresh_token;
+        } catch (e) {
+            throw e.response.statusText;
         }
-        this.accessToken = data.access_token;
-        this.refreshToken = data.refresh_token;
+
     }
 
     logout() {
