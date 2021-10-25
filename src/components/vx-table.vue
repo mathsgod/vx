@@ -79,8 +79,7 @@
     <template v-if="pagination">
       <div class="d-flex justify-content-between mx-0 row">
         <div class="col-sm-12 col-md-6 align-self-center">
-        {{ $t("vx-table-message",[info.from,info.to,info.total]) }}
-          
+          {{ $t("vx-table-message", [info.from, info.to, info.total]) }}
         </div>
         <div class="col-sm-12 col-md-6">
           <vs-pagination :total="total" v-model="page"></vs-pagination>
@@ -94,6 +93,7 @@ export default {
   props: {
     header: String,
     remote: String,
+    metadata: String,
     per_page: {
       type: Number,
       default: 10,
@@ -105,9 +105,6 @@ export default {
       },
     },
     searchable: Boolean,
-    showView: Boolean,
-    showUpdate: Boolean,
-    showDelete: Boolean,
     pagination: {
       type: Boolean,
       default: true,
@@ -216,14 +213,12 @@ export default {
       try {
         let { data, status } = await this.$vx.get(this.remote, {
           params: {
+            metadata: this.metadata,
             page: this.page,
             per_page: this.pagination ? this.localPerPage : null,
             sort: this.sort,
             search: this.search,
             filter: this.filters,
-            show_view: this.showView,
-            show_update: this.showUpdate,
-            show_delete: this.showDelete,
           },
         });
 
