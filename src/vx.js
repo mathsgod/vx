@@ -104,21 +104,21 @@ class VX {
         const promises = this.config.js.map(function (url) {
             return loadScript(url);
         });
-        return function (promises) {
-            return promises.reduce(
-                function (p, c) {
-                    // Waiting for `p` completed
-                    return p.then(function () {
-                        // and then `c`
-                        return c().then(function () {
-                            return true;
-                        });
+
+        return promises.reduce(
+            function (p, c) {
+                // Waiting for `p` completed
+                return p.then(function () {
+                    // and then `c`
+                    return c().then(function () {
+                        return true;
                     });
-                },
-                // The initial value passed to the reduce method
-                Promise.resolve([])
-            );
-        };
+                });
+            },
+            // The initial value passed to the reduce method
+            Promise.resolve([])
+        );
+
     }
 
     loadCSS() {
