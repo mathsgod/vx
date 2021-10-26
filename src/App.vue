@@ -26,12 +26,7 @@ export default {
     }
 
     this.$vx.loadCSS();
-    try {
-      await this.$vx.loadJS();
-    } catch (e) {
-      this.$alert(e, { type: "error" });
-      return;
-    }
+    this.$vx.loadJS();
 
     document.title = this.$vx.config.company ?? "vx";
 
