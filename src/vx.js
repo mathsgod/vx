@@ -87,7 +87,7 @@ class VX {
     }
 
     loadScript(url) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             const script = document.createElement('script');
             script.src = url;
 
@@ -110,7 +110,7 @@ class VX {
                     // Waiting for `p` completed
                     return p.then(function () {
                         // and then `c`
-                        return c().then(function (result) {
+                        return c().then(function () {
                             return true;
                         });
                     });
