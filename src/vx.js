@@ -86,20 +86,7 @@ class VX {
         this.i18n_module_messages = data.i18n_module;
     }
 
-    loadScript(url) {
-        return new Promise(function (resolve) {
-            const script = document.createElement('script');
-            script.src = url;
-
-            script.addEventListener('load', function () {
-                // The script is loaded completely
-                resolve(true);
-            });
-
-            document.head.appendChild(script);
-        });
-    }
-
+    
     loadJS() {
         const promises = this.config.js.map(function (url) {
             return loadScript(url);
