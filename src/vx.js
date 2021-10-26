@@ -86,10 +86,10 @@ class VX {
         this.i18n_module_messages = data.i18n_module;
     }
 
-    
+
     loadJS() {
-        const promises = this.config.js.map(function (url) {
-            return loadScript(url);
+        const promises = this.config.js.map((url) => {
+            return this.loadScript(url);
         });
 
         return promises.reduce(
