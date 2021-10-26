@@ -389,7 +389,7 @@ class VX {
             script.addEventListener("load", resolve);
             script.src = src;
 
-            document.getElementsByClassName("content-body")[0].appendChild(script);
+            document.head.appendChild(script);
 
 
         });
