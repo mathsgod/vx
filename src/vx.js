@@ -86,22 +86,39 @@ class VX {
         this.i18n_module_messages = data.i18n_module;
     }
 
-    loadJS() {
-        for (let js of this.config.js) {
-            new Promise((resolve, reject) => {
+    loadScript(url) {
+        return new Promise(function (resolve, reject) {
+            const script = document.createElement('script');
+            script.src = url;
 
-                let script = document.createElement('script');
-                script.src=js
-                
-
-                script.onload = () => resolve(script);
-                script.onerror = () => reject(`Script load error for ${js}`);
-
-                document.head.append(script);
-
-
+            script.addEventListener('load', function () {
+                // The script is loaded completely
+                resolve(true);
             });
-        }
+
+            document.head.appendChild(script);
+        });
+    }
+
+    loadJS() {
+        const promises = this.config.js.map(function (url) {
+            return loadScript(url);
+        });
+        return function (promises) {
+            return promises.reduce(
+                function (p, c) {
+                    // Waiting for `p` completed
+                    return p.then(function () {
+                        // and then `c`
+                        return c().then(function (result) {
+                            return true;
+                        });
+                    });
+                },
+                // The initial value passed to the reduce method
+                Promise.resolve([])
+            );
+        };
     }
 
     loadCSS() {
