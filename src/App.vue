@@ -26,7 +26,6 @@ export default {
     }
 
     this.$vx.loadCSS();
-    this.$vx.loadJS();
 
     document.title = this.$vx.config.company ?? "vx";
 
