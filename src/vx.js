@@ -86,6 +86,24 @@ class VX {
         this.i18n_module_messages = data.i18n_module;
     }
 
+    loadJS() {
+        for (let js of this.config.js) {
+            new Promise((resolve, reject) => {
+
+                let script = document.createElement('script');
+                script.src=js
+                
+
+                script.onload = () => resolve(script);
+                script.onerror = () => reject(`Script load error for ${js}`);
+
+                document.head.append(script);
+
+
+            });
+        }
+    }
+
     loadCSS() {
 
         for (let css of this.config.css) {
