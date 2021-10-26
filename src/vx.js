@@ -382,7 +382,7 @@ class VX {
         return this.post("/?_entry=removeMyFavorite", { path });
     }
 
-    loadScript(src) {
+    loadScript(url) {
         return new Promise(function (resolve) {
             const script = document.createElement('script');
             script.src = url;
