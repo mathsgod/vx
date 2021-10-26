@@ -383,15 +383,16 @@ class VX {
     }
 
     loadScript(src) {
-        return new Promise((resolve) => {
-            var script = document.createElement('script');
-            script.type = "text/javascript";
-            script.addEventListener("load", resolve);
-            script.src = src;
+        return new Promise(function (resolve) {
+            const script = document.createElement('script');
+            script.src = url;
+
+            script.addEventListener('load', function () {
+                // The script is loaded completely
+                resolve(true);
+            });
 
             document.head.appendChild(script);
-
-
         });
     }
 
