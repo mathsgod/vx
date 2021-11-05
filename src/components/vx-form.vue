@@ -27,6 +27,7 @@ export default {
     action: String,
     size: String,
     successUrl: String,
+    restJWT: String,
     method: {
       type: String,
       default: "post",
@@ -83,6 +84,7 @@ export default {
             resp = await this.$vx.post(action, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
+                "rest-jwt": this.restJWT,
               },
             });
           } else {
