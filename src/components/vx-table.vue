@@ -210,32 +210,32 @@ export default {
     async reload() {
       this.loading = true;
 
-      try {
-        let { data, status } = await this.$vx.get(this.remote, {
-          params: {
-            metadata: this.metadata,
-            page: this.page,
-            per_page: this.pagination ? this.localPerPage : null,
-            sort: this.sort,
-            search: this.search,
-            filter: this.filters,
-          },
-        });
+      let { data, status } = await this.$vx.get(this.remote, {
+        params: {
+          metadata: this.metadata,
+          page: this.page,
+          per_page: this.pagination ? this.localPerPage : null,
+          sort: this.sort,
+          search: this.search,
+          filter: this.filters,
+        },
+      });
 
-        this.loading = false;
+      this.loading = false;
 
-        if (status == 401) {
-          this.$router.push("/");
-          return;
-        }
-
-        this.total = Math.ceil(data.total / this.localPerPage);
-        this.total_entries = data.total;
-        this.data = data.data;
-      } catch (e) {
-        this.loading = false;
-        this.$alert(e, { type: "error" });
+      if (status == 401) {
+        this.$router.push("/");
+        return;
       }
+
+      if (status != 200) {
+        this.$alert(data.error.message, { type: "error" });
+        return;
+      }
+
+      this.total = Math.ceil(data.total / this.localPerPage);
+      this.total_entries = data.total;
+      this.data = data.data;
     },
   },
 };

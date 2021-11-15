@@ -30,13 +30,14 @@ export default {
       if (this.remote) {
         this.loading = true;
         this.$emit("loading");
-        try {
-          let { data } = await this.$vx.get(this.remote);
-          this.loading = false;
-          window.$(this.$el).html(data);
-        } catch (e) {
-          this.loading = false;
+        let { data, status } = await this.$vx.get(this.remote);
+        this.loading = false;
+
+        if (status != 200) {
+          this.$alert(data.error.message, { type: "error" });
+          return;
         }
+        window.$(this.$el).html(data);
         this.$emit("loaded");
       } else {
         console.warn("vx-div: remote not set");

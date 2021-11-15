@@ -17,10 +17,15 @@ class VX {
             headers["vx-view-as"] = localStorage.getItem("vx-view-as");
         }
 
+        axios.defaults.validateStatus = function () {
+            return true;
+        };
+
         this.axios = axios.create({
             withCredentials: true,
             baseURL: config.endpoint,
             headers: headers
+
         });
 
 
@@ -255,18 +260,18 @@ class VX {
     }
 
     async login(username, password, code) {
-        try {
-            let { data } = await this.post("/login", {
-                username: username,
-                password: password,
-                code: code
-            });
+        let { data, status } = await this.post("/login", {
+            username: username,
+            password: password,
+            code: code
+        });
+
+        if (status == 200) {
             this.accessToken = data.access_token;
             this.refreshToken = data.refresh_token;
-        } catch (e) {
-            throw e.response.statusText;
+            return;
         }
-
+        throw data.error.message;
     }
 
     logout() {
