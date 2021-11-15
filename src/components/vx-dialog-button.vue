@@ -5,6 +5,7 @@
 </template>
 <script>
 import { Fancybox } from "@fancyapps/ui";
+import { Dialog } from "element-ui";
 
 export default {
   props: {
@@ -19,11 +20,12 @@ export default {
   },
   methods: {
     click() {
+      console.log(Dialog);
       if (this.fancyboxType == "remote") {
         if (this.src) {
           new Fancybox([
             {
-              src: `<vue><vx-div remote="${this.src}"></vx-div></vue>`,
+              src: `<vue><vx-div remote="${this.src}" style="minWidth:80%></vx-div></vue>`,
               type: "html",
             },
           ]);
@@ -31,13 +33,20 @@ export default {
         return;
       }
 
+      
+
       if (this.fancyboxType == "html") {
-        new Fancybox([
+        Fancybox.show(
+          [
+            {
+              src: this.src,
+              type: "html",
+            },
+          ],
           {
-            src: this.src,
-            type: "html",
-          },
-        ]);
+            mainClass: "mainClass",
+          }
+        );
         return;
       }
     },
