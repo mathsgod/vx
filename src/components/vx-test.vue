@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vx-dialog-button src="/User">dialog button</vx-dialog-button>
+    <vx-dialog-button src="/User" fancybox-type="html" type="primary" size="small">dialog button</vx-dialog-button>
     <vx-input-xlsx v-model="xData"></vx-input-xlsx>
     <apexchart
       type="radialBar"

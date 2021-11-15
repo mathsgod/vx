@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="click">
+  <el-button @click="click" v-bind="$attrs">
     <slot></slot>
   </el-button>
 </template>
@@ -8,7 +8,7 @@ import { Fancybox } from "@fancyapps/ui";
 
 export default {
   props: {
-    type: {
+    fancyboxType: {
       type: String,
       default: "html",
     },
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     click() {
-      if (this.type == "remote") {
+      if (this.fancyboxType == "remote") {
         if (this.src) {
           new Fancybox([
             {
@@ -31,7 +31,7 @@ export default {
         return;
       }
 
-      if (this.type == "html") {
+      if (this.fancyboxType == "html") {
         new Fancybox([
           {
             src: this.src,
