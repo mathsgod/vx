@@ -11,6 +11,10 @@ import "./assets/css/themes/semi-dark-layout.min.css";
 import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
 import "./assets/vx.css"
 
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox.css";
+
+window.Fancybox = Fancybox;
 
 import VueApexCharts from 'vue-apexcharts'
 Vue.use(VueApexCharts)
@@ -115,6 +119,7 @@ Vue.component("r-table-dropdown-item", RTableDropdownItem);
 Vue.component("vx-tinymce", () => import("./components/vx-tinymce"));
 
 
+Vue.component("vx-dialog-button", () => import("./components/vx-dialog-button"));
 
 Vue.config.productionTip = false
 
@@ -175,7 +180,7 @@ new Vue({
 
 
 let init_vue = function (element) {
-  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link, vx-table, el-menu");
+  var nodes = element.querySelectorAll("r-table, card, vue, vx-tabs, el-card, vx-card, vx-form, vx-form-table, vx-view, el-table, el-link, router-link, vx-table, el-menu, vx-dialog-button");
   nodes.forEach(node => {
     new Vue({
       i18n: i18n,

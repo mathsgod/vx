@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vx-dialog-button src="/User">dialog button</vx-dialog-button>
     <vx-input-xlsx v-model="xData"></vx-input-xlsx>
     <apexchart
       type="radialBar"
@@ -40,9 +41,7 @@
   </div>
 </template>
 <script>
-import vxInputXlsx from "./vx-input-xlsx.vue";
 export default {
-  components: { vxInputXlsx },
   data() {
     return {
       xData: [],

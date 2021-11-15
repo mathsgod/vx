@@ -8,6 +8,7 @@
     "prebuild": "npm version patch"
   },
   "dependencies": {
+    "@fancyapps/ui": "^4.0.9",
     "@tinymce/tinymce-vue": "^3.2.8",
     "@web-auth/webauthn-helper": "^0.0.13",
     "apexcharts": "^3.28.3",
