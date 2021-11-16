@@ -6,6 +6,7 @@
         :visible.sync="dialogVisible"
         :width="dialogWidth"
         :title="title"
+        append-to-body
         ><slot></slot
       ></el-dialog>
     </div>
