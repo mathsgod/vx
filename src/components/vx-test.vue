@@ -1,6 +1,20 @@
 <template>
   <div>
-    <vx-dialog-button src="/User" fancybox-type="html" type="primary" size="small">dialog button</vx-dialog-button>
+    <vx-dialog width="800px">
+      <template v-slot:activator="{ on, attrs }">
+        <el-button v-on="on" v-bind="attrs">Click </el-button>
+      </template>
+
+        <vx-div remote="/UserGroup/"></vx-div>
+    </vx-dialog>
+
+    <vx-dialog-button
+      src="/User"
+      fancybox-type="html"
+      type="primary"
+      size="small"
+      >dialog button</vx-dialog-button
+    >
     <vx-input-xlsx v-model="xData"></vx-input-xlsx>
     <apexchart
       type="radialBar"
@@ -44,6 +58,7 @@
 export default {
   data() {
     return {
+      dialogVisible: false,
       xData: [],
       opt1: {
         grid: {

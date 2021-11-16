@@ -121,6 +121,8 @@ Vue.component("vx-tinymce", () => import("./components/vx-tinymce"));
 
 Vue.component("vx-dialog-button", () => import("./components/vx-dialog-button"));
 
+Vue.component("vx-dialog", () => import("./components/vx-dialog"));
+
 Vue.config.productionTip = false
 
 import PageLogin from "./pages/page-login";
