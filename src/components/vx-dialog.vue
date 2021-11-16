@@ -1,9 +1,11 @@
 <template>
   <div>
-    <slot name="activator" v-bind="{ on: on, attrs: attrs }"></slot>
-
+    <slot name="activator" v-bind="{ on: on }"></slot>
     <div v-if="dialogVisible">
-      <el-dialog :visible.sync="dialogVisible" :width="dialogWidth"
+      <el-dialog
+        :visible.sync="dialogVisible"
+        :width="dialogWidth"
+        :title="title"
         ><slot></slot
       ></el-dialog>
     </div>
@@ -12,6 +14,10 @@
 <script>
 export default {
   props: {
+    title: {
+      type: String,
+      default: "",
+    },
     width: {
       type: String,
       default: "50%",
@@ -34,6 +40,7 @@ export default {
         this.setDialogWidth();
       })();
     };
+    this.setDialogWidth();
   },
   methods: {
     click() {
@@ -41,8 +48,10 @@ export default {
     },
     setDialogWidth() {
       let windowSize = document.body.clientWidth;
-      if (windowSize < 768) {
+      if (windowSize < 576) {
         this.dialogWidth = "100%";
+      } else if (windowSize < 768) {
+        this.dialogWidth = "90%";
       } else {
         this.dialogWidth = this.width;
       }

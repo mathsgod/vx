@@ -2,7 +2,7 @@
   <div>
     <vx-dialog width="800px">
       <template v-slot:activator="{ on, attrs }">
-        <el-button v-on="on" v-bind="attrs">Click </el-button>
+        <el-button v-on="on" v-bind="attrs" type="primary">Click </el-button>
       </template>
 
         <vx-div remote="/UserGroup/"></vx-div>
