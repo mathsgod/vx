@@ -1,63 +1,25 @@
 <template>
   <div>
-    <vx-dialog width="800px">
-      <template v-slot:activator="{ on, attrs }">
-        <el-button v-on="on" v-bind="attrs" type="primary">Click </el-button>
-      </template>
-
-        <vx-div remote="/UserGroup/"></vx-div>
-    </vx-dialog>
-
-    <vx-dialog-button
-      src="/User"
-      fancybox-type="html"
-      type="primary"
-      size="small"
-      >dialog button</vx-dialog-button
-    >
-    <vx-input-xlsx v-model="xData"></vx-input-xlsx>
-    <apexchart
-      type="radialBar"
-      :series="series1"
-      :options="opt1"
-      width="250"
-    ></apexchart>
-
-    <apexchart
-      width="500"
-      type="bar"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
-
-    <el-card>
-      <el-descriptions title="User Info" :column="1">
-        <el-descriptions-item label="Username"
-          >kooriookami</el-descriptions-item
-        >
-        <el-descriptions-item label="Telephone"
-          >18100000000</el-descriptions-item
-        >
-        <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-        <el-descriptions-item label="Remarks">
-          <el-tag size="small">School</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="Address"
-          >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-          Province</el-descriptions-item
-        >
-      </el-descriptions>
-    </el-card>
-
-    <vx-div :remote="remote" @loading="a" @loaded="b"></vx-div>
-    <el-button @click="click1">load</el-button>
-    <el-button @click="click2">load2</el-button>
+    <jspreadsheet
+      :data="data"
+      :allow-insert-row="false"
+      :allow-delete-row="false"
+    ></jspreadsheet>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      columns: [
+        { type: "text", label: "A" },
+        { type: "text", label: "B" },
+        { type: "text", label: "C" },
+      ],
+      data: [
+        ["a", "b", "c"],
+        ["a", "b", "c"],
+      ],
       dialogVisible: false,
       xData: [],
       opt1: {

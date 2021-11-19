@@ -6,7 +6,6 @@ import "jsuites/dist/jsuites.css";
 export default {
   props: {
     value: Array,
-    minDimensions: Array,
   },
   data() {
     return {
@@ -14,10 +13,19 @@ export default {
     };
   },
   render(h) {
-    let options = Object.assign(this.$attrs, this.$props);
+    const snakeToCamel = (str) =>
+      str
+        .toLowerCase()
+        .replace(/([-_][a-z])/g, (group) =>
+          group.toUpperCase().replace("-", "")
+        );
 
-    if (this.value) {
-      options.data = this.value;
+    console.log(this.$attrs);
+
+    let options = {};
+
+    for (let attr of Object.entries(this.$attrs)) {
+      options[snakeToCamel(attr[0])] = attr[1];
     }
 
     let el = h("div");
