@@ -8,7 +8,7 @@ export default {
     },
     title: String,
     width: Number,
-    field: String,
+    name: String,
     options: Object,
     source: Array,
     readOnly: Boolean,

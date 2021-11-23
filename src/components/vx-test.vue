@@ -1,13 +1,13 @@
 <template>
   <div>
     <vx-xlsx v-model="data" :filters="true">
-      <vx-xlsx-column field="first_name" title="First name" :width="220">
+      <vx-xlsx-column name="first_name" title="First name" :width="220">
       </vx-xlsx-column>
-      <vx-xlsx-column field="last_name" title="Last name" :width="120">
+      <vx-xlsx-column name="last_name" title="Last name" :width="120">
       </vx-xlsx-column>
       <vx-xlsx-column
         type="dropdown"
-        field="test"
+        name="test"
         title="drop down"
         :width="120"
         :source="['Apple', 'Bananas', 'Carrots', 'Oranges', 'Cheese']"
@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       data: [
-        { first_name: "Raymond", last_name: "Chong" },
-        { first_name: "Hello" },
-        { first_name: "World" , test:";Apple;Bananas;Hello"},
+        { first_name: "Raymond", last_name: "Chong", user_id: 1 },
+        { first_name: "Hello", user_id: 2 },
+        { first_name: "World", test: ";Apple;Bananas;Hello", user_id: 3 },
       ],
       dialogVisible: false,
       xData: [],

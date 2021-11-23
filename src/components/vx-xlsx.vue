@@ -18,7 +18,6 @@ export default {
     let columns = [];
     this.filters = this.$attrs.filters;
 
-    console.log(this.$slots.default);
     this.$slots.default.forEach((item) => {
       if (
         item.componentOptions &&
@@ -28,22 +27,22 @@ export default {
       }
     });
 
-    let data = [];
-    this.value.forEach((item) => {
-      let row = [];
-      columns.forEach((column) => {
-        row.push(item[column.field]);
-      });
-      data.push(row);
-    });
-    console.log(columns);
+    //let data = [];
+    // this.value.forEach((item) => {
+    //   let row = [];
+    //   columns.forEach((column) => {
+    //     row.push(item[column.field]);
+    //   });
+    //   data.push(row);
+    // });
+    // console.log(columns);
 
     let element = h("div");
     this.$nextTick(() => {
       if (!this.instance) {
         this.instance = jspreadsheet(element.elm, {
           columns: columns,
-          data: data,
+          data: this.value,
           onmoverow: (target, oldRowNumber, newRowNumber) => {
             this.value.splice(
               newRowNumber,
@@ -70,20 +69,19 @@ export default {
           },
           onchange: (target, cell, colNumber, rowNumber) => {
             let value = this.instance.getValueFromCoords(colNumber, rowNumber);
-
             let column = columns[colNumber];
-            let field = column.field;
-            this.value[rowNumber][field] = value;
-            //this.$emit("input", this.value);
+            let name = column.name;
+            this.value[rowNumber][name] = value;
+            this.$emit("input", this.value);
           },
           onsort: (target, colNumber, order) => {
             let column = columns[colNumber];
-            let field = column.field;
+            let name = column.name;
             this.value.sort((a, b) => {
               if (order === 1) {
-                return a[field] > b[field] ? 1 : -1;
+                return a[name] > b[name] ? 1 : -1;
               } else {
-                return a[field] > b[field] ? -1 : 1;
+                return a[name] > b[name] ? -1 : 1;
               }
             });
           },
@@ -91,7 +89,7 @@ export default {
         });
         Object.assign(this, this.instance);
       } else {
-        this.instance.setData(data);
+        this.instance.setData(this.value);
       }
     });
 
