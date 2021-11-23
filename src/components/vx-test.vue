@@ -1,24 +1,37 @@
 <template>
   <div>
-    <jspreadsheet
-      :data="data"
-      :allow-insert-row="false"
-      :allow-delete-row="false"
-    ></jspreadsheet>
+    <vx-xlsx v-model="data" :filters="true">
+      <vx-xlsx-column field="first_name" title="First name" :width="220">
+      </vx-xlsx-column>
+      <vx-xlsx-column field="last_name" title="Last name" :width="120">
+      </vx-xlsx-column>
+      <vx-xlsx-column
+        type="dropdown"
+        field="test"
+        title="drop down"
+        :width="120"
+        :source="['Apple', 'Bananas', 'Carrots', 'Oranges', 'Cheese']"
+        :multiple="true"
+      >
+      </vx-xlsx-column>
+    </vx-xlsx>
+
+    <el-button @click="test">reset data</el-button>
+
+    <el-button @click="getData">get data</el-button>
   </div>
 </template>
 <script>
+import vxXlsx from "./vx-xlsx.vue";
+import vxXlsxColumn from "./vx-xlsx-column.vue";
 export default {
+  components: { vxXlsx, vxXlsxColumn },
   data() {
     return {
-      columns: [
-        { type: "text", label: "A" },
-        { type: "text", label: "B" },
-        { type: "text", label: "C" },
-      ],
       data: [
-        ["a", "b", "c"],
-        ["a", "b", "c"],
+        { first_name: "Raymond", last_name: "Chong" },
+        { first_name: "Hello" },
+        { first_name: "World" , test:";Apple;Bananas;Hello"},
       ],
       dialogVisible: false,
       xData: [],
@@ -94,6 +107,14 @@ export default {
     };
   },
   methods: {
+    test() {
+      this.data = [
+        { first_name: "Raymond", last_name: "Chong" },
+        { first_name: "Hello" },
+        { first_name: "World" },
+        { first_name: "World1" },
+      ];
+    },
     a() {
       console.log("loading");
     },
@@ -105,6 +126,9 @@ export default {
     },
     click2() {
       this.remote = "/System/test?a=2";
+    },
+    getData() {
+      console.log(this.data);
     },
   },
 };
