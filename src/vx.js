@@ -89,6 +89,22 @@ class VX {
 
         this.i18n_messages = messages;
         this.i18n_module_messages = data.i18n_module;
+
+        this.breakpoint = {
+
+        };
+
+        window.onresize = () => {
+            this.breakpoint = {
+                xs: window.innerWidth < 576,
+                sm: window.innerWidth < 768,
+                md: window.innerWidth < 992,
+                lg: window.innerWidth < 1200,
+                xl: window.innerWidth >= 1200
+            };
+
+        }
+        window.onresize();
     }
 
 

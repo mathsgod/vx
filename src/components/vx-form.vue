@@ -2,6 +2,7 @@
   <vx-card v-loading="loading">
     <vx-card-body>
       <el-form
+        :label-position="labelPosition"
         @submit.native.prevent
         :model="form"
         label-width="auto"
@@ -28,12 +29,14 @@ export default {
     size: String,
     successUrl: String,
     restJWT: String,
+
     method: {
       type: String,
       default: "post",
     },
     data: {
       type: Object,
+      labelPosition: "left",
       default() {
         return {};
       },
@@ -44,6 +47,9 @@ export default {
       form: this.data,
       loading: false,
     };
+  },
+  created() {
+    this.labelPosition = this.$vx.breakpoint.sm ? "top" : "left";
   },
   methods: {
     onSubmit() {
