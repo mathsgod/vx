@@ -1,21 +1,31 @@
 <template>
   <div>
-    <vx-xlsx v-model="data" :filters="true">
+    <vx-xlsx
+      v-model="data"
+      :default-col-width="100"
+      :allow-insert-row="false"
+    >
+      <vx-xlsx-column
+        title="Calendar"
+        name="calendar"
+        type="calendar"
+        :options="{ format: 'YYYY-MM-DD' }"
+      ></vx-xlsx-column>
       <vx-xlsx-column name="first_name" title="First name" :width="220">
       </vx-xlsx-column>
-      <vx-xlsx-column name="last_name" title="Last name" :width="120">
-      </vx-xlsx-column>
+      <vx-xlsx-column name="last_name" title="Last name"> </vx-xlsx-column>
+      <vx-xlsx-column name="html" title="html" type="html"></vx-xlsx-column>
       <vx-xlsx-column
         type="dropdown"
         name="test"
         title="drop down"
-        :width="120"
         :source="['Apple', 'Bananas', 'Carrots', 'Oranges', 'Cheese']"
         :multiple="true"
       >
       </vx-xlsx-column>
+      <vx-xlsx-column name="color" type="color" :width="80" render="square">
+      </vx-xlsx-column>
     </vx-xlsx>
-
     <el-button @click="test">reset data</el-button>
 
     <el-button @click="getData">get data</el-button>

@@ -7,12 +7,17 @@ export default {
       default: "text",
     },
     title: String,
-    width: Number,
+    width: [Number, String],
     name: String,
     options: Object,
     source: Array,
     readOnly: Boolean,
     multiple: Boolean,
+    mask: String,
+    render: String,
+    decimal: String,
+    url: String,
+    autocomplete: Boolean,
   },
   render(h) {
     return h("div");

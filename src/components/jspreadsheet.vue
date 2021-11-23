@@ -6,6 +6,7 @@ import "jsuites/dist/jsuites.css";
 export default {
   props: {
     value: Array,
+    
   },
   data() {
     return {
@@ -19,8 +20,6 @@ export default {
         .replace(/([-_][a-z])/g, (group) =>
           group.toUpperCase().replace("-", "")
         );
-
-    console.log(this.$attrs);
 
     let options = {};
 
