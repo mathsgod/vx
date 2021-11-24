@@ -94,19 +94,21 @@ class VX {
 
         };
 
-        window.onresize = () => {
-            this.breakpoint = {
-                xs: window.innerWidth < 576,
-                sm: window.innerWidth < 768,
-                md: window.innerWidth < 992,
-                lg: window.innerWidth < 1200,
-                xl: window.innerWidth >= 1200
-            };
+        window.addEventListener("resize", this.onResize);
 
-        }
-        window.onresize();
+        this.onResize();
+
     }
 
+    onResize() {
+        this.breakpoint = {
+            xs: window.innerWidth < 576,
+            sm: window.innerWidth < 768,
+            md: window.innerWidth < 992,
+            lg: window.innerWidth < 1200,
+            xl: window.innerWidth >= 1200
+        };
+    }
 
     loadJS() {
         const promises = this.config.js.map((url) => {

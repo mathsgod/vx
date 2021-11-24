@@ -102,6 +102,7 @@ export default {
           }
 
           this.loading = false;
+          let data = resp.data;
 
           if (resp.status.toString()[0] == "2") {
             if (resp.status == 204) {
@@ -109,7 +110,7 @@ export default {
             }
 
             if (resp.status == 201) {
-              this.$message.success(resp.statusText);
+              this.$message.success("Created");
             }
 
             if (this.successUrl) {
@@ -119,8 +120,8 @@ export default {
                 resp.headers["content-location"]
               );
               this.$router.push(url);
-              return;
             }
+            
             return;
           }
 
@@ -129,7 +130,10 @@ export default {
               this.$router.push("/");
               return;
             }
-            this.$message.error(action.body);
+
+            if (data.error) {
+              this.$message.error(data.error.message);
+            }
           }
         }
       });
