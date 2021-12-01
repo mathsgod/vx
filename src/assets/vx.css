@@ -165,3 +165,12 @@ div.el-card{
 .dark-layout pre{
     color:inherit;
 }
+
+.vs-pagination--ul {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.vs-pagination--li {
+    margin: 0;
+}
