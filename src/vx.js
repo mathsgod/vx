@@ -245,15 +245,13 @@ class VX {
 
     async get(url, config) {
         let u = this.processUrl(url);
-        let resp = this.axios.get(u, config);
-        try {
-            await resp;
-        } catch (e) {
-            if (e.response.status == 401) {
-                await this.renewAccessToken();
-                return this.get(u, config);
-            }
+        let resp = await this.axios.get(u, config);
+
+        if (resp.status == 401) {
+            await this.renewAccessToken();
+            return this.get(u, config);    
         }
+
         return resp;
     }
 
