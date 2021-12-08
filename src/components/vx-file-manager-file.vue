@@ -70,6 +70,10 @@
   </div>
 </template>
 
+<style lang="less" scoped>
+
+</style>
+
 <script>
 import { Fancybox } from "@fancyapps/ui";
 import feather from "feather-icons";
