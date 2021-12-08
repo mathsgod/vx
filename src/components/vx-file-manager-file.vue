@@ -1,6 +1,9 @@
 <template>
 	<div class="card file-manager-item file">
-		<div class="custom-control custom-checkbox">
+		<div
+			class="custom-control custom-checkbox"
+			:class="checked ? 'checked' : ''"
+		>
 			<input
 				type="checkbox"
 				class="custom-control-input"
@@ -91,6 +94,12 @@
 			.file-manager-content-body {
 				.view-container {
 					.file-manager-item {
+						.custom-checkbox {
+							&.checked:not(.selected):not(:hover) {
+								opacity: 1;
+							}
+						}
+
 						.file-logo-wrapper {
 							background-position: center center;
 							background-repeat: no-repeat;
@@ -169,8 +178,7 @@ export default {
 		getStyle() {
 			if (this.mode == "grid") {
 				return {
-					background: `url(${this.url}) no-repeat center center`,
-					"background-size": "cover",
+					"background-image": `url(${this.url})`,
 				};
 			}
 		},
