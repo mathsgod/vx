@@ -60,7 +60,7 @@
       <el-image class="w-100" :src="url"></el-image>
     </el-dialog>
 
-    <el-drawer v-if="show_info" :visible.sync="show_info">
+    <el-drawer v-if="show_info" :visible.sync="show_info" append-to-body>
       <vx-file-manager-info
         v-if="show_info"
         :show.sync="show_info"
