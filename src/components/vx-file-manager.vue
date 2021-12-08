@@ -162,15 +162,20 @@
                   <el-button-group
                     v-if="selectedFolder.length + selectedFile.length > 0"
                   >
-                    <el-button
-                      class="el-icon-delete"
-                      @click="deleteSelected"
-                    ></el-button>
-                    <el-button
-                      @click="showSelectFolder = true"
-                      v-if="selectedFile.length > 0"
-                      >Move</el-button
+                    <el-button icon="el-icon-delete" @click="deleteSelected"
+                      >Delete</el-button
                     >
+                    <template v-if="selectedFile.length > 0">
+                      <el-button
+                        icon="el-icon-document-checked"
+                        @click="selectClicked"
+                      >
+                        Select
+                      </el-button>
+                      <el-button @click="showSelectFolder = true"
+                        >Move</el-button
+                      >
+                    </template>
                   </el-button-group>
 
                   <el-button-group>
@@ -403,6 +408,7 @@ export default {
       uploadHeaders: null,
       type: null,
       search_text: "",
+      nextSelectedFiles: [],
     };
   },
   created() {
@@ -502,6 +508,10 @@ export default {
       this.selectedPath = path;
     },
     //file clicked
+
+    selectClicked() {
+      this.$emit("input", this.selectedFile);
+    },
     inputFile(path) {
       this.$emit("input", path);
     },
@@ -509,16 +519,19 @@ export default {
       console.log(err);
       this.$message.error("upload failed!");
     },
-    onSuccessUpload() {
+    onSuccessUpload(response, file, fileList) {
+      console.log("upload success", response.data.path, file, fileList);
+      this.nextSelectedFiles.push(response.data.path);
+
       this.reloadContent();
-      this.$refs.uploads.clearFiles();
+      //this.$refs.uploads.clearFiles();
     },
     async listFiles(type) {
       this.type = type;
       this.reloadContent();
     },
     deleteSelected() {
-      this.$confirm("Delete?").then(async () => {
+      this.$confirm("Delete?", { type: "warning" }).then(async () => {
         for (let p of this.selectedFolder) {
           await this.$vx.post("/FileManager/deleteFolder", {
             path: p,
@@ -648,6 +661,20 @@ export default {
 
       this.parentPath = data.parent;
       this.files = data.files;
+
+      for (let f of this.files) {
+        console.log(f.path);
+        f.selected = this.nextSelectedFiles.includes(f.path);
+
+        if (f.selected) {
+          this.selectedFile.push(f.path);
+        }
+      }
+
+      //this.nextSelectedFiles = [];
+
+      console.log(this.selectedFile);
+
       this.folders = data.folders;
     },
     async deleteFile(file) {

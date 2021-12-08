@@ -80,7 +80,7 @@ export default {
   },
   data() {
     return {
-      checked: false,
+      checked: this.file.selected,
       preview: false,
       url: null,
       show_info: false,
