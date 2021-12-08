@@ -41,9 +41,8 @@
         </el-dropdown>
       </div>
       <div class="d-flex align-items-center justify-content-center w-100">
-        <template v-if="canPreview">
-          
-          <el-image v-if="mode=='list'" :src="url" lazy></el-image>
+        <template v-if="canPreviewImage">
+          <el-image v-if="mode == 'list'" :src="url" lazy></el-image>
         </template>
         <i v-else :class="getIcon(file.extension)"></i>
         <!-- img :src="getIcon(file.extension)" alt="file-icon" height="35" / -->
@@ -60,9 +59,6 @@
         v-text="`Last modify: ${file.last_modified}`"
       ></small>
     </div>
-    <el-dialog :visible.sync="preview">
-      <el-image class="w-100" :src="url"></el-image>
-    </el-dialog>
 
     <el-drawer v-if="show_info" :visible.sync="show_info" append-to-body>
       <vx-file-manager-info
@@ -75,6 +71,7 @@
 </template>
 
 <script>
+import { Fancybox } from "@fancyapps/ui";
 import feather from "feather-icons";
 import vxFileManagerInfo from "./vx-file-manager-info.vue";
 export default {
@@ -119,11 +116,22 @@ export default {
     },
   },
   computed: {
+    canPreviewImage() {
+      if (this.file.mime_type == "image/jpeg") return true;
+      if (this.file.mime_type == "image/png") return true;
+      if (this.file.mime_type == "image/gif") return true;
+      return false;
+    },
     canPreview() {
-      return this.file.mime_type == "image/jpeg";
+      if (this.canPreviewImage) return true;
+      if (this.file.mime_type == "application/pdf") return true;
+      return false;
     },
   },
   methods: {
+    isPDF() {
+      return this.file.mime_type == "application/pdf";
+    },
     getStyle() {
       if (this.mode == "grid") {
         return {
@@ -197,7 +205,21 @@ export default {
         let mime = resp.headers["content-type"];
         this.url = "data:" + mime + ";base64," + resp.data;
 
-        this.preview = true;
+        if (mime == "application/pdf") {
+          Fancybox.show([
+            {
+              src: this.url,
+              type: "pdf",
+            },
+          ]);
+        } else {
+          Fancybox.show([
+            {
+              src: this.url,
+              type: "image",
+            },
+          ]);
+        }
       }
 
       if (command == "download") {
