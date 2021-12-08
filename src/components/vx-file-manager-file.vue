@@ -9,39 +9,43 @@
       />
       <label class="custom-control-label" :for="`file_${file.path}`"></label>
     </div>
-    <div class="card-img-top file-logo-wrapper">
+    <div class="card-img-top file-logo-wrapper" :style="getStyle()">
       <div class="dropdown float-right px-50">
         <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link">
             <i data-feather="more-vertical"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-download" command="download"
-              >{{$t('Download')}}</el-dropdown-item
-            >
+            <el-dropdown-item icon="el-icon-download" command="download">{{
+              $t("Download")
+            }}</el-dropdown-item>
             <el-dropdown-item
               icon="el-icon-view"
               command="preview"
               v-if="canPreview"
-              >{{$t('Preview')}}</el-dropdown-item
+              >{{ $t("Preview") }}</el-dropdown-item
             >
             <el-dropdown-item icon="el-icon-copy-document" command="duplicate"
               >Make a copy</el-dropdown-item
             >
-            <el-dropdown-item icon="el-icon-edit-outline" command="rename"
-              >{{$t('Rename')}}</el-dropdown-item
-            >
-            <el-dropdown-item icon="el-icon-info" command="info"
-              >{{$t('Info')}}</el-dropdown-item
-            >
-            <el-dropdown-item icon="el-icon-delete" command="delete"
-              >{{$t('Delete')}}</el-dropdown-item
-            >
+            <el-dropdown-item icon="el-icon-edit-outline" command="rename">{{
+              $t("Rename")
+            }}</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-info" command="info">{{
+              $t("Info")
+            }}</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-delete" command="delete">{{
+              $t("Delete")
+            }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="d-flex align-items-center justify-content-center w-100">
-        <i :class="getIcon(file.extension)"></i>
+        <template v-if="canPreview">
+          
+          <el-image v-if="mode=='list'" :src="url" lazy></el-image>
+        </template>
+        <i v-else :class="getIcon(file.extension)"></i>
         <!-- img :src="getIcon(file.extension)" alt="file-icon" height="35" / -->
       </div>
     </div>
@@ -77,6 +81,7 @@ export default {
   components: { vxFileManagerInfo },
   props: {
     file: Object,
+    mode: String,
   },
   data() {
     return {
@@ -87,7 +92,18 @@ export default {
     };
   },
   created() {},
-  mounted() {
+  async mounted() {
+    if (this.canPreview) {
+      let resp = await this.$vx.get("/FileManager/readFile", {
+        params: {
+          path: this.file.path,
+        },
+      });
+
+      let mime = resp.headers["content-type"];
+      this.url = "data:" + mime + ";base64," + resp.data;
+    }
+
     feather.replace({
       width: 14,
       height: 14,
@@ -108,6 +124,14 @@ export default {
     },
   },
   methods: {
+    getStyle() {
+      if (this.mode == "grid") {
+        return {
+          background: `url(${this.url}) no-repeat center center`,
+          backgroundSize: "cover",
+        };
+      }
+    },
     clickContent() {
       this.$emit("input", this.file.path);
 
@@ -128,7 +152,12 @@ export default {
         docx: "far fa-lg fa-file-word",
       };
 
-      return icon_map[extension] ?? "far fa-file fa-lg";
+      let icon = icon_map[extension] ?? "far fa-file fa-lg";
+
+      if (this.mode == "grid") {
+        icon += " fa-5x";
+      }
+      return icon;
     },
     async handleCommand(command) {
       if (command == "info") {

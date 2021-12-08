@@ -304,6 +304,7 @@
                   <h6 class="files-section-title mt-2 mb-75">Files</h6>
 
                   <vx-file-manager-file
+                    :mode="mode"
                     v-for="f in files"
                     :key="f.path"
                     :file="f"
