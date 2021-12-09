@@ -212,7 +212,6 @@ export default {
       }
 
       if (command == "download") {
-        let mime = resp.headers["content-type"];
         const a = document.createElement("a");
         a.href = `${this.$vx.endpoint}drive/0/${this.file.path}?_token=${this.$vx.accessToken}`;
         a.download = this.file.name; //filename to download
