@@ -42,7 +42,7 @@
       </div>
       <div class="d-flex align-items-center justify-content-center w-100">
         <template v-if="canPreviewImage">
-          <el-image v-if="mode == 'list'" :src="url" lazy></el-image>
+          <el-image v-if="mode == 'list'" :src="preview_url" lazy></el-image>
         </template>
         <i v-else :class="getIcon(file.extension)"></i>
         <!-- img :src="getIcon(file.extension)" alt="file-icon" height="35" / -->
@@ -86,19 +86,13 @@ export default {
       preview: false,
       url: null,
       show_info: false,
+      preview_url: null,
     };
   },
   created() {},
   async mounted() {
     if (this.canPreview) {
-      let resp = await this.$vx.get("/FileManager/readFile", {
-        params: {
-          path: this.file.path,
-        },
-      });
-
-      let mime = resp.headers["content-type"];
-      this.url = "data:" + mime + ";base64," + resp.data;
+      this.preview_url = `${this.$vx.endpoint}photo/0/${this.file.path}?w=200&_token=${this.$vx.accessToken}`;
     }
 
     feather.replace({
@@ -175,9 +169,11 @@ export default {
       }
 
       if (command == "delete") {
-        this.$confirm(`Delete ${this.file.name}?`).then(() => {
-          this.$emit("delete", this.file.path);
-        });
+        this.$confirm(`Delete ${this.file.name}?`, { type: "warning" }).then(
+          () => {
+            this.$emit("delete", this.file.path);
+          }
+        );
       }
 
       if (command == "rename") {
@@ -199,7 +195,7 @@ export default {
         if (this.isPDF()) {
           Fancybox.show([
             {
-              src: this.$vx.endpoint+"/drive/0/"+this.file.path,
+              src: this.$vx.endpoint + "drive/0/" + this.file.path,
               opts: {
                 type: "pdf",
               },
@@ -208,7 +204,7 @@ export default {
         } else {
           Fancybox.show([
             {
-              src: this.$vx.endpoint+"/drive/0/"+this.file.path,
+              src: this.$vx.endpoint + "drive/0/" + this.file.path,
               type: "image",
             },
           ]);
@@ -216,14 +212,9 @@ export default {
       }
 
       if (command == "download") {
-        let resp = await this.$vx.get("/FileManager/readFile", {
-          params: {
-            path: this.file.path,
-          },
-        });
         let mime = resp.headers["content-type"];
         const a = document.createElement("a");
-        a.href = "data:" + mime + ";base64," + resp.data;
+        a.href = `${this.$vx.endpoint}drive/0/${this.file.path}?_token=${this.$vx.accessToken}`;
         a.download = this.file.name; //filename to download
         a.click();
       }
