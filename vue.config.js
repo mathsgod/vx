@@ -1,4 +1,9 @@
 module.exports = {
     runtimeCompiler: true,
-    publicPath: ""
+    publicPath: "",
+    css: {
+        loaderOptions: {
+            less: {}
+        }
+    }
 }

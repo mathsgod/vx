@@ -10,6 +10,7 @@ import "./assets/css/themes/bordered-layout.min.css";
 import "./assets/css/themes/semi-dark-layout.min.css";
 import "./assets/css/core/menu/menu-types/vertical-menu.min.css";
 import "./assets/vx.css"
+import "./assets/style.less"
 
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox.css";
