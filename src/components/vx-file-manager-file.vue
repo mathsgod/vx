@@ -196,26 +196,19 @@ export default {
       }
 
       if (command == "preview") {
-        let resp = await this.$vx.get("/FileManager/readFile", {
-          params: {
-            path: this.file.path,
-          },
-        });
-
-        let mime = resp.headers["content-type"];
-        this.url = "data:" + mime + ";base64," + resp.data;
-
-        if (mime == "application/pdf") {
+        if (this.isPDF()) {
           Fancybox.show([
             {
-              src: this.url,
-              type: "pdf",
+              src: this.$vx.endpoint+"/drive/0/"+this.file.path,
+              opts: {
+                type: "pdf",
+              },
             },
           ]);
         } else {
           Fancybox.show([
             {
-              src: this.url,
+              src: this.$vx.endpoint+"/drive/0/"+this.file.path,
               type: "image",
             },
           ]);
