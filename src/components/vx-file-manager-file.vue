@@ -15,7 +15,15 @@
 				:for="`file_${file.path}`"
 			></label>
 		</div>
-		<div class="card-img-top file-logo-wrapper" :style="getStyle()">
+		<div
+			class="card-img-top file-logo-wrapper"
+			@click="checked = checked ? false : true"
+		>
+			<div
+				class="layer bg-layer"
+				:style="`background-image: url(${url})`"
+				v-if="mode == 'grid' && url"
+			></div>
 			<div class="dropdown float-right px-50">
 				<el-dropdown trigger="click" @command="handleCommand">
 					<span class="el-dropdown-link">
@@ -93,17 +101,36 @@
 		.file-manager-main-content {
 			.file-manager-content-body {
 				.view-container {
-					.file-manager-item {
-						.custom-checkbox {
-							&.checked:not(.selected):not(:hover) {
-								opacity: 1;
-							}
-						}
+					&:not(.list-view) {
+						.file-manager-item {
+							flex: 0 0 calc(50% - 1rem);
+							width: 50%;
+							max-width: none;
 
-						.file-logo-wrapper {
-							background-position: center center;
-							background-repeat: no-repeat;
-							background-size: cover;
+							@media (min-width: 992px) {
+								flex: 0 0 calc(25% - 1rem);
+								width: 25%;
+								max-width: 300px;
+							}
+
+							.custom-control {
+								z-index: 3;
+
+								&.custom-checkbox {
+									&.checked:not(.selected):not(:hover) {
+										opacity: 1;
+									}
+								}
+							}
+
+							.dropdown {
+								z-index: 3;
+							}
+
+							.card-img-top {
+								position: relative;
+								z-index: 2;
+							}
 						}
 					}
 				}
@@ -174,13 +201,6 @@ export default {
 	methods: {
 		isPDF() {
 			return this.file.mime_type == "application/pdf";
-		},
-		getStyle() {
-			if (this.mode == "grid") {
-				return {
-					"background-image": `url(${this.url})`,
-				};
-			}
 		},
 		clickContent() {
 			this.$emit("input", this.file.path);
