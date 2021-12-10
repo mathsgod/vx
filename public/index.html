@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <base href="/" >
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+
+
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+
+  <!-- link rel="apple-touch-icon" href="images/ico/apple-icon-120.png" -->
+  <link rel="shortcut icon" type="image/x-icon" href="images/ico/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+    rel="stylesheet">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- BEGIN: Vendor CSS-->
+  <link rel="stylesheet" type="text/css" href="vendors/css/vendors.min.css">
+  <!-- END: Vendor CSS-->
+
+  <!-- BEGIN: Vendor JS-->
+  <script src="vendors/js/jquery/jquery.min.js"></script>
+  <script src="vendors/js/bootstrap/bootstrap.min.js"></script>
+  <script src="vendors/js/unison-js/unison-js.min.js" defer></script>
+  <script src="vendors/js/feather-icons/feather-icons.min.js" defer></script>
+  <script src="vendors/js/perfectscrollbar/perfect-scrollbar.min.js" defer></script>
+  <script src="vendors/js/popper/popper.min.js" defer></script>
+  <script src="vendors/js/waves/waves.min.js" defer></script>
+  
+  <!-- BEGIN Vendor JS-->
+
+  <!-- BEGIN: Theme JS-->
+  <script src="js/core/app-menu.js" defer></script>
+  <script src="js/core/app.js" defer></script>
+  <!-- END: Theme JS-->
+
+
+  <script src="vendors/js/tables/datatable/jquery.dataTables.min.js" defer></script>
+  <script src="vendors/js/tables/datatable/datatables.bootstrap4.min.js" defer></script>
+  <script src="vendors/js/tables/datatable/dataTables.responsive.min.js" defer></script>
+  <script src="vendors/js/tables/datatable/responsive.bootstrap4.js" defer></script>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
+  data-menu="vertical-menu-modern" data-col="">
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+  </noscript>
+
+
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
