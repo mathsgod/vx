@@ -36,7 +36,6 @@ export default {
     },
     data: {
       type: Object,
-      labelPosition: "left",
       default() {
         return {};
       },
@@ -44,6 +43,7 @@ export default {
   },
   data() {
     return {
+      labelPosition: "left",
       form: this.data,
       loading: false,
     };
@@ -121,7 +121,7 @@ export default {
               );
               this.$router.push(url);
             }
-            
+
             return;
           }
 
@@ -134,6 +134,11 @@ export default {
             if (data.error) {
               this.$message.error(data.error.message);
             }
+            return;
+          }
+
+          if (data.error) {
+            this.$message.error(data.error.message);
           }
         }
       });
