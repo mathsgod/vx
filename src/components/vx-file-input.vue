@@ -4,7 +4,7 @@
 
     <template v-if="dialogVisible">
       <el-dialog :visible.sync="dialogVisible" width="80%" title="File manager" top="2vh">
-        <vx-file-manager @input="fileSelected($event)"></vx-file-manager>
+        <vx-file-manager @input="fileSelected($event)" default-action="select"></vx-file-manager>
       </el-dialog>
     </template>
   </div>

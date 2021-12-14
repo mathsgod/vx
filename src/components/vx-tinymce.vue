@@ -8,6 +8,7 @@
           @input="onSelectFile($event)"
           file-type="image"
           :accept="accept"
+          default-action="select"
         ></vx-file-manager>
       </el-dialog>
     </template>
