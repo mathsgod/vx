@@ -61,6 +61,7 @@
                 </a>
 
                 <vx-file-manager-labels
+                  :default-action="defaultAction"
                   :file-type="fileType"
                   :value="type"
                   @input="listFiles($event)"

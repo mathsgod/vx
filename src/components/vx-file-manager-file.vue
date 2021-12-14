@@ -79,6 +79,7 @@ export default {
   props: {
     file: Object,
     mode: String,
+    defaultAction: String,
   },
   data() {
     return {
@@ -135,11 +136,14 @@ export default {
       }
     },
     clickContent() {
-      this.$emit("input", this.file.path);
-
-      if (this.canPreview) {
-        this.handleCommand("preview");
+      if (this.defaultAction == "preview") {
+        if (this.canPreview) {
+          this.handleCommand("preview");
+        }
+        return;
       }
+      
+      this.$emit("input", this.file.path);
     },
     getIcon(extension) {
       let icon_map = {
