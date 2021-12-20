@@ -3,8 +3,17 @@
     <el-input @focus="focusInput" v-model="localData" clearable></el-input>
 
     <template v-if="dialogVisible">
-      <el-dialog :visible.sync="dialogVisible" width="80%" title="File manager" top="2vh">
-        <vx-file-manager @input="fileSelected($event)" default-action="select"></vx-file-manager>
+      <el-dialog
+        :visible.sync="dialogVisible"
+        width="80%"
+        title="File manager"
+        top="2vh"
+      >
+        <vx-file-manager
+          @input="fileSelected($event)"
+          default-action="select"
+          :base="base"
+        ></vx-file-manager>
       </el-dialog>
     </template>
   </div>
@@ -15,6 +24,7 @@ export default {
   components: { vxFileManager },
   props: {
     value: String,
+    base: String,
   },
   data() {
     return {
