@@ -20,8 +20,8 @@ export default {
       this.$router.push("/Dashboard");
       return;
     }
-    console.log(this.$vx.logined);
-  },
+ 
+ },
   created() {
     this.version = this.$vx.config.login.version;
     this.logined = this.$vx.logined;
