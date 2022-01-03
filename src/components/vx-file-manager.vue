@@ -170,6 +170,7 @@
                       <el-button
                         icon="el-icon-document-checked"
                         @click="selectClicked"
+                        v-if="showSelectButton"
                       >
                         Select
                       </el-button>
@@ -392,6 +393,7 @@ export default {
     },
     fileType: String,
     accept: String,
+    multiple: Boolean,
   },
   data() {
     return {
@@ -434,6 +436,17 @@ export default {
     },
   },
   computed: {
+    showSelectButton() {
+      if (this.selectedFile.length === 0) {
+        return false;
+      }
+
+      if (this.selectedFile.length > 1 && !this.multiple) {
+        return false;
+      }
+
+      return true;
+    },
     showLevelUp() {
       if (this.selectedPath == "") {
         return false;
