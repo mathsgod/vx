@@ -1,17 +1,15 @@
 <template>
   <vx-card v-loading="loading">
     <vx-card-body>
-      <el-form
-        :label-position="labelPosition"
+      <hl-form
         @submit.native.prevent
         :model="form"
-        label-width="auto"
         ref="form1"
         class="vx-form"
         :size="size"
       >
         <slot v-bind:form="form"></slot>
-      </el-form>
+      </hl-form>
     </vx-card-body>
 
     <vx-card-footer>
@@ -43,14 +41,11 @@ export default {
   },
   data() {
     return {
-      labelPosition: "left",
       form: this.data,
       loading: false,
     };
   },
-  created() {
-    this.labelPosition = this.$vx.breakpoint.sm ? "top" : "left";
-  },
+ 
   methods: {
     onSubmit() {
       this.$refs.form1.validate(async (valid) => {

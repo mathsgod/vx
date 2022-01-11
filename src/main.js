@@ -45,6 +45,11 @@ import zhTWLocale from 'element-ui/lib/locale/lang/zh-TW'
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 });
+
+
+import HLForm from '@hostlink/hl-form';
+Vue.use(HLForm);
+
 import "vuesax/dist/vuesax.css"
 
 
