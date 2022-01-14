@@ -3,7 +3,7 @@
   "version": "0.1.96",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "prebuild": "npm version patch"
   },
