@@ -17,7 +17,9 @@
       <!-- /Brand logo-->
       <!-- Left Text-->
       <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-        <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <div
+          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+        >
           <img
             src="/images/pages/reset-password-v2.svg"
             img-fluid="img-fluid"
@@ -101,7 +103,8 @@ export default {
             this.$alert(data.error.message, { type: "error" });
             return;
           }
-          this.$alert("Password updated");
+          await this.$alert("Password updated");
+          this.$router.push("/");
         }
       });
     },

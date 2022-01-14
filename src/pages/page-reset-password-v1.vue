@@ -4,7 +4,11 @@
       <!-- Reset Password v1 -->
       <div class="card mb-0">
         <div class="card-body">
-          <a :href="$vx.config['company-url']" class="brand-logo" target="_blank">
+          <a
+            :href="$vx.config['company-url']"
+            class="brand-logo"
+            target="_blank"
+          >
             <el-image
               v-if="$vx.config['company-logo']"
               :src="$vx.config['company-logo']"
@@ -87,7 +91,8 @@ export default {
             this.$alert(data.error.message, { type: "error" });
             return;
           }
-          this.$alert("Password updated");
+          await this.$alert("Password updated", { type: "success" });
+          this.$router.push("/");
         }
       });
     },
