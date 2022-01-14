@@ -1,3 +1,4 @@
 {
-    "endpoint": "/api/"
+    "endpoint": "http://localhost:8001/vx/",
+    "remark": "use for dev"
 }
