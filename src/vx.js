@@ -5,7 +5,7 @@ import package_json from './../package.json';
 
 import jwtDecode from "jwt-decode";
 import moment from "moment";
-
+import Model from "./model.js";
 class VX {
     endpoint;
 
@@ -168,6 +168,28 @@ class VX {
         }
     }
 
+    object(uri) {
+        if (!uri) {
+            let link = "/";
+            let s = this.$route.path.split("/");
+            if (s.length >= 1) {
+                link += s[1];
+            }
+            link += "/" + this.objectID;
+            uri = link;
+        }
+
+        let p = new Promise(resolve => {
+
+            this.get(uri).then(resp => {
+
+                let p = new Proxy(resp.data, new Model(this.axios, uri))
+                resolve(p);
+            });
+        });
+        return p;
+    }
+
     get objectID() {
         let s = this.$route.path.split("/");
         if (s.length >= 2) {
@@ -249,7 +271,7 @@ class VX {
 
         if (resp.status == 401) {
             await this.renewAccessToken();
-            return this.get(u, config);    
+            return this.get(u, config);
         }
 
         return resp;
