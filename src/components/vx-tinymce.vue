@@ -1,8 +1,17 @@
 <template>
   <div>
-    <tinymce :init="mceInit" v-model="localValue" :api-key="apiKey"></tinymce>
+    <tinymce
+      :init="mceInit"
+      v-model="localValue"
+      :api-key="apiKey"
+    ></tinymce>
     <template v-if="showFM">
-      <el-dialog :visible.sync="showFM" width="80%" top="2vh" title="File manager">
+      <el-dialog
+        :visible.sync="showFM"
+        width="80%"
+        top="2vh"
+        title="File manager"
+      >
         <vx-file-manager
           v-model="content"
           @input="onSelectFile($event)"
@@ -117,15 +126,15 @@ export default {
   },
   mounted() {},
   watch: {
-    content() {
-      console.log(this.content);
+    value() {
+      this.localValue = this.value;
     },
     localValue() {
       this.$emit("input", this.localValue);
     },
   },
   methods: {
-    onCodeOK() {
+   onCodeOK() {
       this.editor.setContent(this.content);
       this.showCode = false;
     },
