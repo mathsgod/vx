@@ -653,9 +653,9 @@ export default {
   watch: {
     async $route(to) {
       this.$vx.setRoute(to);
-      
+
       this.renderContent(to.fullPath);
-      if(document.body.classList.contains("menu-open")){
+      if (document.body.classList.contains("menu-open")) {
         window.$.app.menu.hide();
       }
     },
@@ -775,7 +775,11 @@ export default {
       this.loading = true;
       let resp;
       try {
-        resp = await this.$vx.get(path);
+        resp = await this.$vx.get(path, {
+          headers: {
+            Accept: "text/html",
+          },
+        });
         this.loading = false;
       } catch (e) {
         window.$(this.$refs.content).html(e);
