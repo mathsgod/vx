@@ -175,15 +175,24 @@ class VX {
             if (s.length >= 1) {
                 link += s[1];
             }
-            link += "/" + this.objectID;
+            if (this.objectID) {
+                link += "/" + this.objectID;
+            }
             uri = link;
         }
 
         let p = new Promise(resolve => {
 
+            if (!this.objectID) {
+                let p = new Proxy({}, new Model(this.axios, uri, this.objectID))
+                resolve(p);
+                return;
+            }
+
+
             this.get(uri).then(resp => {
 
-                let p = new Proxy(resp.data, new Model(this.axios, uri))
+                let p = new Proxy(resp.data, new Model(this.axios, uri, this.objectID))
                 resolve(p);
             });
         });
