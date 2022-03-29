@@ -117,8 +117,10 @@ export default {
               this.$router.push(url);
             }
 
-            if (this.$router.referer) {
-              this.$route.push(this.$router.referer);
+            if (resp.status != 200) {
+              if (this.$router.referer.fullPath) {
+                this.$route.push(this.$router.referer.fullPath);
+              }
             }
 
             return;
