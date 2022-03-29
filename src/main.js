@@ -16,6 +16,10 @@ import "@fancyapps/ui/dist/fancybox.css";
 
 window.Fancybox = Fancybox;
 
+import VueRouterReferer from '@tozd/vue-router-referer';
+Vue.use(VueRouterReferer);
+
+
 import VueApexCharts from 'vue-apexcharts'
 Vue.use(VueApexCharts)
 

@@ -45,7 +45,7 @@ export default {
       loading: false,
     };
   },
- 
+
   methods: {
     onSubmit() {
       this.$refs.form1.validate(async (valid) => {
@@ -115,6 +115,10 @@ export default {
                 resp.headers["content-location"]
               );
               this.$router.push(url);
+            }
+
+            if (this.$router.referer) {
+              this.$route.push(this.$router.referer);
             }
 
             return;
