@@ -108,6 +108,7 @@ export default {
               this.$message.success("Created");
             }
 
+
             if (this.successUrl) {
               let url = this.successUrl;
               url = url.replace(
@@ -119,7 +120,6 @@ export default {
             }
 
             if (resp.status != 200) {
-              alert(resp.status);
               if (this.$router.referer.fullPath) {
                 this.$router.push(this.$router.referer.fullPath);
               }
