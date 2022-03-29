@@ -115,11 +115,13 @@ export default {
                 resp.headers["content-location"]
               );
               this.$router.push(url);
+              return;
             }
+
 
             if (resp.status != 200) {
               if (this.$router.referer.fullPath) {
-                this.$route.push(this.$router.referer.fullPath);
+                this.$router.push(this.$router.referer.fullPath);
               }
             }
 
