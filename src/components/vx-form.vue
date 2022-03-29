@@ -99,7 +99,7 @@ export default {
           this.loading = false;
           let data = resp.data;
 
-          if (resp.status.toString()[0] == "2") {
+          if (resp.status >= 200 && resp.status < 300) {
             if (resp.status == 204) {
               this.$message.success("Updated");
             }
@@ -118,8 +118,8 @@ export default {
               return;
             }
 
-
             if (resp.status != 200) {
+              alert(resp.status);
               if (this.$router.referer.fullPath) {
                 this.$router.push(this.$router.referer.fullPath);
               }
