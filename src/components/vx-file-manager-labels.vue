@@ -3,7 +3,7 @@
     <h6 class="section-label px-2 mb-1">Labels</h6>
     <a
       v-if="fileType == null"
-      @click="$emit('input', 'document')"
+      @click="toggleLabel('document')"
       href="javascript:void(0)"
       class="list-group-item list-group-item-action"
       :class="{ active: value == 'document' }"
@@ -13,7 +13,7 @@
     </a>
     <a
       v-if="fileType == null || fileType == 'image'"
-      @click="$emit('input', 'image')"
+      @click="toggleLabel('image')"
       href="javascript:void(0)"
       class="list-group-item list-group-item-action"
       :class="{ active: value == 'image' }"
@@ -23,7 +23,7 @@
     </a>
     <a
       v-if="fileType == null"
-      @click="$emit('input', 'video')"
+      @click="toggleLabel('video')"
       href="javascript:void(0)"
       class="list-group-item list-group-item-action"
       :class="{ active: value == 'video' }"
@@ -33,7 +33,7 @@
     </a>
     <a
       v-if="fileType == null"
-      @click="$emit('input', 'audio')"
+      @click="toggleLabel('audio')"
       href="javascript:void(0)"
       class="list-group-item list-group-item-action"
       :class="{ active: value == 'audio' }"
@@ -43,7 +43,7 @@
     </a>
     <a
       v-if="fileType == null"
-      @click="$emit('input', 'archive')"
+      @click="toggleLabel('archive')"
       href="javascript:void(0)"
       class="list-group-item list-group-item-action"
       :class="{ active: value == 'archive' }"
@@ -58,6 +58,15 @@ export default {
   props: {
     fileType: String,
     value: String,
+  },
+  methods: {
+    toggleLabel(type) {
+      if (this.value == type) {
+        this.$emit("input", null);
+      } else {
+        this.$emit("input", type);
+      }
+    },
   },
 };
 </script>
