@@ -64,7 +64,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" v-if="allow_remember_me">
               <div class="custom-control custom-checkbox">
                 <input
                   class="custom-control-input"
@@ -121,9 +121,11 @@ export default {
       company_logo: null,
       remember_me: false,
       need_code: false,
+      allow_remember_me: false,
     };
   },
   created() {
+    this.allow_remember_me = this.$vx.config.allow_remember_me;
     this.company = this.$vx.config.company;
     this.company_logo = this.$vx.config["company-logo"];
     this.remember_me = localStorage.remember_me ? true : false;
