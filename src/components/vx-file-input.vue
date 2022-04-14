@@ -13,6 +13,7 @@
           @input="fileSelected($event)"
           default-action="select"
           :base="base"
+          :multiple="multiple"
         ></vx-file-manager>
       </el-dialog>
     </template>
@@ -25,6 +26,7 @@ export default {
   props: {
     value: String,
     base: String,
+    multiple: Boolean,
   },
   data() {
     return {

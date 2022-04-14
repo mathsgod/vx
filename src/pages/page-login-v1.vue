@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" v-if="allow_remember_me">
             <div class="custom-control custom-checkbox">
               <input
                 class="custom-control-input"
@@ -119,9 +119,11 @@ export default {
       show_version: false,
       bio_login: false,
       need_code: false,
+      allow_remember_me: false,
     };
   },
   created() {
+    this.allow_remember_me = this.$vx.config.allow_remember_me;
     this.company = this.$vx.config.company;
     this.version = this.$vx.version;
     if (this.remember_me) {

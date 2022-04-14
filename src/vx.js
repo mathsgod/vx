@@ -3,13 +3,13 @@ import { useRegistration } from '@web-auth/webauthn-helper';
 import { useLogin } from '@web-auth/webauthn-helper';
 import package_json from './../package.json';
 
-import jwtDecode from "jwt-decode";
-import moment from "moment";
 import Model from "./model.js";
 class VX {
     endpoint;
 
+
     async init(config) {
+        this.accessToken = "";
         this.endpoint = config.endpoint;
         let headers = {};
 
@@ -25,33 +25,12 @@ class VX {
             withCredentials: true,
             baseURL: config.endpoint,
             headers: headers
-
         });
-
-
-        if (this.accessToken) {
-            try {
-                let payload = jwtDecode(this.accessToken);
-                if (payload.exp < moment().unix()) { //expired
-                    await this.renewAccessToken();
-                }
-            } catch (e) {
-                this.accessToken = "";
-                await this.renewAccessToken();
-            }
-        }
-
-        if (this.accessToken) {
-            this.axios.defaults.headers.Authorization = "Bearer " + this.accessToken;
-        }
-
 
         let { data } = await this.get("/");
         if (data.error) {
             throw data.error.message;
         }
-
-
 
         this.version = data.version;
         this.version.push({
@@ -160,12 +139,6 @@ class VX {
     }
 
     set accessToken(token) {
-        localStorage.setItem("access_token", token);
-        if (token) {
-            this.axios.defaults.headers.Authorization = "Bearer " + token;
-        } else {
-            this.axios.defaults.headers.Authorization = null;
-        }
     }
 
     object(uri) {
@@ -207,20 +180,7 @@ class VX {
         return null;
     }
 
-    get accessToken() {
-        return localStorage.getItem("access_token");
-    }
-
-    set refreshToken(token) {
-        localStorage.setItem("refresh_token", token);
-    }
-
-    get refreshToken() {
-        return localStorage.getItem("refresh_token");
-    }
-
     async authLogin(username) {
-
         const login = useLogin({
             actionUrl: this.endpoint + "?_entry=authAssertion&username=" + username,
             optionsUrl: this.endpoint + "?_entry=authRequestOptions"
@@ -233,16 +193,6 @@ class VX {
         if (resp.error) {
             throw resp.error.message;
         }
-
-        if (resp.access_token) {
-            this.accessToken = resp.access_token;
-        }
-
-        if (resp.refreshToken) {
-            this.refreshToken = resp.refresh_token;
-        }
-
-
     }
 
     async authRegister() {
@@ -314,16 +264,13 @@ class VX {
         });
 
         if (status == 200) {
-            this.accessToken = data.access_token;
-            this.refreshToken = data.refresh_token;
             return;
         }
         throw data.error.message;
     }
 
-    logout() {
-        this.accessToken = "";
-        this.refreshToken = "";
+    async logout() {
+        await this.post("/logout");
         this.logined = false;
     }
 
@@ -364,22 +311,7 @@ class VX {
     }
 
     async renewAccessToken() {
-        this.accessToken = "";
-
-        if (!this.refreshToken) {
-            return;
-        }
-        try {
-            let { data } = await this.post("/?_entry=renew_access_token", {
-                refresh_token: this.refreshToken
-            });
-
-            if (data.access_token) {
-                this.accessToken = data.access_token;
-            }
-        } catch (e) {
-            this.refreshToken = "";
-        }
+        return await this.post("/renew-token");
     }
 
     viewAs(user_id) {
@@ -453,7 +385,9 @@ class VX {
 export default {
     install(Vue) {
 
-        Vue.prototype.$http = axios.create();
+        Vue.prototype.$http = axios.create({
+            //withCredentials: true
+        });
 
         Vue.prototype.$vx = new VX();
         window.vx = Vue.prototype.$vx;

@@ -41,7 +41,8 @@ export default {
     }
   },
   methods: {
-    logout() {
+    async logout() {
+      await this.$vx.logout();
       this.logined = false;
     },
   },
