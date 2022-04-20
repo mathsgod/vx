@@ -26,10 +26,14 @@ export default {
     }
 
     this.$vx.loadCSS();
-
     document.title = this.$vx.config.company ?? "vx";
 
     this.logined = this.$vx.logined;
+
+    //load js
+    await this.$vx.loadJS();
+
+
     this.ready = true;
     this.$vx.setRouter(this.$router);
 

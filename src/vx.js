@@ -90,23 +90,12 @@ class VX {
     }
 
     loadJS() {
-        const promises = this.config.js.map((url) => {
-            return this.loadScript(url);
+
+        let scripts = this.config.js.map((url) => {
+            return window.$.getScript(url);
         });
 
-        return promises.reduce(
-            function (p, c) {
-                // Waiting for `p` completed
-                return p.then(function () {
-                    // and then `c`
-                    return c().then(function () {
-                        return true;
-                    });
-                });
-            },
-            // The initial value passed to the reduce method
-            Promise.resolve([])
-        );
+        return window.$.when(...scripts);
 
     }
 
