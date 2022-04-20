@@ -7,7 +7,6 @@ import Model from "./model.js";
 class VX {
     endpoint;
 
-
     async init(config) {
         this.accessToken = "";
         this.endpoint = config.endpoint;
@@ -129,9 +128,6 @@ class VX {
         this.favs = data.favs;
     }
 
-    set accessToken(token) {
-    }
-
     object(uri) {
         if (!uri) {
             let link = "/";
@@ -181,6 +177,7 @@ class VX {
             username,
             userVerification: true
         });
+
         if (resp.error) {
             throw resp.error.message;
         }
