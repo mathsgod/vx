@@ -187,15 +187,9 @@ class VX {
     }
 
     async authRegister() {
-
         const register = useRegistration({
             actionUrl: this.endpoint + "User/auth_register",
-            actionHeader: {
-                Authorization: "Bearer " + this.accessToken,
-            },
             optionsUrl: this.endpoint + "User/auth_register_options"
-        }, {
-            Authorization: "Bearer " + this.accessToken,
         });
         return await register()
     }
