@@ -95,7 +95,9 @@ class VX {
             return window.$.getScript(url);
         });
 
-        return window.$.when(...scripts);
+        return new Promise((resolve) => {
+            window.$.when(...scripts).done(resolve);
+        });
 
     }
 
