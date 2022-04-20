@@ -1,6 +1,6 @@
 {
   "name": "@mathsgod/vx",
-  "version": "0.1.118",
+  "version": "0.1.119",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --mode production",
