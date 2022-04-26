@@ -20,11 +20,13 @@ export default {
     let resp;
     if (process.env.NODE_ENV == "development") {
       resp = {
-        endpoint: "http://localhost:8001/api/"
+        endpoint: "http://localhost:8001/api/",
       };
     } else {
-      resp = await fetch("config.json");
-      resp = await resp.json();
+      let base = document.querySelector("base").href;
+      resp = {
+        endpoint: base + "api/",
+      };
     }
 
     try {
