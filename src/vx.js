@@ -206,6 +206,11 @@ class VX {
         return url;
     }
 
+    async $get(url, config) {
+        let { data } = await this.get(url, config);
+        return data;
+    }
+
     async get(url, config) {
         let u = this.processUrl(url);
         let resp = await this.axios.get(u, config);

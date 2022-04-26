@@ -17,9 +17,18 @@ export default {
     };
   },
   async beforeCreate() {
-    let resp = await fetch("config.json");
+    let resp;
+    if (process.env.NODE_ENV == "development") {
+      resp = {
+        endpoint: "http://localhost:8001/api/"
+      };
+    } else {
+      resp = await fetch("config.json");
+      resp = await resp.json();
+    }
+
     try {
-      await this.$vx.init(await resp.json());
+      await this.$vx.init(resp);
     } catch (e) {
       this.$alert(e.response.statusText, { type: "error" });
       return;
@@ -32,7 +41,6 @@ export default {
 
     //load js
     await this.$vx.loadJS();
-
 
     this.ready = true;
     this.$vx.setRouter(this.$router);

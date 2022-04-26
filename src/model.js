@@ -1,7 +1,4 @@
 export default class {
-
-
-
     data = {}
 
     constructor(axios, url, id) {
