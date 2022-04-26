@@ -169,8 +169,8 @@ class VX {
 
     async authLogin(username) {
         const login = useLogin({
-            actionUrl: this.endpoint + "?_entry=authAssertion&username=" + username,
-            optionsUrl: this.endpoint + "?_entry=authRequestOptions"
+            actionUrl: this.endpoint + "auth/assertion?username=" + username,
+            optionsUrl: this.endpoint + "auth/request-options",
         });
 
         let resp = await login({
@@ -185,8 +185,8 @@ class VX {
 
     async authRegister() {
         const register = useRegistration({
-            actionUrl: this.endpoint + "User/auth_register",
-            optionsUrl: this.endpoint + "User/auth_register_options"
+            actionUrl: this.endpoint + "auth/register",
+            optionsUrl: this.endpoint + "auth/register-options"
         });
         return await register()
     }
@@ -244,7 +244,7 @@ class VX {
     }
 
     async login(username, password, code) {
-        let { data, status } = await this.post("/login", {
+        let { data, status } = await this.post("/auth/login", {
             username: username,
             password: password,
             code: code
@@ -257,7 +257,7 @@ class VX {
     }
 
     async logout() {
-        await this.post("/logout");
+        await this.post("/auth/logout");
         this.logined = false;
     }
 
@@ -298,7 +298,7 @@ class VX {
     }
 
     async renewAccessToken() {
-        return await this.post("/renew-token");
+        return await this.post("/auth/renew-token");
     }
 
     viewAs(user_id) {
