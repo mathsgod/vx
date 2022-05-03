@@ -340,6 +340,7 @@
       v-if="showSelectFolder"
       title="Select folder ..."
       :visible.sync="showSelectFolder"
+      append-to-body
     >
       <el-tree
         ref="tree2"
