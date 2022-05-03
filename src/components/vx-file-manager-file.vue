@@ -80,11 +80,14 @@ export default {
     file: Object,
     mode: String,
     defaultAction: String,
+    preview: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       checked: this.file.selected,
-      preview: false,
       url: null,
       show_info: false,
       preview_url: null,
@@ -93,7 +96,7 @@ export default {
   created() {},
   async mounted() {
     if (this.canPreview) {
-      this.preview_url = `${this.$vx.endpoint}photo/0/${this.file.path}?w=200&_token=${this.$vx.accessToken}`;
+      this.preview_url = `${this.$vx.endpoint}photo/0/${this.file.path}?w=200`;
     }
 
     feather.replace({
@@ -112,6 +115,8 @@ export default {
   },
   computed: {
     canPreviewImage() {
+      if (!this.preview) return false;
+
       if (this.file.mime_type == "image/jpeg") return true;
       if (this.file.mime_type == "image/png") return true;
       if (this.file.mime_type == "image/gif") return true;
@@ -142,7 +147,7 @@ export default {
         }
         return;
       }
-      
+
       this.$emit("input", this.file.path);
     },
     getIcon(extension) {
