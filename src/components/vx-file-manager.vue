@@ -226,8 +226,21 @@
                   :class="mode == 'list' ? 'list-view' : ''"
                 >
                   <h6 class="files-section-title mt-25 mb-75">Folders</h6>
-                  <div class="files-header">
-                    <h6 class="font-weight-bold mb-0" v-t="'Name'"></h6>
+                  <div class="files-header" style="margin-bottom: 0">
+                    <h6 class="font-weight-bold mb-0" :class="sorting">
+                      {{ $t("Name") }}
+                      <span class="caret-wrapper"
+                        ><i
+                          class="sort-caret ascending"
+                          @click="onAscending"
+                        ></i
+                        ><i
+                          class="sort-caret descending"
+                          @click="onDescending"
+                        ></i
+                      ></span>
+                    </h6>
+
                     <div>
                       <h6
                         class="
@@ -278,7 +291,7 @@
                   </div>
 
                   <vx-file-manager-folder
-                    v-for="(folder, index) in folders"
+                    v-for="(folder, index) in displayFolders"
                     :key="index"
                     :folder="folder"
                     @delete="deleteFolder($event)"
@@ -307,7 +320,7 @@
 
                   <vx-file-manager-file
                     :mode="mode"
-                    v-for="f in files"
+                    v-for="f in displayFiles"
                     :key="f.path"
                     :file="f"
                     @delete="deleteFile($event)"
@@ -366,6 +379,55 @@
 .vx-file-manager-content {
   line-height: 1;
 }
+
+.ascending .sort-caret.ascending {
+  border-bottom-color: #409eff;
+}
+
+.caret-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+  height: 34px;
+  vertical-align: middle;
+  cursor: pointer;
+  overflow: initial;
+  position: relative;
+}
+.sort-caret {
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  position: absolute;
+  left: 7px;
+}
+
+.sort-caret.descending {
+  border-top-color: #c0c4cc;
+  bottom: 7px;
+}
+
+.sort-caret.ascending {
+  border-bottom-color: #c0c4cc;
+  top: 5px;
+}
+
+.sort-caret {
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  position: absolute;
+  left: 7px;
+}
+
+.descending .sort-caret.descending {
+  border-top-color: #409eff;
+}
+
+.ascending .sort-caret.ascending {
+  border-bottom-color: #409eff;
+}
 </style>
 
 <script>
@@ -416,6 +478,7 @@ export default {
       type: null,
       search_text: "",
       nextSelectedFiles: [],
+      sorting: null,
     };
   },
   created() {
@@ -439,6 +502,43 @@ export default {
     },
   },
   computed: {
+    displayFolders() {
+      let folders = this.folders;
+
+      if (this.sorting == "ascending") {
+        folders.sort((a, b) => {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          return 0;
+        });
+      } else if (this.sorting == "descending") {
+        folders.sort((a, b) => {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
+          return 0;
+        });
+      }
+
+      return folders;
+    },
+    displayFiles() {
+      let files = this.files;
+      if (this.sorting == "ascending") {
+        files = files.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+      } else if (this.sorting == "descending") {
+        files = files.sort((a, b) => {
+          if (a.name > b.name) return -1;
+          if (a.name < b.name) return 1;
+          return 0;
+        });
+      }
+
+      return files;
+    },
     showSelectButton() {
       if (this.selectedFile.length === 0) {
         return false;
@@ -458,6 +558,21 @@ export default {
     },
   },
   methods: {
+    onAscending() {
+      if (this.sorting == "ascending") {
+        this.sorting = null;
+      } else {
+        this.sorting = "ascending";
+      }
+    },
+    onDescending() {
+      if (this.sorting == "descending") {
+        this.sorting = null;
+      } else {
+        this.sorting = "descending";
+      }
+    },
+
     async moveSelectedTo(selectedNode) {
       if (!selectedNode) return;
       await this.$confirm(`Move selected file to ${selectedNode.path}?`);
