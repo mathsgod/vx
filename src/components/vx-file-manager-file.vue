@@ -80,10 +80,7 @@ export default {
     file: Object,
     mode: String,
     defaultAction: String,
-    preview: {
-      type: Boolean,
-      default: true,
-    },
+    preview: Boolean,
   },
   data() {
     return {
@@ -93,7 +90,6 @@ export default {
       preview_url: null,
     };
   },
-  created() {},
   async mounted() {
     if (this.canPreview) {
       this.preview_url = `${this.$vx.endpoint}photo/0/${this.file.path}?w=200`;

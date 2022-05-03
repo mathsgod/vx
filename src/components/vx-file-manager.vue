@@ -318,6 +318,7 @@
                       selectedFile = selectedFile.filter((s) => s != $event)
                     "
                     @input="inputFile($event)"
+                    :preview="preview"
                   ></vx-file-manager-file>
 
                   <div
@@ -395,6 +396,7 @@ export default {
     fileType: String,
     accept: String,
     multiple: Boolean,
+    preview: Boolean,
   },
   data() {
     return {

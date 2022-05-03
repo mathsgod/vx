@@ -14,6 +14,7 @@
           default-action="select"
           :base="base"
           :multiple="multiple"
+          :preview="preview"
         ></vx-file-manager>
       </el-dialog>
     </template>
@@ -27,6 +28,7 @@ export default {
     value: String,
     base: String,
     multiple: Boolean,
+    preview: Boolean,
   },
   data() {
     return {
