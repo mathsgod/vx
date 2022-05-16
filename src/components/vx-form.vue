@@ -5,7 +5,7 @@
         @submit.native.prevent
         :model="form"
         ref="form1"
-        class="vx-form"
+        class="vx-form row"
         :size="size"
       >
         <slot v-bind:form="form"></slot>
