@@ -52,11 +52,6 @@ form.small-label label.el-form-item__label {
     background-color: transparent !important;
 }
 
-
-.dark-layout div.el-card {
-    border: none;
-}
-
 .dark-layout .el-input__inner {
     background-color: #283046;
     color: inherit;
