@@ -6,7 +6,6 @@ import "jsuites/dist/jsuites.css";
 export default {
   props: {
     value: Array,
-    
   },
   data() {
     return {
@@ -26,6 +25,9 @@ export default {
     for (let attr of Object.entries(this.$attrs)) {
       options[snakeToCamel(attr[0])] = attr[1];
     }
+    options.onchange = () => {
+      this.$emit("input", this.instance.getData());
+    };
 
     let el = h("div");
     this.$nextTick(() => {
