@@ -15,7 +15,7 @@ export default {
   components: { jspreadsheet },
   data() {
     return {
-      materials: [],
+      materials: [["1", "2", "3", "4"]],
       columns: [
         {
           type: "text",

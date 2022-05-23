@@ -21,6 +21,7 @@ export default {
         );
 
     let options = {};
+    options.data = this.value;
 
     for (let attr of Object.entries(this.$attrs)) {
       options[snakeToCamel(attr[0])] = attr[1];
