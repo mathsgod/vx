@@ -223,24 +223,44 @@ class VX {
         return resp;
     }
 
-    post(url, data, config) {
+    async post(url, data, config) {
         let u = this.processUrl(url);
-        return this.axios.post(u, data, config);
+        let resp = await this.axios.post(u, data, config);
+        if (resp.status == 401) {
+            await this.renewAccessToken();
+            return this.post(u, data, config);
+        }
+        return resp;
     }
 
-    put(url, data, config) {
+    async put(url, data, config) {
         let u = this.processUrl(url);
-        return this.axios.put(u, data, config);
+        let resp = await this.axios.put(u, data, config);
+        if (resp.status == 401) {
+            await this.renewAccessToken();
+            return this.put(u, data, config);
+        }
+        return resp;
     }
 
-    patch(url, data, config) {
+    async patch(url, data, config) {
         let u = this.processUrl(url);
-        return this.axios.patch(u, data, config);
+        let resp = await this.axios.patch(u, data, config);
+        if (resp.status == 401) {
+            await this.renewAccessToken();
+            return this.patch(u, data, config);
+        }
+        return resp;
     }
 
-    delete(url, config) {
+    async delete(url, config) {
         let u = this.processUrl(url);
-        return this.axios.delete(u, config)
+        let resp = await this.axios.delete(u, config);
+        if (resp.status == 401) {
+            await this.renewAccessToken();
+            return this.delete(u, config);
+        }
+        return resp;
     }
 
     async login(username, password, code) {
