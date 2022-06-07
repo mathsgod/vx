@@ -818,11 +818,21 @@ export default {
       if (resp.headers["content-type"] == "text/html; charset=UTF-8") {
         content = resp.data;
       } else {
-        resp = resp.data;
+        let status = resp.status;
 
-        if (resp.status == 301 || resp.status == 302 || resp.status == 303) {
+        if (status == 301 || status == 302 || status == 303) {
           //redirect
           this.$router.push(resp.location);
+          return;
+        }
+        if (status >= 500) {
+          if (resp.data.error) {
+            content = `<vue><el-alert type='error' title='${resp.data.error.message}'></el-alert></vue>`;
+          } else {
+            content = "500 error";
+          }
+
+          window.$(this.$refs.content).html(content);
           return;
         }
       }
