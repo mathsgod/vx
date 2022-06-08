@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+import "@fortawesome/fontawesome-free/css/all.css";
+
+import "./assets/css/font.css";
+
+
 import "./assets/css/bootstrap.min.css";
 import "./assets/css/bootstrap-extended.min.css";
 import "./assets/css/colors.min.css";
