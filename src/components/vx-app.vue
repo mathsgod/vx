@@ -334,7 +334,7 @@
               <span class="avatar"
                 ><img
                   class="round"
-                  :src="me.image"
+                  :src="`${$vx.endpoint}User/avatar`"
                   alt="avatar"
                   height="40"
                   width="40" /><span class="avatar-status-online"></span
