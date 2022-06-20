@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tinymce :init="mceInit" v-model="localValue" :api-key="apiKey"></tinymce>
+    <tinymce :init="mceInit" v-model="localValue" :api-key="apiKey" ref="tinymce"></tinymce>
     <template v-if="showFM">
       <el-dialog :visible.sync="showFM" width="80%" top="2vh" title="File manager">
         <vx-file-manager v-model="content" @input="onSelectFile($event)" file-type="image" :accept="accept"
@@ -60,6 +60,16 @@ export default {
     };
   },
   created() {
+
+    const p = (new DOMParser());
+    const d = p.parseFromString(this.localValue, "text/html");
+    let valid = this.getParentChildTag(d.body);
+
+
+    let validString = valid.join(",");
+    console.log(this.localValue);
+
+
     let that = this;
     this.mceInit = {
       height: this.height,
@@ -80,9 +90,17 @@ export default {
         }
       },
       valid_elements: "*[*]",
-      verify_html: false,
+      extended_valid_elements: validString,
       forced_root_block: "",
-      setup() {
+      setup(editor) {
+        editor.on("init", () => {
+          editor.schema.addValidChildren(validString);
+          editor.setContent(that.localValue);
+          
+        })
+        
+        //editor.schema.addValidChildren(validString);
+
         window.tinymce.PluginManager.add("filemanager", (editor) => {
           editor.ui.registry.addButton("filemanager", {
             text: "File manager",
@@ -102,11 +120,18 @@ export default {
               that.editor = editor;
               that.showCode = true;
               that.content = editor.getContent();
+
+
+
             },
           });
         });
+
+
       },
     };
+
+
   },
   mounted() { },
   watch: {
@@ -118,6 +143,7 @@ export default {
     },
   },
   methods: {
+
     getParentChildTag(n) {
       let tags = [];
 
