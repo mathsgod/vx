@@ -8,7 +8,8 @@ import CodeMirror from "codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/htmlmixed/htmlmixed.js";
 import "codemirror/addon/edit/closetag.js";
-import prettify from "html-prettify";
+//import prettify from "html-prettify";
+import { html } from 'js-beautify';
 export default {
   name: "vx-codemirror",
   props: {
@@ -26,8 +27,9 @@ export default {
     },
   },
   mounted() {
-    this.localValue = prettify(this.localValue);
     
+    this.localValue = html(this.localValue);
+
     this.$nextTick(() => {
       let editor = CodeMirror.fromTextArea(this.$refs.t1, {
         lineNumbers: true,
