@@ -67,11 +67,11 @@ export default {
 
 
     let validString = valid.join(",");
-    console.log(this.localValue);
 
 
     let that = this;
     this.mceInit = {
+      relative_urls: false,
       height: this.height,
       apply_source_formatting: true,
       convert_urls: false,
@@ -90,15 +90,16 @@ export default {
         }
       },
       valid_elements: "*[*]",
-      extended_valid_elements: validString,
+      //extended_valid_elements: "a[div]",
       forced_root_block: "",
       setup(editor) {
         editor.on("init", () => {
+
           editor.schema.addValidChildren(validString);
           editor.setContent(that.localValue);
-          
+
         })
-        
+
         //editor.schema.addValidChildren(validString);
 
         window.tinymce.PluginManager.add("filemanager", (editor) => {
