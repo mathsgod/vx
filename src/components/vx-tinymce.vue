@@ -84,7 +84,6 @@ export default {
       height: this.height,
       apply_source_formatting: true,
       convert_urls: false,
-      verify_html: false,
       plugins: [
         "filemanager codemirror code fullscreen image",
         "advlist autolink lists link image charmap print preview anchor",
@@ -99,6 +98,8 @@ export default {
           freeTiny.style.display = "none";
         }
       },
+      valid_elements: "*[*]",
+      verify_html: false,
       setup() {
         window.tinymce.PluginManager.add("filemanager", (editor) => {
           editor.ui.registry.addButton("filemanager", {
