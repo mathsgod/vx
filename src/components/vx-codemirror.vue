@@ -8,6 +8,7 @@ import CodeMirror from "codemirror";
 import "codemirror/lib/codemirror.css";
 import "codemirror/mode/htmlmixed/htmlmixed.js";
 import "codemirror/addon/edit/closetag.js";
+import prettify from "html-prettify";
 export default {
   name: "vx-codemirror",
   props: {
@@ -20,18 +21,26 @@ export default {
   },
   watch: {
     localValue() {
+
       this.$emit("input", this.localValue);
     },
   },
   mounted() {
-    let editor = CodeMirror.fromTextArea(this.$refs.t1, {
-      lineNumbers: true,
-      mode: "htmlmixed",
-      autoCloseTags: true,
-    });
+    this.localValue = prettify(this.localValue);
+    
+    this.$nextTick(() => {
+      let editor = CodeMirror.fromTextArea(this.$refs.t1, {
+        lineNumbers: true,
+        mode: "htmlmixed",
+        autoCloseTags: true,
+      });
 
-    editor.on("change", (instance) => {
-      this.localValue = instance.getValue();
+      editor.on("change", (instance) => {
+        this.localValue = instance.getValue();
+
+
+
+      });
     });
   },
 };

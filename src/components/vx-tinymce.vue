@@ -26,6 +26,7 @@ import tinymce from "@tinymce/tinymce-vue";
 import VxFileManager from "./vx-file-manager.vue";
 import VxCodemirror from "./vx-codemirror.vue";
 
+
 export default {
   components: {
     tinymce: tinymce,
