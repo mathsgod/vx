@@ -139,14 +139,13 @@ export default {
 
       let valid = this.getParentChildTag(d.body);
 
-      console.log(valid.join(","));
       this.editor.schema.addValidChildren(valid.join(","));
 
       this.editor.setContent(this.content);
       this.showCode = false;
+      this.$emit("input", this.content);
     },
     onSelectFile(path) {
-      console.log("insert content");
       this.showFM = false;
       let img = document.createElement("img");
       //img.src = "http://192.168.88.108:8001/vx/uploads/" + path;
