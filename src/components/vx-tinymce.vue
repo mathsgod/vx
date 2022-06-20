@@ -122,7 +122,7 @@ export default {
 
       for (let child of n.childNodes) {
         if (child.tagName) {
-          tags.push(n.tagName + "[" + child.tagName + "]");
+          tags.push("+" + n.tagName.toLowerCase() + "[" + child.tagName.toLowerCase() + "]");
 
           let ts = this.getParentChildTag(child);
           tags = tags.concat(ts);
@@ -139,7 +139,7 @@ export default {
 
       let valid = this.getParentChildTag(d.body);
 
-
+      console.log(valid.join(","));
       this.editor.schema.addValidChildren(valid.join(","));
 
       this.editor.setContent(this.content);
