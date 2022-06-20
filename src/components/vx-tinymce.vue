@@ -1,35 +1,15 @@
 <template>
   <div>
-    <tinymce
-      :init="mceInit"
-      v-model="localValue"
-      :api-key="apiKey"
-    ></tinymce>
+    <tinymce :init="mceInit" v-model="localValue" :api-key="apiKey"></tinymce>
     <template v-if="showFM">
-      <el-dialog
-        :visible.sync="showFM"
-        width="80%"
-        top="2vh"
-        title="File manager"
-      >
-        <vx-file-manager
-          v-model="content"
-          @input="onSelectFile($event)"
-          file-type="image"
-          :accept="accept"
-          default-action="select"
-        ></vx-file-manager>
+      <el-dialog :visible.sync="showFM" width="80%" top="2vh" title="File manager">
+        <vx-file-manager v-model="content" @input="onSelectFile($event)" file-type="image" :accept="accept"
+          default-action="select"></vx-file-manager>
       </el-dialog>
     </template>
 
     <template v-if="showCode">
-      <el-dialog
-        :visible.sync="showCode"
-        width="80%"
-        top="2vh"
-        title="Code mirror"
-        :append-to-body="true"
-      >
+      <el-dialog :visible.sync="showCode" width="80%" top="2vh" title="Code mirror" :append-to-body="true">
         <vx-codemirror v-model="content" class="mb-1"></vx-codemirror>
         <div>
           <el-button type="primary" @click="onCodeOK">OK</el-button>
@@ -100,6 +80,7 @@ export default {
       },
       valid_elements: "*[*]",
       verify_html: false,
+      forced_root_block: "",
       setup() {
         window.tinymce.PluginManager.add("filemanager", (editor) => {
           editor.ui.registry.addButton("filemanager", {
@@ -126,7 +107,7 @@ export default {
       },
     };
   },
-  mounted() {},
+  mounted() { },
   watch: {
     value() {
       this.localValue = this.value;
@@ -136,7 +117,31 @@ export default {
     },
   },
   methods: {
-   onCodeOK() {
+    getParentChildTag(n) {
+      let tags = [];
+
+      for (let child of n.childNodes) {
+        if (child.tagName) {
+          tags.push(n.tagName + "[" + child.tagName + "]");
+
+          let ts = this.getParentChildTag(child);
+          tags = tags.concat(ts);
+        }
+      }
+
+
+      return tags;
+
+    },
+    onCodeOK() {
+      const p = (new DOMParser());
+      const d = p.parseFromString(this.content, "text/html");
+
+      let valid = this.getParentChildTag(d.body);
+
+
+      this.editor.schema.addValidChildren(valid.join(","));
+
       this.editor.setContent(this.content);
       this.showCode = false;
     },
