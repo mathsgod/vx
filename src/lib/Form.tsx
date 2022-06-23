@@ -1,10 +1,11 @@
 import FormItem from './FormItem';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { ElMessage } from 'element-plus';
 class Form {
     #childrens = [];
     data = null;
     setData(data) {
-        this.data = data;
+        this.data = ref(data);
     }
 
     add(label: string) {
@@ -19,16 +20,21 @@ class Form {
         let self = this;
         return defineComponent({
             methods: {
-                onClick() {
-                    console.log(self.data)
+                onSubmit() {
+                    this.$refs.form.validate((valid) => {
+                        if (valid) {
+                            console.log(self.data);
+                            ElMessage.success("Form Validation: Success!");
+                        }
+                    });
                 }
             },
             render() {
                 return <el-card>
-                    <el-form>
+                    <el-form model={self.data} ref="form">
                         {self.#childrens.map(item => item.render())}
                     </el-form>
-                    <el-button type="primary" onClick={this.onClick}>提交</el-button>
+                    <el-button type="primary" onClick={this.onSubmit}>提交</el-button>
                 </el-card>
 
             }

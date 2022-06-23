@@ -2,6 +2,7 @@ class Input {
     data = null
     field = null
     type = 'text'
+    vModel: any;
 
     setData(data) {
         this.data = data;
@@ -18,7 +19,8 @@ class Input {
     render() {
         return <el-input type={this.type}
             show-password={this.type == 'password'}
-            vModel={this.data.value[this.field]}></el-input>;
+            v-model={this.vModel}
+        ></el-input>;
     }
 }
 

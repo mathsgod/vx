@@ -43,6 +43,7 @@ const onClick = () => {
 
   <el-divider></el-divider>
   <div>
+    <el-input v-model="password" type="password"></el-input>
     <el-button @click="login">Login</el-button>
   </div>
 
@@ -50,6 +51,11 @@ const onClick = () => {
 
 <script>
 export default {
+  data() {
+    return {
+      password: "111111"
+    }
+  },
   async mounted() {
     await this.$vx.init();
     console.log("mounted", this.$route);
@@ -58,10 +64,8 @@ export default {
   methods: {
     async login() {
 
-      console.log(await this.$vx.login("admin", "<hostlink>"));
+      await this.$vx.login("admin", this.password);
 
-      console.log("login")
-      console.log(this.$vx);
     }
 
   }

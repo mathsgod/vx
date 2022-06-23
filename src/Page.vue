@@ -1,12 +1,39 @@
 <script setup lang="jsx">
 import { createTable, $axios, createDescriptons, createForm } from "./lib";
 
-let { data: user2 } = await $axios.get("/User/1");
+//let { data: user2 } = await $axios.get("/User/1");
+
+
+let user = {
+    first_name: "first_name",
+}
 
 let form = createForm();
-form.setData(user2);
+form.setData(user);
 form.add("First name").input("first_name");
+//form.add("Last name").input("last_name");
+/* form.add("Email").email("email");
+form.add("Password").required().password("password");
+form.add("Date").datePicker("date");
+form.add("Time").timePicker("time");
+form.add("Select").required().select("select", [
+    {
+        value: 1,
+        label: "One"
+    },
+    {
+        value: 2,
+        label: "Two"
+    },
+    {
+        value: 3,
+        label: "Three"
+    }
+]);
+
+form.add("CB").checkbox("cb1"); */
 const fa = form.render();
+
 /* 
 
 let { data: user } = await $axios.get("/User/1");
