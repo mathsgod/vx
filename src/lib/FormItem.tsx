@@ -1,9 +1,9 @@
-import DatePicker from "./DatePicker";
-import Input from "./Input";
+import DatePicker from "./class/DatePicker";
+import Input from "./class/Input";
 import { ref } from "vue";
-import TimePicker from "./TimePicker";
-import Select from "./Select";
-import CheckBox from "./CheckBox";
+import TimePicker from "./class/TimePicker";
+import Select from "./class/Select";
+import CheckBox from "./class/CheckBox";
 
 class FormItem {
     label = ''
@@ -32,6 +32,7 @@ class FormItem {
     }
 
     email(field: string) {
+        this.#prop = field;
         let input = new Input;
         input.setType('email');
         input.setData(this.data);
@@ -102,6 +103,20 @@ class FormItem {
         //   cb.vModel = ref(ref(this.data[field]).value).value;
         this.#childrens.push(cb);
         return cb;
+    }
+
+    textarea(field: string) {
+        this.#prop = field;
+        let input = new Input;
+
+        input.setType('textarea');
+        input.setData(this.data);
+        input.setField(field)
+
+        this.#childrens.push(input);
+        return input;
+
+
     }
 
     render() {
