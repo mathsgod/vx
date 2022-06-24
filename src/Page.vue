@@ -18,7 +18,7 @@ form.add("Email").email("email");
 form.add("Password").required().password("password");
 
 form.add("Date").datePicker("date");
-//form.add("Time").timePicker("time");
+form.add("Time").timePicker("time");
 form.add("Select").required().select("select", [
     {
         value: 1,

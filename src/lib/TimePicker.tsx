@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 class TimePicker {
 
     data = null
@@ -11,7 +12,9 @@ class TimePicker {
     }
 
     render() {
-        return <el-time-picker vModel={this.data.value[this.field]}></el-time-picker>;
+        return <el-time-picker
+            value-format="HH:mm:ss"
+            vModel={ref(this.data).value[this.field]}></el-time-picker>;
     }
 }
 
