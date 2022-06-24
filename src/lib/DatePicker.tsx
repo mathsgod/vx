@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 class DatePicker {
     data = null
     field = null
@@ -10,7 +11,9 @@ class DatePicker {
     }
 
     render() {
-        return <el-date-picker vModel={this.data.value[this.field]}></el-date-picker>;
+        return <el-date-picker
+            value-format="YYYY-MM-DD"
+            vModel={ref(this.data).value[this.field]}></el-date-picker>;
     }
 };
 

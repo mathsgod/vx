@@ -1,8 +1,10 @@
 <script setup lang="jsx">
+import { ref } from 'vue'
 import { createTable, $axios, createDescriptons, createForm } from "./lib";
 
 //let { data: user2 } = await $axios.get("/User/1");
 
+let b = ref("bb");
 
 let user = {
     first_name: "first_name",
@@ -11,11 +13,12 @@ let user = {
 let form = createForm();
 form.setData(user);
 form.add("First name").input("first_name");
-//form.add("Last name").input("last_name");
-/* form.add("Email").email("email");
+form.add("Last name").required().input("last_name");
+form.add("Email").email("email");
 form.add("Password").required().password("password");
+
 form.add("Date").datePicker("date");
-form.add("Time").timePicker("time");
+//form.add("Time").timePicker("time");
 form.add("Select").required().select("select", [
     {
         value: 1,
@@ -31,7 +34,7 @@ form.add("Select").required().select("select", [
     }
 ]);
 
-form.add("CB").checkbox("cb1"); */
+form.add("CB").checkbox("cb1");
 const fa = form.render();
 
 /* 
@@ -64,12 +67,14 @@ t.setDataSource("/User");
 
 //t.setData();
 const render = t.render(); */
+const onClick = () => {
+    console.log(a.value);
+}
 
 </script>
 
 <template>
     <div>
-
         <fa />
 
         <el-divider></el-divider>
@@ -78,6 +83,8 @@ const render = t.render(); */
         <el-divider></el-divider>
         <render />
 
+
+        <el-button @click="onClick">click</el-button>
 
     </div>
 </template>

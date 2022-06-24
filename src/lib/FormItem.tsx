@@ -49,11 +49,9 @@ class FormItem {
         this.#prop = field;
         let input = new Input;
 
-        //input.vModel = ref(this.data.value[field]);
-        input.vModel = this.data.value[field];
-
         input.setData(this.data);
         input.setField(field)
+
         this.#childrens.push(input);
         return input;
     }
@@ -89,8 +87,9 @@ class FormItem {
     select(field: string, options = []) {
         this.#prop = field;
         let select = new Select;
-        select.vModel = ref(this.data.value[field]);
-        select.setOptions(options);
+        select.setData(this.data);
+        select.setField(field)
+        select.setOptions(options)
         this.#childrens.push(select);
         return select;
     }
@@ -98,7 +97,9 @@ class FormItem {
     checkbox(field: string) {
         this.#prop = field;
         let cb = new CheckBox;
-        cb.vModel = ref(this.data.value[field]);
+        cb.setData(this.data);
+        cb.setField(field)
+        //   cb.vModel = ref(ref(this.data[field]).value).value;
         this.#childrens.push(cb);
         return cb;
     }

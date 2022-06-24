@@ -5,7 +5,7 @@ class Form {
     #childrens = [];
     data = null;
     setData(data) {
-        this.data = ref(data);
+        this.data = data;
     }
 
     add(label: string) {
@@ -19,6 +19,7 @@ class Form {
     render() {
         let self = this;
         return defineComponent({
+            name: "VxForm",
             methods: {
                 onSubmit() {
                     this.$refs.form.validate((valid) => {
@@ -31,14 +32,12 @@ class Form {
             },
             render() {
                 return <el-card>
-                    <el-form model={self.data} ref="form">
+                    <el-form model={ref(self.data)} ref="form">
                         {self.#childrens.map(item => item.render())}
                     </el-form>
                     <el-button type="primary" onClick={this.onSubmit}>提交</el-button>
                 </el-card>
-
             }
-
         });
     }
 };

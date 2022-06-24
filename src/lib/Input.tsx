@@ -1,7 +1,9 @@
+import { ref, defineComponent } from 'vue';
 class Input {
     data = null
     field = null
     type = 'text'
+
     vModel: any;
 
     setData(data) {
@@ -12,15 +14,18 @@ class Input {
         this.field = field;
     }
 
-    setType(type) {
+    setType(type: string) {
         this.type = type
     }
 
     render() {
-        return <el-input type={this.type}
+
+        let input = <el-input type={this.type}
             show-password={this.type == 'password'}
-            v-model={this.vModel}
-        ></el-input>;
+            vModel={ref(this.data).value[this.field]}
+        ></el-input>
+
+        return input;
     }
 }
 
