@@ -1,3 +1,7 @@
+// Bootstrap
+import './scss/bootstrap.scss';
+
+
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -13,19 +17,20 @@ import { Quasar } from 'quasar'
 
 import { Vx, getCurrentInstance } from './lib'
 
-
-
 import ElementPlus from 'element-plus'
 const app = createApp(App)
 
-import Page from './Page.vue';
+import IndexPage from './pages/index.vue';
 
 import { createRouter, createWebHashHistory } from "vue-router";
+
+import auto_routes from './routes';
 const routes = [
     {
         path: "/",
-        component: Page
-    }
+        component: IndexPage
+    },
+    ...auto_routes
 ]
 
 const router = createRouter({
@@ -44,6 +49,27 @@ app.use(Vx, {
 app.use(Quasar, {
     plugins: {}, // import Quasar plugins and add here
 })
+
+//i18n
+
+
+import zhTW from 'element-plus/es/locale/lang/zh-tw'
+import en from 'element-plus/es/locale/lang/en';
+
+
+import { createI18n } from 'vue-i18n'
+const i18n = createI18n({
+    globalInjection: true,
+    locale: "en",
+    messages: {
+        en: en,
+        "zh-hk": zhTW,
+        "zh-tw": zhTW,
+    }
+});
+
+
+app.use(i18n)
 
 
 app.use(ElementPlus)

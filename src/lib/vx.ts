@@ -154,11 +154,29 @@ class VX {
 
 declare const window: any;
 let vx;
+
+
+// element plus icons
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+
 export default {
     install(app, options) {
         vx = new VX(options);
         app.config.globalProperties.$vx = vx;
         window.vx = app.config.globalProperties.$vx;
+
+        // element plus icons
+        for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+
+            //key to underscore
+            const keyUnderscore = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+            //removing the first _
+            const keyUnderscore2 = keyUnderscore.replace(/^_/, '');
+            //replace _ to -
+            const keyUnderscore3 = keyUnderscore2.replace(/_/g, '-');
+            app.component("el-icon-" + keyUnderscore3, component)
+        }
+
     }
 }
 

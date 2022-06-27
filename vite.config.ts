@@ -8,9 +8,15 @@ const resolvePath = (str: string) => path.resolve(__dirname, str)
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), vueJsx()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/lib/index.ts'),
+      formats: ['es'],
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'VX',
       fileName: (format) => `vx.${format}.js`
     },
@@ -30,7 +36,7 @@ export default defineConfig({
           {
             sourceMap: false,
             'target': 'es2020',
-            'rootDir': "src/lib",
+            'rootDir': "src",
             'declaration': true,
 
             declarationDir: "dist",

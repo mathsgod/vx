@@ -1,4 +1,4 @@
-import { ref, defineComponent } from 'vue';
+import { ref } from 'vue';
 class Input {
     data = null
     field = null
@@ -19,7 +19,6 @@ class Input {
     }
 
     render() {
-
         let input = <el-input type={this.type}
             show-password={this.type == 'password'}
             vModel={ref(this.data).value[this.field]}

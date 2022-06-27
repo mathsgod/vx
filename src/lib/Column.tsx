@@ -4,6 +4,8 @@ class Column {
     #sortable: boolean = false
     #searchable: boolean = false
     #template;
+    _children = [];
+    fields = []
 
     getLabel() {
         return this.#label
@@ -15,6 +17,7 @@ class Column {
 
     setProp(prop: string) {
         this.#prop = prop
+
     }
 
     getProp() {
@@ -41,8 +44,10 @@ class Column {
 
     }
 
-    render() {
+    render(meta) {
         let self = this;
+
+
         return <el-table-column
             sortable={this.#sortable}
             label={this.#label}
@@ -55,7 +60,10 @@ class Column {
                         if (self.#template) {
                             return self.#template(row)
                         }
+
+                        return self._children.map((child) => child(row, meta));
                     }
+
                 }
             }>
 

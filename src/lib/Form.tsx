@@ -1,11 +1,23 @@
 import FormItem from './FormItem';
 import { defineComponent, ref } from 'vue';
 import { ElMessage } from 'element-plus';
+import Divider from './class/Divider';
 class Form {
     #childrens = [];
     data = null;
     setData(data) {
         this.data = data;
+    }
+
+    addDivider(label: string = "") {
+        let divider = new Divider;
+
+        divider.content = label;
+
+
+        this.#childrens.push(divider);
+        return divider;
+
     }
 
     add(label: string) {
@@ -32,7 +44,7 @@ class Form {
             },
             render() {
                 return <el-card>
-                    <el-form model={ref(self.data)} ref="form">
+                    <el-form model={ref(self.data)} ref="form" label-width="auto">
                         {self.#childrens.map(item => item.render())}
                     </el-form>
                     <el-button type="primary" onClick={this.onSubmit}>提交</el-button>

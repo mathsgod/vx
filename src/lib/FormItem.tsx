@@ -4,6 +4,7 @@ import { ref } from "vue";
 import TimePicker from "./class/TimePicker";
 import Select from "./class/Select";
 import CheckBox from "./class/CheckBox";
+import Switch from "./class/Switch";
 
 class FormItem {
     label = ''
@@ -22,13 +23,20 @@ class FormItem {
         return this;
     }
 
-
     addRule(rule) {
         this.#rules.push(rule);
     }
 
     setData(data) {
         this.data = data;
+    }
+
+    switch(field: string) {
+        let s = new Switch;
+        s.setData(this.data);
+        s.setField(field)
+        this.#childrens.push(s);
+        return s;
     }
 
     email(field: string) {
@@ -44,6 +52,14 @@ class FormItem {
 
         this.#childrens.push(input);
         return input;
+    }
+
+    helpBlock(text: string) {
+        this.#childrens.push({
+            render() {
+                return <p class="mb-0">{text}</p>
+            }
+        });
     }
 
     input(field: string) {
@@ -88,6 +104,18 @@ class FormItem {
     select(field: string, options = []) {
         this.#prop = field;
         let select = new Select;
+        select.setData(this.data);
+        select.setField(field)
+        select.setOptions(options)
+        this.#childrens.push(select);
+        return select;
+    }
+
+
+    multiSelect(field: string, options = []) {
+        this.#prop = field;
+        let select = new Select;
+        select.multiple(true);
         select.setData(this.data);
         select.setField(field)
         select.setOptions(options)

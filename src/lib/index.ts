@@ -3,8 +3,8 @@ import { $axios, getCurrentInstance } from "./vx";
 import Descriptions from "./Descriptions";
 import Form from "./Form";
 import Table from "./Table";
-import { useRoute } from 'vue-router';
-
+//import { useRoute } from 'vue-router';
+//declare const useRoute: () => any;
 
 const createDescriptons = () => {
     return new Descriptions
@@ -18,7 +18,10 @@ const createTable = () => {
     return new Table
 }
 
+import { useRoute } from 'vue-router';
+
 const getObject = async () => {
+
     let route = useRoute();
     let ss = route.path.split("/");
 
@@ -26,6 +29,7 @@ const getObject = async () => {
 
     let { data } = await $axios.get(r);
     return data;
+
 }
 
 export {

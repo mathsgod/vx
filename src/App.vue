@@ -1,73 +1,46 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-
-import { createForm, createTable, getCurrentInstance } from "./lib";
-
-import { ref } from 'vue';
-
-/*  */
-
-const user = ref({
-  username: "abc",
-  first_name: "first"
-})
-/* 
-
-const f = createForm()
-f.setData(user)
-f.add('Username').addInput("username")
-f.add('First name').addInput("first_name")
-f.add("Date").addDatePicker("date")
-
-f.add("Password").addPassword("password");
-
-const render = f.render(); */
-
-const onClick = () => {
-  console.log(user.value);
-};
-</script>
-
 <template>
+  <q-layout view="hHh lpR fFf">
 
-  <div>
+    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
+      <!-- drawer content -->
+      <q-list>
+        <q-item v-for="route in routes">
+          <q-item-section>
+            <router-link :to="route.path">{{ route.path }}</router-link>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
 
-    <suspense>
-      <router-view></router-view>
-    </suspense>
+    <q-page-container>
+      <suspense>
+        <router-view />
+      </suspense>
 
+    </q-page-container>
 
-  </div>
-
-
-  <el-divider></el-divider>
-  <div>
-    <el-input v-model="password" type="password"></el-input>
-    <el-button @click="login">Login</el-button>
-  </div>
-
+  </q-layout>
 </template>
 
 <script>
+import { ref } from 'vue'
+import routes from './routes'
+
 export default {
-  data() {
+  setup() {
+    const leftDrawerOpen = ref(false)
+
     return {
-      password: "111111"
+      routes,
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }
     }
   },
-  async mounted() {
-    await this.$vx.init();
-    console.log("mounted", this.$route);
-    this.$vx.setRoute(this.$route);
-  },
-  methods: {
-    async login() {
-
-      await this.$vx.login("admin", this.password);
-
-    }
-
+  mounted() {
+    this.$vx.init();
   }
+
 }
 </script>
