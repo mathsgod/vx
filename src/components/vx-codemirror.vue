@@ -22,14 +22,13 @@ export default {
   },
   watch: {
     localValue() {
-
       this.$emit("input", this.localValue);
     },
   },
-  mounted() {
-    
+  created() {
     this.localValue = html(this.localValue);
-
+  },
+  mounted() {
     this.$nextTick(() => {
       let editor = CodeMirror.fromTextArea(this.$refs.t1, {
         lineNumbers: true,
@@ -39,9 +38,6 @@ export default {
 
       editor.on("change", (instance) => {
         this.localValue = instance.getValue();
-
-
-
       });
     });
   },

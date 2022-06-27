@@ -83,10 +83,13 @@ export default {
       ],
       toolbar:
         "filemanager codemirror undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-      init_instance_callback() {
+      init_instance_callback(editor) {
+        that.editor = editor;
         if (!that.apiKey) {
           let freeTiny = document.querySelector(".tox-notifications-container");
-          freeTiny.style.display = "none";
+          if (freeTiny) {
+            freeTiny.style.display = "none";
+          }
         }
       },
       valid_elements: "*[*]",
@@ -94,47 +97,32 @@ export default {
       forced_root_block: "",
       setup(editor) {
         editor.on("init", () => {
-
           editor.schema.addValidChildren(validString);
           editor.setContent(that.localValue);
-
-        })
-
-        //editor.schema.addValidChildren(validString);
-
-        window.tinymce.PluginManager.add("filemanager", (editor) => {
-          editor.ui.registry.addButton("filemanager", {
-            text: "File manager",
-            onAction() {
-              // Open window
-              that.editor = editor;
-              that.showFM = true;
-            },
-          });
         });
 
-        window.tinymce.PluginManager.add("codemirror", (editor) => {
-          // Add a button that opens a window
-          editor.ui.registry.addButton("codemirror", {
-            text: "Code",
-            onAction() {
-              that.editor = editor;
-              that.showCode = true;
-              that.content = editor.getContent();
+        window.tinymce.PluginManager.add("filemanager");
+        editor.ui.registry.addButton("filemanager", {
+          text: "File manager",
+          onAction() {
+            that.showFM = true;
+          },
+        });
 
-
-
-            },
-          });
+        window.tinymce.PluginManager.add("codemirror");
+        // Add a button that opens a window
+        editor.ui.registry.addButton("codemirror", {
+          text: "Code",
+          onAction() {
+            that.showCode = true;
+            that.content = editor.getContent();
+          },
         });
 
 
       },
     };
-
-
   },
-  mounted() { },
   watch: {
     value() {
       this.localValue = this.value;
@@ -162,15 +150,16 @@ export default {
 
     },
     onCodeOK() {
+      //      this.localValue = this.content;
+      this.showCode = false;
       const p = (new DOMParser());
       const d = p.parseFromString(this.content, "text/html");
-
       let valid = this.getParentChildTag(d.body);
 
-      this.editor.schema.addValidChildren(valid.join(","));
+      this.$refs.tinymce.editor.schema.addValidChildren(valid.join(","));
+      this.$refs.tinymce.editor.setContent(this.content);
 
-      this.editor.setContent(this.content);
-      this.showCode = false;
+      this.localValue = this.content;
       this.$emit("input", this.content);
     },
     onSelectFile(path) {
