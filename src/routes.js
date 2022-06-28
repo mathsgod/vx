@@ -11,6 +11,16 @@ function Dashboard_index() {
     /* webpackChunkName: "Dashboard-index" */ './pages/Dashboard/index.vue'
   )
 }
+function EventLog_index() {
+  return import(
+    /* webpackChunkName: "EventLog-index" */ './pages/EventLog/index.vue'
+  )
+}
+function FileManager_index() {
+  return import(
+    /* webpackChunkName: "FileManager-index" */ './pages/FileManager/index.vue'
+  )
+}
 function System_index() {
   return import(
     /* webpackChunkName: "System-index" */ './pages/System/index.vue'
@@ -103,6 +113,11 @@ function System_database_charset() {
     /* webpackChunkName: "System-database-charset" */ './pages/System/database/charset.vue'
   )
 }
+function EventLog__id_view() {
+  return import(
+    /* webpackChunkName: "EventLog-id-view" */ './pages/EventLog/_id/view.vue'
+  )
+}
 function User__id_edit() {
   return import(
     /* webpackChunkName: "User-id-edit" */ './pages/User/_id/edit.vue'
@@ -111,6 +126,11 @@ function User__id_edit() {
 function UserGroup__id_edit() {
   return import(
     /* webpackChunkName: "UserGroup-id-edit" */ './pages/UserGroup/_id/edit.vue'
+  )
+}
+function UserGroup__id_view() {
+  return import(
+    /* webpackChunkName: "UserGroup-id-view" */ './pages/UserGroup/_id/view.vue'
   )
 }
 
@@ -129,6 +149,16 @@ export default [
     name: 'Dashboard',
     path: '/Dashboard',
     component: Dashboard_index,
+  },
+  {
+    name: 'EventLog',
+    path: '/EventLog',
+    component: EventLog_index,
+  },
+  {
+    name: 'FileManager',
+    path: '/FileManager',
+    component: FileManager_index,
   },
   {
     name: 'System',
@@ -233,6 +263,11 @@ export default [
     component: System_database_charset,
   },
   {
+    name: 'EventLog-id-view',
+    path: '/EventLog/:id/view',
+    component: EventLog__id_view,
+  },
+  {
     name: 'User-id-edit',
     path: '/User/:id/edit',
     component: User__id_edit,
@@ -241,5 +276,10 @@ export default [
     name: 'UserGroup-id-edit',
     path: '/UserGroup/:id/edit',
     component: UserGroup__id_edit,
+  },
+  {
+    name: 'UserGroup-id-view',
+    path: '/UserGroup/:id/view',
+    component: UserGroup__id_view,
   },
 ]

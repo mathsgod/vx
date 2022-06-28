@@ -159,6 +159,8 @@ let vx;
 // element plus icons
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
+import { VxFileManager } from "@/components";
+
 export default {
     install(app, options) {
         vx = new VX(options);
@@ -176,6 +178,8 @@ export default {
             const keyUnderscore3 = keyUnderscore2.replace(/_/g, '-');
             app.component("el-icon-" + keyUnderscore3, component)
         }
+
+        app.component("vx-file-manager", VxFileManager);
 
     }
 }

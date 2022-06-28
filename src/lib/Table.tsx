@@ -9,9 +9,11 @@ class Table {
 
     #columns: Column[] = [];
     data: any[] = [];
+    #sort = [];
 
     addActionColumn() {
         let column = new ActionColumn;
+        column.setWidth("100");
         this.#columns.push(column);
         return column;
     }
@@ -31,8 +33,12 @@ class Table {
 
     source: string;
 
-    async setDataSource(source: string) {
+    setDataSource(source: string) {
         this.source = source;
+    }
+
+    setDefaultSort(field: string, order: string) {
+        this.#sort.push(`${field}:${order}`);
     }
 
 
@@ -62,6 +68,7 @@ class Table {
                     filters: {},
                     meta: [],
                     loading: false,
+                    sort: self.#sort,
                 }
             },
 
@@ -70,6 +77,19 @@ class Table {
             },
 
             methods: {
+                onSortChange({ column, prop, order }) {
+                    this.sort = [];
+                    if (column) {
+
+                        if (order == "descending") {
+                            this.sort.push(`${prop}:desc`);
+                        } else {
+                            this.sort.push(`${prop}:asc`);
+                        }
+                    }
+                    this.reload();
+                },
+
                 onSizeChange() {
                     this.reload();
                 },
@@ -88,19 +108,31 @@ class Table {
                     }
 
 
-                    let { data } = await $axios.get(self.source + "?" + stringify({
+                    let { data, status } = await $axios.get(self.source + "?" + stringify({
                         fields,
                         pagination: {
                             page: this.currentPage,
                             pageSize: this.pageSize,
                         },
-                        filters
+                        filters,
+                        sort: this.sort,
                     }));
+                    this.loading = false;
+
+                    if (status != 200) {
+                        if (data.error) {
+                            ElMessage.error(data.error.message);
+                        } else {
+                            ElMessage.error("Error");
+                        }
+
+                        return;
+                    }
 
                     this.data = data.data;
                     this.total = data.meta.pagination.total;
                     this.meta = data.meta;
-                    this.loading = false;
+
                 }
             },
 
@@ -128,7 +160,7 @@ class Table {
                         </el-collapse>
 
                     }
-                    <el-table data={this.data}>
+                    <el-table data={this.data} onSortChange={this.onSortChange}>
                         {
                             self.#columns.map(column => column.render(this.meta))
                         }

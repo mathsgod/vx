@@ -1,11 +1,17 @@
 class Column {
     #label: string
     #prop: string
-    #sortable: boolean = false
+    #sortable: string | boolean = false
     #searchable: boolean = false
     #template;
     _children = [];
     fields = []
+    #width = null;
+
+    setWidth(width: string) {
+        this.#width = width;
+    }
+
 
     getLabel() {
         return this.#label
@@ -24,7 +30,7 @@ class Column {
         return this.#prop
     }
 
-    sortable(sortable: boolean = true) {
+    sortable(sortable: string | boolean = "custom") {
         this.#sortable = sortable
         return this;
     }
@@ -52,6 +58,7 @@ class Column {
             sortable={this.#sortable}
             label={this.#label}
             prop={this.#prop}
+            width={this.#width}
 
             v-slots={
 

@@ -1,8 +1,10 @@
 <script setup>
-import { createForm } from "@";
+import { createForm, getObject } from "@";
 const form = createForm();
-form.setData({});
+form.setData(await getObject());
 form.add("Name").required().input("name");
+form.add("Code").input("code");
+form.add("Remark").textarea("remark");
 const render = form.render();
 </script>
 <template>

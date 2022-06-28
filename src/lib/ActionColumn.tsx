@@ -35,7 +35,7 @@ class ActionColumn extends Column {
         this._children.push((row, meta) => {
             if (row.__canDelete) {
                 let id = row[meta.primaryKey];
-                let href = "/" + meta.model + "/" + id + "/delete";
+                let href = "/" + meta.model + "/" + id;
                 return <el-link onClick={() => this.#delete(href)} icon="el-icon-delete"></el-link>
             };
 
@@ -51,7 +51,7 @@ class ActionColumn extends Column {
             type: "warning"
         }).then(() => {
             $axios.delete(url).then(() => {
-                ElMessageBox.alert("Deleted successfully", "Success");
+                
             });
         });
     }

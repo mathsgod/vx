@@ -143,15 +143,17 @@ class FormItem {
 
         this.#childrens.push(input);
         return input;
-
-
     }
+
+    
 
     render() {
         return <el-form-item
             label={this.label} prop={this.#prop}
             required={this.#required}
             rules={this.#rules}
+            class="col-12 col-lg-6"
+
         >
             {this.#childrens.map(item => item.render())}
         </el-form-item>;

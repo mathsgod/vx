@@ -1,14 +1,16 @@
 <script setup>
-import { createForm, getObject } from "@/lib";
+import { getObject, createForm } from "@"
 
-const form = createForm();
-form.setData(await getObject());
-form.add("Name").required().input("name");
-form.add("Remark").textarea("remark");
+let table = createForm();
+table.setData(await getObject());
 
-const render = form.render();
+table.add("Name").required().input("name");
+table.add("Code").input("code");
+table.add("Remark").textarea("remark");
+
+const render = table.render();
 </script>
+
 <template>
     <render />
 </template>
-

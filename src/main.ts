@@ -1,3 +1,5 @@
+import './style/index.css';
+
 // Bootstrap
 import './scss/bootstrap.scss';
 
@@ -9,6 +11,9 @@ import 'element-plus/dist/index.css'
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
+import '@quasar/extras/material-icons-outlined/material-icons-outlined.css'
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
+import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 
 // Import Quasar css
 import 'quasar/src/css/index.sass'
