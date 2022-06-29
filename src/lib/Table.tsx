@@ -14,6 +14,7 @@ class Table {
     #sort = [];
     _router: Router = null;
     #component: any = null;
+    #populate = {}
 
     setRouter(router: Router) {
         this._router = router;
@@ -53,6 +54,10 @@ class Table {
         if (this.#component) {
             await this.#component.methods.reload();
         }
+    }
+
+    setPopulate(populate: Object) {
+        this.#populate = populate;
     }
 
     render() {
@@ -120,6 +125,8 @@ class Table {
                         filters[key] = { $contains: this.filters[key] };
                     }
 
+
+
                     let { data, status } = await $axios.get(self.source + "?" + stringify({
                         fields,
                         pagination: {
@@ -128,6 +135,7 @@ class Table {
                         },
                         filters,
                         sort: this.sort,
+                        populate: self.#populate
                     }));
                     this.loading = false;
 
