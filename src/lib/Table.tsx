@@ -4,22 +4,30 @@ import Column from "./Column";
 import { defineComponent } from "vue";
 import { stringify } from "qs";
 import ActionColumn from "./ActionColumn";
+import { Router } from "vue-router";
+
 
 class Table {
 
     #columns: Column[] = [];
     data: any[] = [];
     #sort = [];
+    _router: Router = null;
+    #component: any = null;
+
+    setRouter(router: Router) {
+        this._router = router;
+    }
 
     addActionColumn() {
-        let column = new ActionColumn;
+        let column = new ActionColumn(this)
         column.setWidth("100");
         this.#columns.push(column);
         return column;
     }
 
     add(label: string, prop: string) {
-        let column = new Column;
+        let column = new Column(this);
         column.setLabel(label);
         column.setProp(prop);
         if (prop) {
@@ -41,6 +49,11 @@ class Table {
         this.#sort.push(`${field}:${order}`);
     }
 
+    async reload() {
+        if (this.#component) {
+            await this.#component.methods.reload();
+        }
+    }
 
     render() {
         let self = this;
@@ -55,7 +68,7 @@ class Table {
             fields = [...fields, ...column.fields];
         });
 
-        return defineComponent({
+        this.#component = defineComponent({
 
             name: "VxTable",
 
@@ -107,7 +120,6 @@ class Table {
                         filters[key] = { $contains: this.filters[key] };
                     }
 
-
                     let { data, status } = await $axios.get(self.source + "?" + stringify({
                         fields,
                         pagination: {
@@ -132,7 +144,6 @@ class Table {
                     this.data = data.data;
                     this.total = data.meta.pagination.total;
                     this.meta = data.meta;
-
                 }
             },
 
@@ -149,9 +160,8 @@ class Table {
                                     }
 
                                     <el-form-item>
-                                        <el-button type="primary" onClick={this.reload}>Search</el-button>
+                                        <el-button type="primary" onClick={this.reload} icon="el-icon-search">Search</el-button>
                                     </el-form-item>
-
 
                                 </el-form>
 
@@ -162,7 +172,7 @@ class Table {
                     }
                     <el-table data={this.data} onSortChange={this.onSortChange}>
                         {
-                            self.#columns.map(column => column.render(this.meta))
+                            self.#columns.map(column => column.render(this.meta, this))
                         }
                     </el-table>
                     <div class="row mt-1">
@@ -185,6 +195,8 @@ class Table {
             }
         });
 
+
+        return this.#component;
 
     }
 }

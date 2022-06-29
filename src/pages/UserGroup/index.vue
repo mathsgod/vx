@@ -7,8 +7,8 @@ ac.addView();
 ac.addEdit();
 ac.addDelete();
 
-table.add("Name", "name");
-table.add("Code", "code");
+table.add("Name", "name").sortable().searchable();
+table.add("Code", "code").sortable();
 
 const render = table.render();
 </script>

@@ -7,19 +7,22 @@ import IModel from '@/interfaces/IModel';
 class Form {
     #childrens = [];
     data = null;
+    #beforeSubmit = null;
+    #labelPosition: string = "right";
+
     setData(data) {
         this.data = data;
     }
 
+    setLabelPosition(labelPosition) {
+        this.#labelPosition = labelPosition;
+    }
+
     addDivider(label: string = "") {
         let divider = new Divider;
-
         divider.content = label;
-
-
         this.#childrens.push(divider);
         return divider;
-
     }
 
     add(label: string) {
@@ -34,10 +37,24 @@ class Form {
         let self = this;
         return defineComponent({
             name: "VxForm",
+            data() {
+                return {
+                    labelPosition: self.#labelPosition
+                }
+
+            },
             methods: {
                 onSubmit() {
+
                     this.$refs.form.validate(async (valid) => {
                         if (valid) {
+
+                            if (self.#beforeSubmit) {
+                                if (self.#beforeSubmit() === false) {
+                                    return;
+                                }
+                            }
+
                             let save = self.data.save;
                             if (save) {
                                 let { status, data } = await save();
@@ -48,6 +65,8 @@ class Form {
                                         return;
                                     }
                                     ElMessage.error(data.reason_phrase);
+                                } else {
+                                    ElMessage.success("Update success");
                                 }
                             }
 
@@ -56,9 +75,19 @@ class Form {
                 }
             },
             render() {
+
+                let cl = "";
+                if (this.labelPosition === "top") {
+                    cl = "";
+                } else {
+                    cl = "row"
+                }
+
                 return <el-card
                 >
-                    <el-form class="row" model={ref(self.data)} ref="form" label-width="auto">
+                    <el-form class={cl} model={ref(self.data)} ref="form" label-width="auto"
+                        label-position={this.labelPosition}
+                    >
                         {self.#childrens.map(item => item.render())}
                     </el-form>
 
@@ -68,6 +97,11 @@ class Form {
                 </el-card>
             }
         });
+    }
+
+    beforeSubmit(beforeSubmit) {
+        this.#beforeSubmit = beforeSubmit;;
+
     }
 };
 

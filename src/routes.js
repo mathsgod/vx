@@ -6,6 +6,9 @@ function auth_login_basic() {
     /* webpackChunkName: "auth-login-basic" */ './pages/auth-login-basic.vue'
   )
 }
+function ACL_index() {
+  return import(/* webpackChunkName: "ACL-index" */ './pages/ACL/index.vue')
+}
 function Dashboard_index() {
   return import(
     /* webpackChunkName: "Dashboard-index" */ './pages/Dashboard/index.vue'
@@ -32,6 +35,11 @@ function User_index() {
 function UserGroup_index() {
   return import(
     /* webpackChunkName: "UserGroup-index" */ './pages/UserGroup/index.vue'
+  )
+}
+function UserLog_index() {
+  return import(
+    /* webpackChunkName: "UserLog-index" */ './pages/UserLog/index.vue'
   )
 }
 function ACL_all() {
@@ -123,6 +131,11 @@ function User__id_edit() {
     /* webpackChunkName: "User-id-edit" */ './pages/User/_id/edit.vue'
   )
 }
+function User__id_view() {
+  return import(
+    /* webpackChunkName: "User-id-view" */ './pages/User/_id/view.vue'
+  )
+}
 function UserGroup__id_edit() {
   return import(
     /* webpackChunkName: "UserGroup-id-edit" */ './pages/UserGroup/_id/edit.vue'
@@ -144,6 +157,11 @@ export default [
     name: 'auth-login-basic',
     path: '/auth-login-basic',
     component: auth_login_basic,
+  },
+  {
+    name: 'ACL',
+    path: '/ACL',
+    component: ACL_index,
   },
   {
     name: 'Dashboard',
@@ -174,6 +192,11 @@ export default [
     name: 'UserGroup',
     path: '/UserGroup',
     component: UserGroup_index,
+  },
+  {
+    name: 'UserLog',
+    path: '/UserLog',
+    component: UserLog_index,
   },
   {
     name: 'ACL-all',
@@ -271,6 +294,11 @@ export default [
     name: 'User-id-edit',
     path: '/User/:id/edit',
     component: User__id_edit,
+  },
+  {
+    name: 'User-id-view',
+    path: '/User/:id/view',
+    component: User__id_view,
   },
   {
     name: 'UserGroup-id-edit',

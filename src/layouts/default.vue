@@ -1,20 +1,8 @@
 <script setup>
-import { Quasar, Dark, LoadingBar, useQuasar, Dialog, Notify } from "quasar";
-//import VxCustomizer from "./vx-customizer.vue";
 import VxMenu from "@/components/vx-menu.vue";
-//import VxComponent from "./vx.js";
+import VxCustomizer from "@/components/vx-customizer.vue";
 import { ref } from "vue";
-//import { setLanguage, getCurrentLanguage } from "./../vx.js";
-//import { vx } from "./../vx.js";
 
-import { useRoute, useRouter } from "vue-router";
-const route = useRoute();
-const router = useRouter();
-
-/* if (vx.logined && route.path == "/") {
-  router.push(vx.me.default_page);
-}
- */
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
 const toggleLeftDrawer = () => {
@@ -127,11 +115,13 @@ export default {
         return {
             style: {
 
-            }
-
+            },
+            headerColor: "",
+        }
+    }, watch: {
+        headerColor() {
+            console.log(this.headerColor);
         }
     }
-
-
 }
 </script>

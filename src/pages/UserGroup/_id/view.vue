@@ -1,7 +1,7 @@
 <script setup>
-import { getObject, createDescriptons } from "@"
+import { getObject, createDescriptions } from "@"
 
-let desc = createDescriptons();
+let desc = createDescriptions();
 desc.setData(await getObject());
 desc.add("Name", "name");
 desc.add("Code", "code");

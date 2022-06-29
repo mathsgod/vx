@@ -4,26 +4,32 @@ import { View, Edit } from "@element-plus/icons-vue";
 import { $axios } from "@";
 
 class ActionColumn extends Column {
+
     addView() {
+
+        let router = this._table._router;
+
+
         this.fields.push("__canRead");
         this._children.push((row, meta) => {
             if (row.__canRead) {
                 let id = row[meta.primaryKey];
                 let href = "/" + meta.model + "/" + id + "/view";
-                return <router-link to={href} class="mx-1"><el-icon><View /></el-icon></router-link>;
-
+                return <el-link class="mx-1" onClick={() => { router.push(href) }} icon="el-icon-view"></el-link>
             }
         });
     }
 
     addEdit() {
         this.fields.push("__canUpdate");
+        let router = this._table._router;
 
         this._children.push((row, meta) => {
             if (row.__canUpdate) {
                 let id = row[meta.primaryKey];
                 let href = "/" + meta.model + "/" + id + "/edit";
-                return <router-link to={href} class="mx-1"><el-icon><Edit /></el-icon></router-link>;
+
+                return <el-link class="mx-1" onClick={() => { router.push(href) }} icon="el-icon-edit"></el-link>
             }
 
         });
@@ -36,7 +42,7 @@ class ActionColumn extends Column {
             if (row.__canDelete) {
                 let id = row[meta.primaryKey];
                 let href = "/" + meta.model + "/" + id;
-                return <el-link onClick={() => this.#delete(href)} icon="el-icon-delete"></el-link>
+                return <el-link class="mx-1" onClick={() => this.#delete(href)} icon="el-icon-delete"></el-link>
             };
 
 
@@ -51,7 +57,14 @@ class ActionColumn extends Column {
             type: "warning"
         }).then(() => {
             $axios.delete(url).then(() => {
-                
+
+                if (this.table_node) {
+                    this.table_node.reload();
+                }
+
+
+
+
             });
         });
     }

@@ -1,22 +1,24 @@
 import {
     Vx,
-    createDescriptons,
+    createDescriptions,
     createForm,
     createTable,
     $axios,
     getCurrentInstance,
-    getObject
+    getObject,
+    getMe
 } from "./lib";
 
 import routes from "./routes";
 
 export {
     Vx,
-    createDescriptons,
+    createDescriptions,
     createForm,
     createTable,
     $axios,
     getCurrentInstance,
     getObject,
+    getMe,
     routes
 };

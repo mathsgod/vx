@@ -8,7 +8,6 @@ v.add("Class", "class");
 v.add("Action", "action");
 v.add("Created time", "created_time");
 
-
 const render = v.render();
 
 </script>

@@ -4,10 +4,11 @@ import Descriptions from "./Descriptions";
 import Form from "./Form";
 import Table from "./Table";
 import getObject from "./../function/getObject";
-//import { useRoute } from 'vue-router';
+import getMe from "./../function/getMe";
+import { useRouter } from 'vue-router';
 //declare const useRoute: () => any;
 
-const createDescriptons = () => {
+const createDescriptions = () => {
     return new Descriptions
 }
 
@@ -16,17 +17,18 @@ const createForm = () => {
 }
 
 const createTable = () => {
-    return new Table
+    let table = new Table
+    table.setRouter(useRouter())
+    return table;
 }
-
-import { useRoute } from 'vue-router';
 
 export {
     Vx,
-    createDescriptons,
+    createDescriptions,
     createForm,
     createTable,
     $axios,
     getCurrentInstance,
-    getObject
+    getObject,
+    getMe
 };

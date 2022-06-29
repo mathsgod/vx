@@ -1,5 +1,5 @@
 <script setup>
-import { createTable } from "@/lib";
+import { createTable } from "@";
 
 let f = createTable();
 await f.setDataSource("/User");

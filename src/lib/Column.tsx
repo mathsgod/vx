@@ -1,3 +1,4 @@
+import Table from "./Table"
 class Column {
     #label: string
     #prop: string
@@ -7,6 +8,13 @@ class Column {
     _children = [];
     fields = []
     #width = null;
+
+    _table: Table = null;
+    table_node: null;
+
+    constructor(table: Table) {
+        this._table = table;
+    }
 
     setWidth(width: string) {
         this.#width = width;
@@ -50,8 +58,10 @@ class Column {
 
     }
 
-    render(meta) {
+    render(meta, table) {
+
         let self = this;
+        this.table_node = table;
 
 
         return <el-table-column

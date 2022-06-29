@@ -1,10 +1,16 @@
 <script setup>
-import { createForm } from "@";
+import { createForm, $axios } from "@";
 
 
-let d = {};
+const { data } = await $axios.get("/System/setting");
+
+data.save = () => {
+    return $axios.post("/System/setting", data);
+};
+
+
 let f = createForm();
-f.setData(d);
+f.setData(data);
 
 f.add("VX URL").input("vx_url");
 

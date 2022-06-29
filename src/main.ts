@@ -16,7 +16,8 @@ import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 
 // Import Quasar css
-import 'quasar/src/css/index.sass'
+import "./scss/quasar.scss";
+
 
 import { Quasar } from 'quasar'
 
@@ -24,6 +25,8 @@ import { Vx, getCurrentInstance } from './lib'
 
 import ElementPlus from 'element-plus'
 const app = createApp(App)
+
+import './scss/main.scss';
 
 import IndexPage from './pages/index.vue';
 

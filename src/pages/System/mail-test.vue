@@ -1,6 +1,6 @@
 <template>
     <el-card>
-        <el-form>
+        <el-form label-width="auto">
             <el-form-item label="Subject">
                 <el-input v-model="form.subject"></el-input>
             </el-form-item>

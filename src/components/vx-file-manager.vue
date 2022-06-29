@@ -65,51 +65,22 @@ function toggleLeftDrawer() {
 }
 </script>
 <template>
-  <q-layout
-    view="hHh lpR fFf"
-    class="bg-white vx-file-manager"
-    container
-    :style="{ 'min-height': height }"
-  >
+  <q-layout view="hHh lpR fFf" class="bg-white vx-file-manager" container :style="{ 'min-height': height }">
     <q-header bordered class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GNL__toolbar">
-        <q-btn
-          flat
-          dense
-          round
-          @click="toggleLeftDrawer"
-          aria-label="Menu"
-          icon="menu"
-          class="q-mr-sm"
-        />
+        <q-btn flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="menu" class="q-mr-sm" />
 
-        <q-toolbar-title
-          v-if="$q.screen.gt.xs"
-          shrink
-          class="row items-center no-wrap"
-        >
+        <q-toolbar-title v-if="$q.screen.gt.xs" shrink class="row items-center no-wrap">
           <span class="q-ml-sm">File manager</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <q-input
-          class="GNL__toolbar-input"
-          outlined
-          dense
-          v-model="search"
-          @keyup.enter="submitSearch"
-          color="bg-grey-7 shadow-1"
-          placeholder="Search for file name"
-        >
+        <q-input class="GNL__toolbar-input" outlined dense v-model="search" @keyup.enter="submitSearch"
+          color="bg-grey-7 shadow-1" placeholder="Search for file name">
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
-            <q-icon
-              v-else
-              name="clear"
-              class="cursor-pointer"
-              @click="search = ''"
-            />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
           </template>
         </q-input>
 
@@ -119,13 +90,7 @@ function toggleLeftDrawer() {
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-white"
-      :width="257"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-white" :width="257">
       <q-scroll-area class="fit">
         <q-list padding class="text-grey-8">
           <q-item>
@@ -134,20 +99,16 @@ function toggleLeftDrawer() {
                 <q-menu fit>
                   <q-list>
                     <q-item clickable v-close-popup @click="onNewFolder">
-                      <q-item-section avatar
-                        ><q-icon name="o_create_new_folder"></q-icon
-                      ></q-item-section>
+                      <q-item-section avatar>
+                        <q-icon name="o_create_new_folder"></q-icon>
+                      </q-item-section>
                       <q-item-section>Folder</q-item-section>
                     </q-item>
                     <q-separator />
-                    <q-item
-                      clickable
-                      v-close-popup
-                      @click="$refs.file.pickFiles"
-                    >
-                      <q-item-section avatar
-                        ><q-icon name="o_upload_file"></q-icon
-                      ></q-item-section>
+                    <q-item clickable v-close-popup @click="$refs.file.pickFiles">
+                      <q-item-section avatar>
+                        <q-icon name="o_upload_file"></q-icon>
+                      </q-item-section>
                       <q-item-section>Upload file </q-item-section>
                     </q-item>
                   </q-list>
@@ -156,24 +117,10 @@ function toggleLeftDrawer() {
             </q-item-section>
           </q-item>
 
-          <q-expansion-item
-            label="Storage"
-            default-opened
-            icon="o_storage"
-            class="GNL__drawer-item"
-            selectable
-            @click="folder = ''"
-          >
-            <q-tree
-              ref="tree1"
-              class="q-pl-md"
-              :nodes="folders"
-              node-key="path"
-              label-key="name"
-              @lazy-load="onLazyLoad"
-              v-model:selected="folder"
-              no-selection-unset
-            >
+          <q-expansion-item label="Storage" default-opened icon="o_storage" class="GNL__drawer-item" selectable
+            @click="folder = ''">
+            <q-tree ref="tree1" class="q-pl-md" :nodes="folders" node-key="path" label-key="name"
+              @lazy-load="onLazyLoad" v-model:selected="folder" no-selection-unset>
             </q-tree>
           </q-expansion-item>
 
@@ -185,37 +132,17 @@ function toggleLeftDrawer() {
     </q-drawer>
 
     <q-drawer side="right" show-if-above bordered>
-      <VxFileManagerPreview
-        v-model:value="preview"
-        v-if="preview"
-      ></VxFileManagerPreview>
+      <VxFileManagerPreview v-model:value="preview" v-if="preview"></VxFileManagerPreview>
     </q-drawer>
 
     <q-page-container :style="{ height }">
-      <q-file
-        ref="file"
-        v-model="uploadFiles"
-        multiple
-        name="file"
-        v-show="false"
-      ></q-file>
+      <q-file ref="file" v-model="uploadFiles" multiple name="file" v-show="false"></q-file>
 
       <q-toolbar>
         <q-breadcrumbs>
-          <q-breadcrumbs-el
-            tag="a"
-            label="Storage"
-            @click="folder = ''"
-            href="javascript:void(0)"
-          ></q-breadcrumbs-el>
-          <q-breadcrumbs-el
-            tag="a"
-            v-for="(b, index) in breadcrumbs"
-            :label="b.label"
-            :key="index"
-            @click="onBreadcrumbClick(b)"
-            href="javascript:void(0)"
-          ></q-breadcrumbs-el>
+          <q-breadcrumbs-el tag="a" label="Storage" @click="folder = ''" href="javascript:void(0)"></q-breadcrumbs-el>
+          <q-breadcrumbs-el tag="a" v-for="(b, index) in breadcrumbs" :label="b.label" :key="index"
+            @click="onBreadcrumbClick(b)" href="javascript:void(0)"></q-breadcrumbs-el>
         </q-breadcrumbs>
         <q-space></q-space>
 
@@ -223,30 +150,12 @@ function toggleLeftDrawer() {
           <VxFileManagerMove @input:folder="moveToFolder($event)" />
         </q-btn>
 
-        <q-btn
-          flat
-          round
-          icon="o_delete"
-          @click="deleteSelected"
-          v-if="selected.length > 0"
-        ></q-btn>
-        <q-btn
-          flat
-          round
-          :icon="grid ? 'list_view' : 'grid_view'"
-          @click="grid = !grid"
-        ></q-btn>
+        <q-btn flat round icon="o_delete" @click="deleteSelected" v-if="selected.length > 0"></q-btn>
+        <q-btn flat round :icon="grid ? 'list_view' : 'grid_view'" @click="grid = !grid"></q-btn>
       </q-toolbar>
 
       <template v-if="grid">
-        <q-table
-          title="Folders"
-          flat
-          bordered
-          grid
-          :columns="columns"
-          :rows="fileFolders"
-        >
+        <q-table title="Folders" flat bordered grid :columns="columns" :rows="fileFolders">
           <template v-slot:item="props">
             <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
               <q-card class="my-card">
@@ -260,23 +169,12 @@ function toggleLeftDrawer() {
             </div>
           </template>
         </q-table>
-        <q-table
-          title="Files"
-          flat
-          bordered
-          grid
-          :columns="columns"
-          :rows="files"
-          :pagination="pagination"
-        >
-          <template v-slot:item="props"
-            ><div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+        <q-table title="Files" flat bordered grid :columns="columns" :rows="files" :pagination="pagination">
+          <template v-slot:item="props">
+            <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
               <q-card class="my-card">
                 <template v-if="canPreviewImage(props.row)">
-                  <q-img
-                    :src="`${endpoint}photo/0/${props.row.path}?w=200`"
-                    lazy
-                  ></q-img>
+                  <q-img :src="`${endpoint}photo/0/${props.row.path}?w=200`" lazy></q-img>
                 </template>
 
                 <q-card-section>
@@ -288,25 +186,12 @@ function toggleLeftDrawer() {
         </q-table>
       </template>
       <template v-else>
-        <q-table
-          flat
-          bordered
-          :columns="columns"
-          :rows="folderAndFiles"
-          @row-dblclick="onDblclickRow"
-          @row-click="onClickRow"
-          :pagination="pagination"
-          row-key="path"
-          selection="multiple"
-          v-model:selected="selected"
-        >
+        <q-table flat bordered :columns="columns" :rows="folderAndFiles" @row-dblclick="onDblclickRow"
+          @row-click="onClickRow" :pagination="pagination" row-key="path" selection="multiple"
+          v-model:selected="selected">
           <template #body-cell-icon="props">
             <q-td>
-              <q-icon
-                name="folder"
-                v-if="props.value == 'folder'"
-                size="1.7em"
-              />
+              <q-icon name="folder" v-if="props.value == 'folder'" size="1.7em" />
               <q-icon name="description" v-else size="1.7em" />
             </q-td>
           </template>
@@ -316,34 +201,21 @@ function toggleLeftDrawer() {
               <q-btn flat icon="more_vert">
                 <q-menu>
                   <q-list>
-                    <q-item
-                      clickable
-                      v-close-popup
-                      @click="onDeleteRow(props.row)"
-                    >
-                      <q-item-section avatar
-                        ><q-icon name="delete"></q-icon
-                      ></q-item-section>
+                    <q-item clickable v-close-popup @click="onDeleteRow(props.row)">
+                      <q-item-section avatar>
+                        <q-icon name="delete"></q-icon>
+                      </q-item-section>
                       <q-item-section>Delete</q-item-section>
                     </q-item>
 
-                    <q-item
-                      v-if="props.row.type == 'file'"
-                      clickable
-                      v-close-popup
-                      @click="onDownloadRow(props.row)"
-                    >
+                    <q-item v-if="props.row.type == 'file'" clickable v-close-popup @click="onDownloadRow(props.row)">
                       <q-item-section avatar>
                         <q-icon name="download"></q-icon>
                       </q-item-section>
                       <q-item-section>Download</q-item-section>
                     </q-item>
 
-                    <q-item
-                      clickable
-                      v-close-popup
-                      @click="onRenameRow(props.row)"
-                    >
+                    <q-item clickable v-close-popup @click="onRenameRow(props.row)">
                       <q-item-section avatar>
                         <q-icon name="edit"></q-icon>
                       </q-item-section>
@@ -362,7 +234,6 @@ function toggleLeftDrawer() {
 
 <script>
 import { ref } from "vue";
-import { fasEarthAmericas, fasFlask } from "@quasar/extras/fontawesome-v6";
 import {
   deleteFile,
   deleteFolder,
