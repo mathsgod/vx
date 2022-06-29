@@ -2,6 +2,8 @@
 import VxMenu from "@/components/vx-menu.vue";
 import VxCustomizer from "@/components/vx-customizer.vue";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
@@ -11,6 +13,7 @@ const toggleLeftDrawer = () => {
 const toggleRightDrawer = () => {
     rightDrawerOpen.value = !rightDrawerOpen.value;
 };
+
 </script>
 
 <template>
@@ -121,6 +124,10 @@ export default {
     }, watch: {
         headerColor() {
             console.log(this.headerColor);
+        }
+    }, methods: {
+        reloadContent() {
+            this.$router.go();
         }
     }
 }

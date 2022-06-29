@@ -1,4 +1,4 @@
-import { $axios, getCurrentInstance } from "."
+import { $axios } from "@"
 import { ElMessage } from 'element-plus'
 import Column from "./Column";
 import { defineComponent } from "vue";
@@ -179,6 +179,7 @@ class Table {
                         <el-button icon="el-icon-refresh" onClick={this.reload}></el-button>
                         <q-space></q-space>
                         <el-pagination
+                            background
                             vModel:currentPage={this.currentPage}
                             vModel:page-size={this.pageSize}
                             page-sizes={[10, 25, 50, 100]}

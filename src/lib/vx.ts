@@ -19,10 +19,16 @@ class VX {
     constructor(config) {
         this.endpoint = config.endpoint;
 
+        let headers = {};
+        if (localStorage.getItem("vx-view-as")) {
+            headers["vx-view-as"] = localStorage.getItem("vx-view-as");
+        }
+
         this.$axios = _axios.create({
             baseURL: this.endpoint,
             withCredentials: true,
-            validateStatus: () => true
+            validateStatus: () => true,
+            headers
         });
 
         $axios = this.$axios;
@@ -142,6 +148,11 @@ class VX {
 
     async renewAccessToken() {
         return await this.post("/auth/renew-token");
+    }
+
+    viewAs(user_id) {
+        this.view_as = user_id;
+        localStorage.setItem("vx-view-as", user_id);
     }
 
     cancelViewAs() {

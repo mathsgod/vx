@@ -1,19 +1,18 @@
 <script setup>
 import { createTable } from "@";
 
-let f = createTable();
-await f.setDataSource("/User");
+const table = createTable();
+table.setDataSource("/User");
 
-let ac = f.addActionColumn();
+let ac = table.addActionColumn();
 ac.addView();
 ac.addEdit();
 ac.addDelete();
 
-f.add('Username', "username").sortable();
-f.add('First name', "first_name").sortable();
-f.add('Last name', "last_name").sortable();
-f.add("Email", "email").sortable();
-
+table.add('Username', "username").sortable();
+table.add('First name', "first_name").sortable();
+table.add('Last name', "last_name").sortable();
+table.add("Email", "email").sortable();
 
 const render = f.render();
 </script>

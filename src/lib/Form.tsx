@@ -6,9 +6,10 @@ import Divider from './class/Divider';
 import IModel from '@/interfaces/IModel';
 class Form {
     #childrens = [];
-    data = null;
+    data: any = {};
     #beforeSubmit = null;
     #labelPosition: string = "right";
+    #form = ref(null)
 
     setData(data) {
         this.data = data;
@@ -33,76 +34,73 @@ class Form {
         return item;
     }
 
-    render() {
-        let self = this;
-        return defineComponent({
-            name: "VxForm",
-            data() {
-                return {
-                    labelPosition: self.#labelPosition
+    beforeSubmit(beforeSubmit) {
+        this.#beforeSubmit = beforeSubmit;;
+    }
+
+    onSubmit() {
+
+        this.#form.value.validate(async (valid) => {
+            if (valid) {
+                if (this.#beforeSubmit) {
+                    if (this.#beforeSubmit() === false) {
+                        return;
+                    }
                 }
 
-            },
-            methods: {
-                onSubmit() {
+                let save = this.data.save;
+                if (save) {
+                    let { status, data } = await save();
 
-                    this.$refs.form.validate(async (valid) => {
-                        if (valid) {
+                    if (status == 201) {
+                        ElMessage.success("Created Successfully");
+                        return
+                    }
 
-                            if (self.#beforeSubmit) {
-                                if (self.#beforeSubmit() === false) {
-                                    return;
-                                }
-                            }
+                    if (status == 204) {
+                        ElMessage.success("Updated Successfully");
+                        return
+                    }
 
-                            let save = self.data.save;
-                            if (save) {
-                                let { status, data } = await save();
+                    if (data.error) {
+                        ElMessage.error(data.error.message);
+                        return;
+                    } else if (data.reason_phrase) {
+                        ElMessage.error(data.reason_phrase);
+                    } else {
+                        ElMessage.error("unknown error");
+                    }
 
-                                if (status != 204) {
-                                    if (data.error) {
-                                        ElMessage.error(data.error.message);
-                                        return;
-                                    }
-                                    ElMessage.error(data.reason_phrase);
-                                } else {
-                                    ElMessage.success("Update success");
-                                }
-                            }
 
-                        }
-                    });
                 }
-            },
-            render() {
-
-                let cl = "";
-                if (this.labelPosition === "top") {
-                    cl = "";
-                } else {
-                    cl = "row"
-                }
-
-                return <el-card
-                >
-                    <el-form class={cl} model={ref(self.data)} ref="form" label-width="auto"
-                        label-position={this.labelPosition}
-                    >
-                        {self.#childrens.map(item => item.render())}
-                    </el-form>
-
-                    <el-button type="primary" onClick={this.onSubmit} icon="el-icon-check">提交</el-button>
-
-
-                </el-card>
             }
         });
     }
 
-    beforeSubmit(beforeSubmit) {
-        this.#beforeSubmit = beforeSubmit;;
+    render() {
+        let self = this;
 
+
+        let cl = "";
+        if (this.#labelPosition === "top") {
+            cl = "";
+        } else {
+            cl = "row"
+        }
+
+
+
+        return <el-card>
+            <el-form class={cl} model={ref(this.data)} ref={this.#form} label-width="auto"
+                label-position={this.#labelPosition}
+            >
+                {self.#childrens.map(item => item.render())}
+            </el-form>
+
+            <el-button type="primary" onClick={() => { this.onSubmit() }} icon="el-icon-check">提交</el-button>
+        </el-card>
     }
+
 };
 
 export default Form;

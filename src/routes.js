@@ -6,8 +6,18 @@ function auth_login_basic() {
     /* webpackChunkName: "auth-login-basic" */ './pages/auth-login-basic.vue'
   )
 }
+function cancel_view_as() {
+  return import(
+    /* webpackChunkName: "cancel-view-as" */ './pages/cancel-view-as.vue'
+  )
+}
 function ACL_index() {
   return import(/* webpackChunkName: "ACL-index" */ './pages/ACL/index.vue')
+}
+function Config_index() {
+  return import(
+    /* webpackChunkName: "Config-index" */ './pages/Config/index.vue'
+  )
 }
 function Dashboard_index() {
   return import(
@@ -22,6 +32,11 @@ function EventLog_index() {
 function FileManager_index() {
   return import(
     /* webpackChunkName: "FileManager-index" */ './pages/FileManager/index.vue'
+  )
+}
+function MailLog_index() {
+  return import(
+    /* webpackChunkName: "MailLog-index" */ './pages/MailLog/index.vue'
   )
 }
 function System_index() {
@@ -45,6 +60,9 @@ function UserLog_index() {
 function ACL_all() {
   return import(/* webpackChunkName: "ACL-all" */ './pages/ACL/all.vue')
 }
+function Config_add() {
+  return import(/* webpackChunkName: "Config-add" */ './pages/Config/add.vue')
+}
 function System_mail_test() {
   return import(
     /* webpackChunkName: "System-mail-test" */ './pages/System/mail-test.vue'
@@ -67,6 +85,11 @@ function System_setting() {
 }
 function System_test() {
   return import(/* webpackChunkName: "System-test" */ './pages/System/test.vue')
+}
+function System_view_as() {
+  return import(
+    /* webpackChunkName: "System-view-as" */ './pages/System/view-as.vue'
+  )
 }
 function System_database_index() {
   return import(
@@ -159,9 +182,19 @@ export default [
     component: auth_login_basic,
   },
   {
+    name: 'cancel-view-as',
+    path: '/cancel-view-as',
+    component: cancel_view_as,
+  },
+  {
     name: 'ACL',
     path: '/ACL',
     component: ACL_index,
+  },
+  {
+    name: 'Config',
+    path: '/Config',
+    component: Config_index,
   },
   {
     name: 'Dashboard',
@@ -177,6 +210,11 @@ export default [
     name: 'FileManager',
     path: '/FileManager',
     component: FileManager_index,
+  },
+  {
+    name: 'MailLog',
+    path: '/MailLog',
+    component: MailLog_index,
   },
   {
     name: 'System',
@@ -204,6 +242,11 @@ export default [
     component: ACL_all,
   },
   {
+    name: 'Config-add',
+    path: '/Config/add',
+    component: Config_add,
+  },
+  {
     name: 'System-mail-test',
     path: '/System/mail-test',
     component: System_mail_test,
@@ -227,6 +270,11 @@ export default [
     name: 'System-test',
     path: '/System/test',
     component: System_test,
+  },
+  {
+    name: 'System-view-as',
+    path: '/System/view-as',
+    component: System_view_as,
   },
   {
     name: 'System-database',
