@@ -99,16 +99,14 @@ const toggleRightDrawer = () => {
 
                 <router-view v-slot="{ Component }">
                     <template v-if="Component">
-                        <transition mode="out-in">
-                            <suspense>
-                                <component :is="Component"></component>
-                                <template #fallback>
-                                    <div>
-                                        Loading...
-                                    </div>
-                                </template>
-                            </suspense>
-                        </transition>
+                        <suspense>
+                            <component :is="Component"></component>
+                            <template #fallback>
+                                <div>
+                                    Loading...
+                                </div>
+                            </template>
+                        </suspense>
                     </template>
                 </router-view>
 
