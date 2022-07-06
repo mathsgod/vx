@@ -3,6 +3,9 @@ import VxMenu from "@/components/vx-menu.vue";
 import VxCustomizer from "@/components/vx-customizer.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { $axios } from "@/lib";
+
+
 
 
 const leftDrawerOpen = ref(false);
@@ -63,7 +66,7 @@ const toggleRightDrawer = () => {
         </q-header>
 
         <q-drawer show-if-above v-model="leftDrawerOpen" side="left" :mini="isMini" :mini-to-overlay="style.miniState"
-            @mouseout="isMouseOnDrawer = false" @mouseover="isMouseOnDrawer = true" :width="260">
+            @mouseout="isMouseOnDrawer = false" @mouseover="isMouseOnDrawer = true" :width="250">
             <!-- drawer content -->
             <q-scroll-area class="fit">
                 <q-list padding>
@@ -94,9 +97,20 @@ const toggleRightDrawer = () => {
                     <q-btn icon="refresh" dense flat ripple @click="reloadContent" />
                 </q-toolbar>
 
-                <suspense>
-                    <router-view></router-view>
-                </suspense>
+                <router-view v-slot="{ Component }">
+                    <template v-if="Component">
+                        <transition mode="out-in">
+                            <suspense>
+                                <component :is="Component"></component>
+                                <template #fallback>
+                                    <div>
+                                        Loading...
+                                    </div>
+                                </template>
+                            </suspense>
+                        </transition>
+                    </template>
+                </router-view>
 
 
                 <!-- q-page-scroller
@@ -117,15 +131,60 @@ export default {
     data() {
         return {
             style: {
-
+                miniState: false,
+                theme: "light"
             },
+            isMini: false,
             headerColor: "",
+            isMouseOnDrawer: false,
+            currentLanguage: "a",
+            title: "title",
+            breadcrumbs: [{
+                label: "label",
+                to: "to"
+            }]
         }
-    }, watch: {
-        headerColor() {
-            console.log(this.headerColor);
+    },
+    computed: {
+        isMini() {
+            if (this.isMouseOnDrawer) {
+                return false;
+            }
+            if (this.style.miniState) {
+                return true;
+            }
+            return false;
+        },
+    },
+
+    watch: {
+        async "style.miniState"(val) {
+            await $axios.patch("/User/setting/style", {
+                mini: val
+            })
+        },
+        async "style.theme"(val) {
+            this.$vx.useDark(val == "dark");
+
+            await this.$axios.patch("/User/setting/style", {
+                theme: val
+            });
+        },
+        async headerColor() {
+            await $axios.patch("/User/setting/style", {
+                color: this.headerColor
+            })
         }
-    }, methods: {
+    },
+    created() {
+        this.style.miniState = this.$vx.style.mini;
+        this.headerColor = this.$vx.style.color;
+        this.style.theme = this.$vx.style.theme;
+        this.$vx.useDark(this.$vx.style.theme == "dark");
+
+    },
+
+    methods: {
         reloadContent() {
             this.$router.go();
         }

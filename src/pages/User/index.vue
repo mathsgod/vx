@@ -16,7 +16,7 @@ table.add("Email", "email").sortable();
 
 table.setPopulate({
     UserList: {
-        fields: ["usergroup_id"],
+        //fields: ["usergroup_id"],
         populate: {
             UserGroup: {
                 fields: ["name"]

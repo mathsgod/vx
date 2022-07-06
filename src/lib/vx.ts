@@ -1,5 +1,6 @@
-import { AxiosInstance, default as _axios } from 'axios';
-
+import axios, { AxiosInstance, default as _axios } from 'axios';
+import { useDark, useToggle } from '@vueuse/core'
+import { Dark } from 'quasar'
 let $axios: AxiosInstance;
 
 class VX {
@@ -15,6 +16,7 @@ class VX {
     menus = {};
     $axios: AxiosInstance;
     view_as = null;
+    style = {};
 
     constructor(config) {
         this.endpoint = config.endpoint;
@@ -49,6 +51,7 @@ class VX {
         this.locale = data.locale;
         this.language = data.language;
         this.menus = data.menus;
+        this.style = data.me.style;
     }
 
     async login(username: string, password: string, code) {
@@ -69,6 +72,16 @@ class VX {
         await this.post("/auth/logout");
         this.logined = false;
     }
+
+
+    async useDark(value) {
+        const isDark = useDark()
+        const toggle = useToggle(isDark)
+        toggle(value)
+        Dark.set(value);
+
+    }
+
 
 
 
