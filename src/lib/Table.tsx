@@ -14,10 +14,19 @@ class Table {
     #sort = [];
     _router: Router = null;
     #component: any = null;
-    #populate = {}
+
+    #query: any = {}
+
 
     setRouter(router: Router) {
         this._router = router;
+    }
+
+    addExpand() {
+        let column = new Column(this);
+        column.setType("expand");
+        this.#columns.push(column);
+        return column;
     }
 
     addActionColumn() {
@@ -42,8 +51,9 @@ class Table {
 
     source: string;
 
-    setDataSource(source: string) {
+    setDataSource(source: string, query: any = {}) {
         this.source = source;
+        this.#query = query;
     }
 
     setDefaultSort(field: string, order: string) {
@@ -56,9 +66,6 @@ class Table {
         }
     }
 
-    setPopulate(populate: Object) {
-        this.#populate = populate;
-    }
 
     render() {
         let self = this;
@@ -73,6 +80,11 @@ class Table {
             fields = [...fields, ...column.fields];
         });
 
+        let search_operator = {};
+        columnsWithSearch.forEach(column => {
+            search_operator[column.getColumnKey()] = column.getSearchOperator();
+        });
+
         this.#component = defineComponent({
 
             name: "VxTable",
@@ -83,7 +95,8 @@ class Table {
                     pageSize: 10,
                     data: [],
                     total: 0,
-                    filters: {},
+                    filters: [],
+                    searchs: {},
                     meta: [],
                     loading: false,
                     sort: self.#sort,
@@ -95,6 +108,14 @@ class Table {
             },
 
             methods: {
+                async onSearch() {
+                    this.currentPage = 1;
+                    await this.reload();
+                },
+                async onFilterChange(filters) {
+                    this.filters = filters;
+                    await this.reload();
+                },
                 onSortChange({ column, prop, order }) {
                     this.sort = [];
                     if (column) {
@@ -121,22 +142,32 @@ class Table {
                     this.loading = true;
                     let filters = {};
 
-                    for (let key in this.filters) {
-                        filters[key] = { $contains: this.filters[key] };
+                    for (let k in this.filters) {
+                        filters[k] = { $in: this.filters[k] };
+                    }
+
+                    for (let key in this.searchs) {
+
+                        if (this.searchs[key] !== null) {
+                            let operator = search_operator[key];
+                            filters[key] = {};
+                            filters[key][operator] = this.searchs[key];
+                        }
                     }
 
 
+                    let query = self.#query;
 
-                    let { data, status } = await $axios.get(self.source + "?" + stringify({
-                        fields,
-                        pagination: {
-                            page: this.currentPage,
-                            pageSize: this.pageSize,
-                        },
-                        filters,
-                        sort: this.sort,
-                        populate: self.#populate
-                    }));
+                    query.fields = fields;
+                    query.pagination = {
+                        page: this.currentPage,
+                        pageSize: this.pageSize,
+                    };
+                    query.filters = filters;
+                    query.sort = this.sort;
+
+
+                    let { data, status } = await $axios.get(self.source + "?" + stringify(query, { encodeValuesOnly: true }));
                     this.loading = false;
 
                     if (status != 200) {
@@ -163,12 +194,29 @@ class Table {
                                 <el-form inline>
                                     {
                                         columnsWithSearch.map(column => <el-form-item label={column.getLabel()}>
-                                            <el-input vModel={this.filters[column.getProp()]}></el-input>
+
+                                            {
+                                                column.getSearchType() == "select" && <el-select v-model={this.searchs[column.getColumnKey()]} placeholder="Select" >
+                                                    {
+                                                        column.getSearchableOptions().map(option => <el-option label={option.label} value={option.value} />)
+                                                    }
+                                                </el-select>
+
+                                            }
+                                            {
+                                                column.getSearchType() == "text" && <el-input clearable vModel={this.searchs[column.getColumnKey()]}></el-input>
+                                            }
+                                            {
+                                                column.getSearchType() == "date" && <el-date-picker
+                                                    valueFormat="YYYY-MM-DD"
+                                                    type="daterange" vModel={this.searchs[column.getColumnKey()]}></el-date-picker>
+                                            }
+
                                         </el-form-item>)
                                     }
 
                                     <el-form-item>
-                                        <el-button type="primary" onClick={this.reload} icon="el-icon-search">Search</el-button>
+                                        <el-button type="primary" onClick={this.onSearch} icon="el-icon-search">Search</el-button>
                                     </el-form-item>
 
                                 </el-form>
@@ -178,7 +226,10 @@ class Table {
                         </el-collapse>
 
                     }
-                    <el-table data={this.data} onSortChange={this.onSortChange}>
+                    <el-table data={this.data}
+                        onSortChange={this.onSortChange}
+                        onFilterChange={this.onFilterChange}
+                    >
                         {
                             self.#columns.map(column => column.render(this.meta, this))
                         }
@@ -191,8 +242,8 @@ class Table {
                             vModel:currentPage={this.currentPage}
                             vModel:page-size={this.pageSize}
                             page-sizes={[10, 25, 50, 100]}
-                            small="small"
-                            layout="sizes, prev, pager, next"
+                            small
+                            layout="total, sizes, prev, pager, next"
                             total={this.total}
                             onSizeChange={this.onSizeChange}
                             onCurrentChange={this.onCurrentChange}

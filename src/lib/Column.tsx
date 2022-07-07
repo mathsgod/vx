@@ -11,13 +11,58 @@ class Column {
 
     _table: Table = null;
     table_node: null;
+    #type = null;
+    #fixed: boolean = false;
+    #showOverflowTooltip = false;
+    #filters: Array<{ text: string, value: string }> = null;
+    #columnKey: string = null;
+
+    #searchable_type = null;
+    #searchable_field = null;
+    #searchable_options: Array<{ label: string, value: string }> = [];
+    #searchable_operator = "$eq";
 
     constructor(table: Table) {
         this._table = table;
     }
 
+
+    filters(filters: Array<{ text: string, value: string }>): Column {
+        this.#filters = filters;
+        this.#columnKey = this.#prop;
+        return this;
+    }
+
+    columnKey(columnKey: string) {
+        this.#columnKey = columnKey;
+        return this;
+    }
+
+    fixed(fixed: boolean = true) {
+        this.#fixed = fixed;
+        return this;
+    }
+
+
+    width(width: string) {
+        this.#width = width;
+        return this;
+    }
+
     setWidth(width: string) {
         this.#width = width;
+    }
+
+    setType(type: string) {
+        this.#type = type;
+    }
+
+    getSearchType() {
+        return this.#searchable_type;
+    }
+
+    getSearchOperator() {
+        return this.#searchable_operator;
     }
 
 
@@ -34,29 +79,71 @@ class Column {
 
     }
 
+    getSearchField() {
+        return this.#searchable_field || this.#prop;
+    }
+
     getProp() {
         return this.#prop
     }
+
+    overflow(overflow: boolean = true) {
+        this.#showOverflowTooltip = overflow;
+        return this;
+    }
+
 
     sortable(sortable: string | boolean = "custom") {
         this.#sortable = sortable
         return this;
     }
 
-    searchable(searchable: boolean = true) {
-        this.#searchable = searchable
-        return this
+    searchable() {
+        this.#searchable = true;
+        this.#searchable_type = "text";
+        this.#searchable_operator = "$contains";
+        return this;
     }
+
+    searchableDate() {
+        this.#searchable = true;
+        this.#searchable_type = "date";
+        this.#searchable_operator = "$between";
+        return this;
+    }
+
+    searchableSelect(options: Array<{ label: string, value: string }>) {
+        this.#searchable = true;
+        this.#searchable_type = "select";
+        this.#searchable_options = options;
+        this.#searchable_operator = "$eq";
+
+        return this;
+    }
+
+    getColumnKey() {
+        if (this.#columnKey) {
+            return this.#columnKey;
+        }
+        return this.#prop;
+
+    }
+
+    getSearchableOptions(): Array<any> {
+        return this.#searchable_options || [];
+    }
+
 
     isSearchable() {
         return this.#searchable
     }
 
-    template(callback: (row: Object) => void) {
+    template(callback: (row: any) => void) {
 
         this.#template = callback;
 
     }
+
 
     render(meta, table) {
 
@@ -68,8 +155,12 @@ class Column {
             sortable={this.#sortable}
             label={this.#label}
             prop={this.#prop}
+            columnKey={this.#columnKey}
             width={this.#width}
-
+            type={this.#type}
+            fixed={this.#fixed}
+            showOverflowTooltip={this.#showOverflowTooltip}
+            filters={this.#filters}
             v-slots={
 
                 {

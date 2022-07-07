@@ -1,7 +1,7 @@
 <script setup>
-import { createDescriptons, getObject } from '@';
+import { createDescriptions, getObject } from '@';
 
-let v = createDescriptons();
+let v = createDescriptions();
 v.setData(await getObject())
 v.add("Eventlog id", "eventlog_id");
 v.add("Class", "class");

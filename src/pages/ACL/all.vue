@@ -1,12 +1,7 @@
 <script setup>
 import { $axios } from "@";
-
 let { data: { data: User } } = await $axios.get("/User?fields[]=user_id&fields[]=username");
-
 const { data: { data: UserGroup } } = await $axios.get("/UserGroup?fields[]=usergroup_id&fields[]=name");
-
-console.log(UserGroup);
-
 
 </script>
 <template>
@@ -112,12 +107,13 @@ export default {
                 return;
             }
 
-            this.items = await vx.$get("/ACL/all", {
+            let { data } = await this.$vx.get("/ACL/all", {
                 params: {
-                    _entry: "getACL",
                     usergroup_id: this.usergroup_id,
                 },
             });
+
+            this.items = data;
         },
     },
     methods: {

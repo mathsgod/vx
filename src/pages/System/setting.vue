@@ -6,7 +6,7 @@ const { data } = await $axios.get("/System/setting");
 
 data.save = () => {
     return $axios.post("/System/setting", data);
-};u
+};
 
 
 let f = createForm();

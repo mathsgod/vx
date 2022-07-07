@@ -51,7 +51,10 @@ class VX {
         this.locale = data.locale;
         this.language = data.language;
         this.menus = data.menus;
-        this.style = data.me.style;
+        if (data.me) {
+            this.style = data.me.style;
+        }
+
     }
 
     async login(username: string, password: string, code) {

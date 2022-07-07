@@ -7,6 +7,7 @@ import { createTable } from '@/lib';
 const table = createTable();
 table.setDataSource("/Config");
 const ac = table.addActionColumn();
+ac.addEdit();
 ac.addDelete();
 
 table.add("Name", "name").sortable();

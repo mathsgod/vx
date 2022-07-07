@@ -2,7 +2,18 @@
 import { createTable } from "@";
 
 const table = createTable();
-table.setDataSource("/User");
+table.setDataSource("/User", {
+    populate: {
+        UserList: {
+            //fields: ["usergroup_id"],
+            populate: {
+                UserGroup: {
+                    fields: ["name"]
+                }
+            }
+        }
+    }
+});
 
 let ac = table.addActionColumn();
 ac.addView();
@@ -13,18 +24,6 @@ table.add('Username', "username").sortable();
 table.add('First name', "first_name").sortable();
 table.add('Last name', "last_name").sortable();
 table.add("Email", "email").sortable();
-
-table.setPopulate({
-    UserList: {
-        //fields: ["usergroup_id"],
-        populate: {
-            UserGroup: {
-                fields: ["name"]
-            }
-        }
-    }
-});
-
 
 table.add("UserGroup", "").template((row) => {
     return row.UserList.map(ul => {

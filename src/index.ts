@@ -6,7 +6,8 @@ import {
     $axios,
     getCurrentInstance,
     getObject,
-    getMe
+    getMe,
+    getData,
 } from "./lib";
 
 import routes from "./routes";
@@ -20,5 +21,6 @@ export {
     getCurrentInstance,
     getObject,
     getMe,
+    getData,
     routes
 };

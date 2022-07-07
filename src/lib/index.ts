@@ -6,6 +6,7 @@ import Table from "./Table";
 import getObject from "./../function/getObject";
 import getMe from "./../function/getMe";
 import { useRouter } from 'vue-router';
+import getData from "./../function/getData";
 //declare const useRoute: () => any;
 
 const createDescriptions = () => {
@@ -30,5 +31,6 @@ export {
     $axios,
     getCurrentInstance,
     getObject,
-    getMe
+    getMe,
+    getData
 };
