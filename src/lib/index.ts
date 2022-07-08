@@ -1,4 +1,3 @@
-import Vx from "./vx"
 import { $axios, getCurrentInstance } from "./vx";
 import Descriptions from "./Descriptions";
 import Form from "./Form";
@@ -24,7 +23,6 @@ const createTable = () => {
 }
 
 export {
-    Vx,
     createDescriptions,
     createForm,
     createTable,
@@ -34,3 +32,7 @@ export {
     getMe,
     getData
 };
+
+import Vx from "./vx"
+export default Vx;
+

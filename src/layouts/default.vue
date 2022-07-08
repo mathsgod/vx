@@ -207,6 +207,10 @@ export default {
     },
 
     methods: {
+        async logout() {
+            await this.$vx.logout();
+            window.self.location.reload();
+        },
         reloadContent() {
             this.$router.go();
         }, async onChangeLanguage(locale) {

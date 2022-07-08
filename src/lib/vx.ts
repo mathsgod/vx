@@ -214,9 +214,42 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
 import { VxFileManager, Vx, VxTinymce, VxCodemirror } from "@/components";
 
+import { Quasar } from 'quasar'
+import ElementPlus from 'element-plus'
+
+
+
+//i18n
+import zhTW from 'element-plus/es/locale/lang/zh-tw'
+import en from 'element-plus/es/locale/lang/en';
+
+import { createI18n } from 'vue-i18n'
+const i18n = createI18n({
+    globalInjection: true,
+    locale: "en",
+    messages: {
+        en: en,
+        "zh-hk": zhTW,
+        "zh-tw": zhTW,
+    }
+});
 
 export default {
     install(app, options) {
+
+
+        //quasar
+        app.use(Quasar, {
+            plugins: {}, // import Quasar plugins and add here
+        })
+
+        //element plus
+        app.use(ElementPlus)
+
+        //i18n
+        app.use(i18n)
+
+
         vx = new VX(options);
         app.config.globalProperties.$vx = vx;
         window.vx = app.config.globalProperties.$vx;
