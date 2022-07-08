@@ -135,15 +135,22 @@ export default {
             isMini: false,
             headerColor: "",
             isMouseOnDrawer: false,
-            currentLanguage: "a",
+
             title: "title",
             breadcrumbs: [{
                 label: "label",
                 to: "to"
-            }]
+            }],
+            languages: []
         }
     },
     computed: {
+        currentLanguage() {
+
+            return this.$vx.language[this.$vx.locale];
+
+
+        },
         isMini() {
             if (this.isMouseOnDrawer) {
                 return false;
@@ -156,6 +163,12 @@ export default {
     },
 
     watch: {
+        $route: function (to, from) {
+            /*   this.title = to.meta.title;
+              this.breadcrumbs = to.meta.breadcrumbs; */
+            this.$vx.setRoute(to);
+
+        },
         async "style.miniState"(val) {
             await $axios.patch("/User/setting/style", {
                 mini: val
@@ -180,11 +193,24 @@ export default {
         this.style.theme = this.$vx.style.theme;
         this.$vx.useDark(this.$vx.style.theme == "dark");
 
+        for (let lang in this.$vx.language) {
+            this.languages.push({
+                name: this.$vx.language[lang],
+                value: lang
+            })
+        }
     },
 
     methods: {
         reloadContent() {
             this.$router.go();
+        }, async onChangeLanguage(locale) {
+            await this.$vx.patch("/User/setting", {
+                language: locale
+            });
+
+            window.self.location.reload();
+
         }
     }
 }

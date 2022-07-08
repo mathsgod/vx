@@ -1,6 +1,10 @@
 <script setup>
 import VxApp from './layouts/default.vue';
 import Login from '@/components/Login.vue';
+import { useRoute } from 'vue-router';
+import { getCurrentInstance } from "@";
+let vx = getCurrentInstance();
+vx.setRoute(useRoute());
 </script>
 
 <template>

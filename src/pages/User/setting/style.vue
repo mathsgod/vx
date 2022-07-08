@@ -50,11 +50,7 @@
       </el-form-item>
 
       <div>
-        <el-button
-          type="primary"
-          @click="save"
-          v-text="$t('Save changes')"
-        ></el-button>
+        <el-button type="primary" @click="save" v-text="$t('Save changes')"></el-button>
       </div>
     </el-form>
   </el-card>
@@ -73,9 +69,9 @@ export default {
   },
   methods: {
     async save() {
-      let resp = await vx.post("style", this.form);
+      let { status } = await vx.post("style", this.form);
 
-      if (resp.status == 204) {
+      if (status == 204) {
         this.$message.success("Successfully updated");
       }
     },

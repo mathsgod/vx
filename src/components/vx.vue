@@ -7,5 +7,3 @@ let vx = getCurrentInstance();
 vx.init();
 
 </script>
-
-

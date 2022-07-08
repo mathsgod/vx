@@ -1,24 +1,15 @@
 <template>
   <el-card :header="$t('Biometric authentication')">
-    <el-switch
-      v-model="on_off"
-      :active-text="$t('Activate biometric authentication on this device')"
-      @change="changeActivate"
-    ></el-switch>
+    <el-switch v-model="on_off" :active-text="$t('Activate biometric authentication on this device')"
+      @change="changeActivate"></el-switch>
     <el-divider></el-divider>
     <el-button @click="register" icon="el-icon-plus">Register</el-button>
 
     <el-table :data="items" size="mini">
-      <el-table-column width="50" v-slot="scope">
-        <a @click.prevent="onDelete(scope.row)">
-          <vx-icon name="trash" width="14"></vx-icon>
-        </a>
+      <el-table-column width="100" v-slot="scope">
+        <el-button icon="el-icon-delete" @click="onDelete(scope.row)" type="danger" size="mini"></el-button>
       </el-table-column>
-      <el-table-column
-        :label="$t('Time')"
-        prop="time"
-        sortable
-      ></el-table-column>
+      <el-table-column :label="$t('Time')" prop="time" sortable></el-table-column>
       <el-table-column label="IP" prop="ip"></el-table-column>
       <el-table-column label="User agent" prop="user-agent"></el-table-column>
     </el-table>
@@ -51,22 +42,14 @@ export default {
       await this.$confirm(this.$t("Delete this record?"), {
         type: "warning",
       });
-      await this.$vx.post("/User/setting-bio-auth?_entry=removeCredential", {
-        uuid: item.uuid,
-      });
+      await this.$vx.delete(`bio-auth?uuid=${item.uuid}`);
       await this.reload();
     },
     async register() {
-      let data = await this.$vx.authRegister();
 
-      if (data.error) {
-        this.$alert(data.error.message, {
-          type: "error",
-        });
-        return;
-      }
+      await this.$vx.authRegister();
 
-      this.$message("Register success", {
+      await this.$message("Register success", {
         type: "success",
       });
       await this.reload();
@@ -75,7 +58,7 @@ export default {
       this.on_off = true;
     },
     async reload() {
-      let { data } = await this.$vx.get("bio-auth?_entry=getCredential");
+      let { data } = await this.$vx.get("bio-auth");
       this.items = data;
     },
   },

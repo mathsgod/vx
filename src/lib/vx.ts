@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, default as _axios } from 'axios';
 import { useDark, useToggle } from '@vueuse/core'
+import { useLogin, useRegistration } from '@web-auth/webauthn-helper';
 import { Dark } from 'quasar'
 let $axios: AxiosInstance;
 
@@ -86,7 +87,32 @@ class VX {
     }
 
 
+    async authLogin(username) {
+        const login = useLogin({
+            actionUrl: this.endpoint + "auth/assertion?username=" + username,
+            optionsUrl: this.endpoint + "auth/request-options",
+        });
 
+        let resp = await login({
+            username,
+            userVerification: true
+        });
+
+        if (resp.error) {
+            throw resp.error.message;
+        }
+    }
+
+    async authRegister() {
+        //get one time token
+        let { data } = await this.get("/auth/token");
+
+        const register = useRegistration({
+            actionUrl: this.endpoint + "auth/register?token=" + data.token,
+            optionsUrl: this.endpoint + "auth/register-options?token=" + data.token,
+        });
+        return await register()
+    }
 
     async get(url, config = null) {
         let u = this.processUrl(url);
@@ -137,7 +163,7 @@ class VX {
         return resp;
     }
 
-    async delete(url, data = null, config = null) {
+    async delete(url, config = null) {
         let u = this.processUrl(url);
         let resp = await this.$axios.delete(u, config);
 
