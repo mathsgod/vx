@@ -212,7 +212,8 @@ let vx;
 // element plus icons
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
-import { VxFileManager } from "@/components";
+import { VxFileManager, Vx, VxTinymce, VxCodemirror } from "@/components";
+
 
 export default {
     install(app, options) {
@@ -233,6 +234,9 @@ export default {
         }
 
         app.component("vx-file-manager", VxFileManager);
+        app.component("vx", Vx);
+        app.component("vx-tinymce", VxTinymce);
+        app.component("vx-codemirror", VxCodemirror);
 
     }
 }

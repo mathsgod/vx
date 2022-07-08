@@ -58,8 +58,8 @@ class ActionColumn extends Column {
         }).then(() => {
             $axios.delete(url).then(() => {
 
-                if (this.table_node) {
-                    this.table_node.reload();
+                if (this._table) {
+                    this._table.reload();
                 }
 
 
