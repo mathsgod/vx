@@ -5,9 +5,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { $axios } from "@/lib";
 
-
-
-
 const leftDrawerOpen = ref(false);
 const rightDrawerOpen = ref(false);
 const toggleLeftDrawer = () => {
@@ -135,21 +132,29 @@ export default {
             isMini: false,
             headerColor: "",
             isMouseOnDrawer: false,
-
-            title: "title",
-            breadcrumbs: [{
-                label: "label",
-                to: "to"
-            }],
             languages: []
         }
     },
     computed: {
+        title() {
+            let paths = this.$route.path.split("/").filter(x => x)
+            return paths[0];
+        },
+        breadcrumbs() {
+            let paths = this.$route.path.split("/").filter(x => x)
+            let ps = paths.map((path, index) => {
+                return {
+                    label: path,
+                    to: "/" + paths.slice(0, index + 1).join("/")
+                }
+            })
+
+            //filter label is number
+            ps = ps.filter(x => !/^\d+$/.test(x.label))
+            return ps;
+        },
         currentLanguage() {
-
             return this.$vx.language[this.$vx.locale];
-
-
         },
         isMini() {
             if (this.isMouseOnDrawer) {

@@ -6,7 +6,7 @@ await table.setDataSource("/UserGroup", {
         UserList: {
             populate: {
                 User: {
-                    fields: ["first_name", "last_name"]
+                    fields: ["first_name", "last_name", "name"]
                 }
             }
         }
@@ -15,8 +15,8 @@ await table.setDataSource("/UserGroup", {
 
 table.addExpand().template(row => {
     return <el-table data={row.UserList}>
-        <el-table-column label="First name" prop="User.first_name"></el-table-column>
-        <el-table-column label="Last name" prop="User.last_name"></el-table-column>
+        <el-table-column label="First name" prop="User.first_name" sortable></el-table-column>
+        <el-table-column label="Last name" prop="User.last_name" sortable></el-table-column>
     </el-table>
 });
 
