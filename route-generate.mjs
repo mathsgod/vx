@@ -6,4 +6,4 @@ const code = generateRoutes({
     pages: './src/pages'
 })
 
-fs.writeFileSync('./src/routes.js', code)
+fs.writeFileSync('./src/routes.ts', code)

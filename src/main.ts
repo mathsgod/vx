@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import Vx from "@";
+import "@";
 
 const app = createApp(App)
 
