@@ -214,8 +214,9 @@ class VX {
         let resp = await this.axios.get(u, config);
 
         if (resp.status == 401) {
-            await this.renewAccessToken();
-            return this.get(u, config);
+            if (await this.renewAccessToken()) {
+                return this.get(u, config);
+            }
         }
 
         return resp;
@@ -225,7 +226,7 @@ class VX {
         let u = this.processUrl(url);
         let resp = await this.axios.post(u, data, config);
         if (resp.status == 401) {
-            await this.renewAccessToken();
+            if(await this.renewAccessToken()
             return this.post(u, data, config);
         }
         return resp;
@@ -316,7 +317,12 @@ class VX {
     }
 
     async renewAccessToken() {
-        return await this.post("/auth/renew-token");
+        let u = this.processUrl("/auth/renew-token");
+        let resp = await this.axios.post(u, data, config);
+        if (resp.status == 500) {
+            return false;
+        }
+        return true;
     }
 
     viewAs(user_id) {
