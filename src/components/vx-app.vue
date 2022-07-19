@@ -815,7 +815,7 @@ export default {
         }
       }
 
-      if (resp.headers["content-type"] == "text/html; charset=UTF-8") {
+      if (resp.headers["content-type"].indexOf("text/html") >= 0) {
         content = resp.data;
       } else {
         let status = resp.status;
