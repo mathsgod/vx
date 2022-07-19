@@ -391,7 +391,7 @@ export default {
     install(Vue) {
 
         Vue.prototype.$http = axios.create({
-            //withCredentials: true
+            withCredentials: true
         });
 
         Vue.prototype.$vx = new VX();
