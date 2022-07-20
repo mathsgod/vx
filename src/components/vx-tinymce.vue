@@ -40,13 +40,12 @@ export default {
       type: Number,
       default: 600,
     },
-
     baseUrl: {
       type: String,
       default: "/uploads/",
     },
-
     apiKey: String,
+    allowAllHtmlTag: String
   },
 
   data() {
@@ -60,14 +59,11 @@ export default {
     };
   },
   created() {
-
     const p = (new DOMParser());
     const d = p.parseFromString(this.localValue, "text/html");
     let valid = this.getParentChildTag(d.body);
 
-
     let validString = valid.join(",");
-
 
     let that = this;
     this.mceInit = {
@@ -92,12 +88,14 @@ export default {
           }
         }
       },
-      valid_elements: "*[*]",
       //extended_valid_elements: "a[div]",
       forced_root_block: "",
       setup(editor) {
         editor.on("init", () => {
-          editor.schema.addValidChildren(validString);
+          if (that.allowAllHtmlTag) {
+            editor.schema.addValidChildren(validString);
+          }
+
           editor.setContent(that.localValue);
         });
 
@@ -118,10 +116,12 @@ export default {
             that.content = editor.getContent();
           },
         });
-
-
       },
     };
+
+    if (this.allowAllHtmlTag) {
+      this.mceInit.valid_elements = "*[*]";
+    }
   },
   watch: {
     value() {
@@ -152,11 +152,13 @@ export default {
     onCodeOK() {
       //      this.localValue = this.content;
       this.showCode = false;
-      const p = (new DOMParser());
-      const d = p.parseFromString(this.content, "text/html");
-      let valid = this.getParentChildTag(d.body);
+      if (this.allowAllHtmlTag) {
+        const p = (new DOMParser());
+        const d = p.parseFromString(this.content, "text/html");
+        let valid = this.getParentChildTag(d.body);
+        this.$refs.tinymce.editor.schema.addValidChildren(valid.join(","));
+      }
 
-      this.$refs.tinymce.editor.schema.addValidChildren(valid.join(","));
       this.$refs.tinymce.editor.setContent(this.content);
 
       this.localValue = this.content;
