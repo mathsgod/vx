@@ -45,7 +45,7 @@ export default {
       default: "/uploads/",
     },
     apiKey: String,
-    allowAllHtmlTag: String
+    allowAllHtmlTag: Boolean
   },
 
   data() {
