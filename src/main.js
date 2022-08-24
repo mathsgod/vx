@@ -221,3 +221,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 window.Vue = Vue;
+
+import { stringify } from 'qs';
+window.get = (url, query) => {
+  if (query) {
+    url += "?" + stringify(query, { encodeValuesOnly: true });
+  }
+  return window.vx.axios.get(url);
+};

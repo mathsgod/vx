@@ -27,6 +27,7 @@
     "material-icons": "^0.7.0",
     "moment": "^2.29.1",
     "perfect-scrollbar": "^1.5.1",
+    "qs": "^6.11.0",
     "read-excel-file": "^5.2.14",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.2",
