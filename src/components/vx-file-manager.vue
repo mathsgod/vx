@@ -554,6 +554,10 @@ export default {
       if (this.selectedPath == "") {
         return false;
       }
+
+      if(this.selectedPath==this.base){
+        return false;
+      }
       return true;
     },
   },
