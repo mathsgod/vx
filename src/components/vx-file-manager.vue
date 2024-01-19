@@ -484,9 +484,9 @@ export default {
   created() {
     this.reloadContent();
     this.action = this.$vx.endpoint + "FileManager/uploadFile";
-    this.uploadHeaders = {
+/*     this.uploadHeaders = {
       Authorization: "Bearer " + this.$vx.accessToken,
-    };
+    }; */
   },
   mounted() {
     new PerfectScrollbar(this.$refs.fileContent);
