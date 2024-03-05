@@ -170,7 +170,8 @@ export default {
       //img.src = "http://192.168.88.108:8001/vx/uploads/" + path;
       img.src = this.baseUrl + path;
 
-      this.editor.insertContent(img.outerHTML);
+      // this.editor.insertContent(img.outerHTML);
+      this.$refs.tinymce.editor.insertContent(img.outerHTML);
     },
   },
 };
